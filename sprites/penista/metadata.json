@@ -1,0 +1,73 @@
+{
+  "group_id": null,
+  "states": [
+    {
+      "character": {
+        "id": "a415bf03-cf94-405d-afb0-642a6cbf9e08",
+        "name": "Se trata de una persona",
+        "prompt": "Se trata de una persona con cabeza grande, camiseta naranja y pantalon azul, tiene una melena y ojos y nariz grandes, es moreno o morena, no se sabe si es un hombre o mujer",
+        "size": {
+          "width": 124,
+          "height": 124
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-07-22T06:48:51.571001+00:00"
+      },
+      "folder": "Se_trata_de_una_persona",
+      "frames": {
+        "rotations": {
+          "south": "Se_trata_de_una_persona/rotations/south.png",
+          "south-east": "Se_trata_de_una_persona/rotations/south-east.png",
+          "east": "Se_trata_de_una_persona/rotations/east.png",
+          "north-east": "Se_trata_de_una_persona/rotations/north-east.png",
+          "north": "Se_trata_de_una_persona/rotations/north.png",
+          "north-west": "Se_trata_de_una_persona/rotations/north-west.png",
+          "west": "Se_trata_de_una_persona/rotations/west.png",
+          "south-west": "Se_trata_de_una_persona/rotations/south-west.png"
+        },
+        "animations": {
+          "Running": {
+            "east": [
+              "Se_trata_de_una_persona/animations/Running/east/frame_000.png",
+              "Se_trata_de_una_persona/animations/Running/east/frame_001.png",
+              "Se_trata_de_una_persona/animations/Running/east/frame_002.png",
+              "Se_trata_de_una_persona/animations/Running/east/frame_003.png"
+            ],
+            "west": [
+              "Se_trata_de_una_persona/animations/Running/west/frame_000.png",
+              "Se_trata_de_una_persona/animations/Running/west/frame_001.png",
+              "Se_trata_de_una_persona/animations/Running/west/frame_002.png",
+              "Se_trata_de_una_persona/animations/Running/west/frame_003.png"
+            ]
+          },
+          "Running_Jump": {
+            "west": [
+              "Se_trata_de_una_persona/animations/Running_Jump/west/frame_000.png",
+              "Se_trata_de_una_persona/animations/Running_Jump/west/frame_001.png",
+              "Se_trata_de_una_persona/animations/Running_Jump/west/frame_002.png",
+              "Se_trata_de_una_persona/animations/Running_Jump/west/frame_003.png",
+              "Se_trata_de_una_persona/animations/Running_Jump/west/frame_004.png",
+              "Se_trata_de_una_persona/animations/Running_Jump/west/frame_005.png",
+              "Se_trata_de_una_persona/animations/Running_Jump/west/frame_006.png",
+              "Se_trata_de_una_persona/animations/Running_Jump/west/frame_007.png"
+            ],
+            "east": [
+              "Se_trata_de_una_persona/animations/Running_Jump/east/frame_000.png",
+              "Se_trata_de_una_persona/animations/Running_Jump/east/frame_001.png",
+              "Se_trata_de_una_persona/animations/Running_Jump/east/frame_002.png",
+              "Se_trata_de_una_persona/animations/Running_Jump/east/frame_003.png",
+              "Se_trata_de_una_persona/animations/Running_Jump/east/frame_004.png",
+              "Se_trata_de_una_persona/animations/Running_Jump/east/frame_005.png",
+              "Se_trata_de_una_persona/animations/Running_Jump/east/frame_006.png",
+              "Se_trata_de_una_persona/animations/Running_Jump/east/frame_007.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-07-22T07:08:41.273498"
+}
