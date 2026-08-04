@@ -2,7 +2,7 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>PKII</title>
     <style>
       html, body {
@@ -10,11 +10,18 @@
         padding: 0;
         background: #000;
         overflow: hidden;
+        /* height:100% keeps body from exceeding the visible viewport on browsers
+           without dvh support; the 100dvh rule below overrides it where available. */
+        height: 100%;
       }
       #root {
         display: flex;
         width: 100vw;
         height: 100vh;
+        /* dvh tracks the browser's real visible height (address bar shown/hidden),
+           unlike vh which is fixed to the layout viewport and gets cut off or
+           leaves dead space on mobile browsers. */
+        height: 100dvh;
       }
       #app {
         flex: 1 1 auto;
