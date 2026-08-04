@@ -76,3 +76,29 @@ export function registerAguaRioAnimations(scene: Phaser.Scene): void {
     repeat: -1,
   });
 }
+
+export const PAJARO_BLANCO_TEXTURE_KEYS = {
+  flyEast: [0, 1, 2, 3, 4, 5, 6].map((i) => `pajaro-blanco-fly-east-${i}`),
+  flyWest: [0, 1, 2, 3, 4, 5, 6].map((i) => `pajaro-blanco-fly-west-${i}`),
+};
+
+export const PAJARO_BLANCO_ANIM_KEYS = {
+  flyEast: 'pajaro-blanco-fly-east',
+  flyWest: 'pajaro-blanco-fly-west',
+};
+
+/** Registers the looping wing-flap animations (east/west), called once from PreloadScene.create(). */
+export function registerPajaroBlancoAnimations(scene: Phaser.Scene): void {
+  scene.anims.create({
+    key: PAJARO_BLANCO_ANIM_KEYS.flyEast,
+    frames: PAJARO_BLANCO_TEXTURE_KEYS.flyEast.map((key) => ({ key })),
+    frameRate: 12,
+    repeat: -1,
+  });
+  scene.anims.create({
+    key: PAJARO_BLANCO_ANIM_KEYS.flyWest,
+    frames: PAJARO_BLANCO_TEXTURE_KEYS.flyWest.map((key) => ({ key })),
+    frameRate: 12,
+    repeat: -1,
+  });
+}

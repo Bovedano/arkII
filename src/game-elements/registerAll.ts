@@ -15,3 +15,4 @@ import './blocks/GEFloor';
 import './characters/GEPenista';
 import './interactive/GESwitch';
 import './collectibles/GECervezaEstrella';
+import './enemies/GEPajaroBlanco';

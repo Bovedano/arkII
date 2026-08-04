@@ -24,14 +24,16 @@
         height: 100dvh;
       }
       #app {
+        /* Phaser's Scale.CENTER_BOTH already centers the canvas itself via
+           marginLeft/marginTop, assuming it sits at the top-left of a plain
+           block parent. Also centering #app's content with flexbox would
+           center the canvas's margin box, doubling the offset. */
         flex: 1 1 auto;
         min-width: 0;
         min-height: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         height: 100%;
         overflow: hidden;
+        position: relative;
       }
       /* Real flex sibling of #app, not a floating overlay — reserving this column's width
          forces #app (and the Phaser canvas inside it) to shrink and share the screen instead

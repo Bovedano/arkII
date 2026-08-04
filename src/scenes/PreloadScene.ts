@@ -3,6 +3,7 @@ import {
   registerPenistaAnimations,
   registerBarbacoaHumeanteAnimations,
   registerAguaRioAnimations,
+  registerPajaroBlancoAnimations,
 } from '../systems/animations';
 import { BACKGROUND_ASSETS } from '../config/backgroundAssets';
 import { FLOOR_THEMES } from '../config/floorThemes';
@@ -43,6 +44,11 @@ export class PreloadScene extends Phaser.Scene {
     for (let i = 0; i < 7; i++) {
       this.load.image(`agua-rio-${i}`, `assets/blocks/agua-rio/frame-${i}.png`);
     }
+    for (const dir of ['east', 'west'] as const) {
+      for (let i = 0; i < 7; i++) {
+        this.load.image(`pajaro-blanco-fly-${dir}-${i}`, `assets/pajaro-blanco/fly/${dir}-${i}.png`);
+      }
+    }
 
     for (const file of BACKGROUND_ASSETS) {
       this.load.image(file, `assets/backgrounds/${file}`);
@@ -60,6 +66,7 @@ export class PreloadScene extends Phaser.Scene {
     registerPenistaAnimations(this);
     registerBarbacoaHumeanteAnimations(this);
     registerAguaRioAnimations(this);
+    registerPajaroBlancoAnimations(this);
     this.scene.start('MainMenu');
   }
 }
