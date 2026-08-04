@@ -22,3 +22,5 @@ const game = new Phaser.Game({
 });
 
 forceRescaleOnResize(game);
+
+(window as unknown as { __debugGame: Phaser.Game }).__debugGame = game;

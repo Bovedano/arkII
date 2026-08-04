@@ -3,6 +3,7 @@
  * GameElement type below has self-registered into GameElementRegistry before any level
  * JSON is parsed/instantiated. Add new elements here as they're created.
  */
+import './backgrounds/GEFixedBackground';
 import './blocks/GEColorBlock';
 import './blocks/GEArbol';
 import './blocks/GERamaAlamo';
