@@ -18,24 +18,24 @@ export function PhysicsBody<TBase extends Constructor<WithVisual>>(Base: TBase) 
 
     /**
      * Adds an Arcade body, unless `behavior` says this element has no physical presence
-     * (`background`/`hidden`). `sensor` still gets a body (always static) — it's meant for
-     * overlap detection, never for blocking movement — regardless of the caller's `static`
-     * option.
+     * (`background`). `sensor` still gets a body (always static) — it's meant for overlap
+     * detection, never for blocking movement — regardless of the caller's `static` option.
+     * Unaffected by `hidden` — a hidden element can still be solid (e.g. an invisible wall).
      */
     enablePhysics(options: { static: boolean } = { static: false }): void {
       const { behavior } = this.params;
-      if (behavior === 'background' || behavior === 'hidden') return;
+      if (behavior === 'background') return;
       const isStatic = behavior === 'sensor' ? true : options.static;
       this.scene.physics.add.existing(this.visual as Phaser.Types.Physics.Arcade.GameObjectWithBody, isStatic);
     }
 
     /**
-     * Shrinks/repositions the (dynamic) Arcade body relative to the visual's full frame —
-     * for sprites whose texture has transparent padding around the actual silhouette, so
-     * collisions match what's drawn instead of the whole frame rectangle.
+     * Shrinks/repositions the Arcade body (dynamic or static) relative to the visual's full
+     * frame — for sprites whose texture has transparent padding around the actual silhouette,
+     * so collisions match what's drawn instead of the whole frame rectangle.
      */
     setBodyBox(width: number, height: number, offsetX: number, offsetY: number): void {
-      (this.body as Phaser.Physics.Arcade.Body).setSize(width, height).setOffset(offsetX, offsetY);
+      this.body.setSize(width, height).setOffset(offsetX, offsetY);
     }
   }
   return PhysicsBodyElement;

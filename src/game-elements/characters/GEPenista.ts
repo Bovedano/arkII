@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import { GameElement } from '../core/GameElement';
 import { Renderable } from '../core/mixins/Renderable';
 import { PhysicsBody } from '../core/mixins/PhysicsBody';
@@ -22,7 +23,7 @@ export interface PenistaParams extends GameElementParams {
  * silhouette across idle/run/jump frames, so collisions match the drawn character instead of
  * the frame's remaining transparent padding. Tune here if the sprite art changes.
  */
-const PENISTA_BODY_BOX = { width: 36, height: 62, offsetX: 2, offsetY: 0 };
+const PENISTA_BODY_BOX = { width: 30, height: 62, offsetX: 6, offsetY: 0 };
 
 export class GEPenista extends PhysicsBody(Renderable(EventCapable(GameElement<PenistaParams>))) {
   readonly type = 'Penista';
@@ -30,6 +31,7 @@ export class GEPenista extends PhysicsBody(Renderable(EventCapable(GameElement<P
 
   private activeAbilities: Ability[] = [];
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
+  private actionKey!: Phaser.Input.Keyboard.Key;
 
   init(): void {
     const sprite = this.scene.physics.add.sprite(this.x, this.y, PENISTA_IDLE_KEYS.east);
@@ -46,6 +48,7 @@ export class GEPenista extends PhysicsBody(Renderable(EventCapable(GameElement<P
     const keyboard = this.scene.input.keyboard;
     if (!keyboard) throw new Error('Keyboard input plugin is not available on this scene');
     this.cursors = keyboard.createCursorKeys();
+    this.actionKey = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     const startAbilities = this.params.abilities ?? ['run', 'jump'];
     for (const id of startAbilities) this.attachAbility(id);
@@ -62,7 +65,7 @@ export class GEPenista extends PhysicsBody(Renderable(EventCapable(GameElement<P
   attachAbility(id: string): void {
     if (this.activeAbilities.some((a) => a.id === id)) return; // idempotent
     const ability = AbilityRegistry.create(id);
-    ability.attach({ character: this, scene: this.scene, cursors: this.cursors });
+    ability.attach({ character: this, scene: this.scene, cursors: this.cursors, actionKey: this.actionKey });
     this.activeAbilities.push(ability);
   }
 
@@ -80,6 +83,23 @@ export class GEPenista extends PhysicsBody(Renderable(EventCapable(GameElement<P
   isGrounded(): boolean {
     const body = this.sprite.body as Phaser.Physics.Arcade.Body;
     return body.blocked.down || body.touching.down;
+  }
+
+  getCursors(): Phaser.Types.Input.Keyboard.CursorKeys {
+    return this.cursors;
+  }
+
+  getActionKey(): Phaser.Input.Keyboard.Key {
+    return this.actionKey;
+  }
+
+  /** Repositions and stops the character in place — used by GameScene after a fall/timeout,
+   *  without recreating the element. */
+  respawnAt(x: number, y: number): void {
+    this.sprite.setPosition(x, y);
+    (this.body as Phaser.Physics.Arcade.Body).setVelocity(0, 0);
+    this.facing = 'east';
+    this.showIdle();
   }
 
   setVelocityX(value: number): void {

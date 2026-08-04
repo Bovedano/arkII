@@ -1,0 +1,51 @@
+.touch-controls-root {
+  position: fixed;
+  pointer-events: none;
+}
+
+.touch-joystick {
+  position: absolute;
+  left: 24px;
+  bottom: 24px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  pointer-events: auto;
+  touch-action: none;
+}
+
+.touch-joystick-knob {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 56px;
+  height: 56px;
+  margin: -28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.touch-buttons {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  display: flex;
+  gap: 16px;
+}
+
+.touch-btn {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font: 16px sans-serif;
+  pointer-events: auto;
+  touch-action: none;
+}
+
+.touch-btn.active {
+  background: rgba(255, 255, 255, 0.35);
+}

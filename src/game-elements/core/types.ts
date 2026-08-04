@@ -1,16 +1,35 @@
 /**
- * How an element participates in rendering/physics:
- * - solid: rendered, blocks movement (collider).
- * - background: rendered, no collision (decorative).
- * - hidden: not rendered, no collision (logic-only marker).
- * - sensor: rendered, doesn't block but fires overlap — generalizes what GESwitch
- *   used to hardcode itself.
+ * How an element participates in physics/collision:
+ * - solid: blocks movement (collider).
+ * - background: no collision (decorative).
+ * - sensor: doesn't block but fires overlap — generalizes what GESwitch used to hardcode itself.
+ * - damage: doesn't block; on player overlap costs a life and respawns them (see
+ *   GameScene.wireBehaviorInteractions / handleLifeLoss).
+ * - semisolid: one-way platform — blocks the player only when landing on top of it from
+ *   above; jumping up through it from below passes through freely.
+ *
+ * Independent of `hidden` (rendering) — an element can be solid and hidden at the same time,
+ * e.g. an invisible wall.
  */
-export type GameElementBehavior = 'solid' | 'background' | 'hidden' | 'sensor';
+export type GameElementBehavior = 'solid' | 'background' | 'sensor' | 'damage' | 'semisolid';
 
 export interface GameElementParams {
   zIndex: number;
   behavior: GameElementBehavior;
+  /** When true, not rendered. Independent of `behavior` — physics/collision are unaffected. */
+  hidden?: boolean;
+  /** Uniform visual scale. Applied generically by the Renderable mixin (see setVisual) —
+   *  every type gets it for free, defaulted to 1 by GameElementRegistry.register(). */
+  scale?: number;
+  /** Rotation in degrees. Applied generically by the Renderable mixin (see setVisual) —
+   *  every type gets it for free, defaulted to 0 by GameElementRegistry.register(). */
+  rotation?: number;
+  /** Horizontal mirror. Applied generically by the Renderable mixin (see setVisual) —
+   *  every type gets it for free, defaulted to false by GameElementRegistry.register(). */
+  flipX?: boolean;
+  /** Vertical mirror. Applied generically by the Renderable mixin (see setVisual) —
+   *  every type gets it for free, defaulted to false by GameElementRegistry.register(). */
+  flipY?: boolean;
   [key: string]: unknown;
 }
 
@@ -18,8 +37,10 @@ export interface GameElementParams {
 export interface GameElementParamFieldSchema {
   key: string;
   label: string;
-  kind: 'number' | 'string' | 'color' | 'boolean';
+  kind: 'number' | 'string' | 'color' | 'boolean' | 'select';
   default: unknown;
+  /** Fixed choices for kind: 'select'. */
+  options?: string[];
 }
 
 /** Metadata a GameElement type registers alongside its factory, consumed by the level editor. */

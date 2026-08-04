@@ -9,7 +9,13 @@ class GameElementRegistryImpl {
       throw new Error(`GameElement type "${type}" is already registered`);
     }
     this.factories.set(type, factory);
-    this.metas.set(type, meta);
+    // `scale`/`rotation`/`flipX`/`flipY` are universal (see GameElementParams) — default them
+    // here instead of every call site, so every type gets them without repeating the field
+    // declaration.
+    this.metas.set(type, {
+      ...meta,
+      defaultParams: { scale: 1, rotation: 0, flipX: false, flipY: false, ...meta.defaultParams },
+    });
   }
 
   create(type: string, args: GameElementCtorArgs) {

@@ -2,6 +2,8 @@ import Phaser from 'phaser';
 import { LEVEL_REGISTRY } from '../levels/levelRegistry';
 import { LevelLoader } from '../systems/LevelLoader';
 import { getGameState } from '../systems/GameState';
+import { DomOverlay } from '../editor/DomOverlay';
+import { renderMenuOption, wireMenuActions } from '../ui/domMenu';
 
 export class LevelSelectScene extends Phaser.Scene {
   constructor() {
@@ -21,39 +23,25 @@ export class LevelSelectScene extends Phaser.Scene {
       }
     }
 
-    this.add.text(480, 60, 'Super T — Selecciona un nivel', {
-      fontSize: '28px',
-      color: '#ffffff',
-    }).setOrigin(0.5, 0);
-
-    const backText = this.add
-      .text(20, 20, '< Menú', { fontSize: '18px', color: '#cccccc' })
-      .setInteractive({ useHandCursor: true });
-    backText.on('pointerover', () => backText.setColor('#ffd24a'));
-    backText.on('pointerout', () => backText.setColor('#cccccc'));
-    backText.on('pointerdown', () => this.scene.start('MainMenu'));
-
-    let y = 160;
-    for (const meta of LEVEL_REGISTRY) {
+    const rows = LEVEL_REGISTRY.map((meta) => {
       const unlockId = childLevelToUnlockId.get(meta.id);
       const locked = unlockId !== undefined && !gameState.isSublevelUnlocked(unlockId);
-
       const label = locked ? '??? (bloqueado)' : meta.title;
-      const text = this.add
-        .text(480, y, label, {
-          fontSize: '22px',
-          color: locked ? '#666666' : '#ffffff',
-        })
-        .setOrigin(0.5, 0);
+      return renderMenuOption({ action: `level:${meta.id}`, label, locked });
+    });
 
-      if (!locked) {
-        text.setInteractive({ useHandCursor: true });
-        text.on('pointerover', () => text.setColor('#ffd24a'));
-        text.on('pointerout', () => text.setColor('#ffffff'));
-        text.on('pointerdown', () => this.scene.start('Game', { levelId: meta.id }));
-      }
+    const overlay = new DomOverlay(this, {});
+    overlay.root.className = 'menu-overlay';
+    overlay.root.innerHTML = `
+      <div class="menu-back" data-action="back">&lt; Menú</div>
+      <div class="menu-subtitle">Selecciona un nivel</div>
+      <div class="menu-list">${rows.join('')}</div>
+    `;
 
-      y += 44;
+    const handlers: Record<string, () => void> = { back: () => this.scene.start('MainMenu') };
+    for (const meta of LEVEL_REGISTRY) {
+      handlers[`level:${meta.id}`] = () => this.scene.start('Game', { levelId: meta.id });
     }
+    wireMenuActions(overlay.root, handlers);
   }
 }

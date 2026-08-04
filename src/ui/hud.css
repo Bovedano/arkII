@@ -1,0 +1,39 @@
+.hud-root {
+  position: fixed;
+  pointer-events: none;
+}
+
+.hud-bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 960px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  box-sizing: border-box;
+  background: rgba(10, 14, 23, 0.55);
+  color: #ffffff;
+  font: 20px sans-serif;
+}
+
+.hud-lives {
+  display: flex;
+  gap: 4px;
+  font-size: 22px;
+}
+
+.hud-heart::before {
+  content: '❤';
+}
+
+.hud-heart.empty::before {
+  content: '♡';
+  opacity: 0.5;
+}
+
+.hud-timer.low {
+  color: #ff5a5a;
+}

@@ -4,6 +4,9 @@ export interface AbilityContext {
   character: GEPenista;
   scene: Phaser.Scene;
   cursors: Phaser.Types.Input.Keyboard.CursorKeys;
+  /** Generic virtual key (bound to Space) — no ability consumes it yet, reserved for a
+   *  future interact/attack ability and for the touch "action" button. */
+  actionKey: Phaser.Input.Keyboard.Key;
 }
 
 /**

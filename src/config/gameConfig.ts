@@ -21,15 +21,10 @@ export const gameConfig: Phaser.Types.Core.GameConfig = {
     arcade: {
       gravity: { x: 0, y: 600 },
       // Draws every Arcade body's actual collision rect (size + offset already applied),
-      // which is exactly "element borders accounting for offsets" — tied to dev mode
-      // instead of a hand-toggled flag.
+      // which is exactly "element borders accounting for offsets". This is just the
+      // initial state when dev mode is on; GameScene binds F9 to toggle it at runtime.
       debug: appConfig.dev,
     },
-  },
-
-  // Enables `scene.add.dom(...)` — used by the level editor's property/config panels.
-  dom: {
-    createContainer: true,
   },
 
   scene: [],

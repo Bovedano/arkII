@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Super T</title>
+    <title>PKII</title>
     <style>
       html, body {
         margin: 0;
@@ -11,17 +11,47 @@
         background: #000;
         overflow: hidden;
       }
-      #app {
+      #root {
         display: flex;
         width: 100vw;
         height: 100vh;
+      }
+      #app {
+        flex: 1 1 auto;
+        min-width: 0;
+        min-height: 0;
+        display: flex;
         align-items: center;
         justify-content: center;
+        height: 100%;
+        overflow: hidden;
+      }
+      /* Real flex sibling of #app, not a floating overlay — reserving this column's width
+         forces #app (and the Phaser canvas inside it) to shrink and share the screen instead
+         of the sidebar floating on top and guessing at the canvas's rendered bounds. */
+      #editor-sidebar {
+        display: none;
+        height: 100%;
+        box-sizing: border-box;
+      }
+      #editor-sidebar.active {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 10px;
+        flex: 0 0 230px;
+        width: 230px;
+        overflow-y: auto;
+        background: #20202c;
+        border-left: 1px solid #444;
       }
     </style>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="root">
+      <div id="app"></div>
+      <div id="editor-sidebar"></div>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

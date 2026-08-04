@@ -50,3 +50,29 @@ export function registerPenistaAnimations(scene: Phaser.Scene): void {
     repeat: 0,
   });
 }
+
+export const BARBACOA_HUMEANTE_TEXTURE_KEYS = [0, 1, 2, 3, 4].map((i) => `barbacoa-humeante-${i}`);
+export const BARBACOA_HUMEANTE_ANIM_KEY = 'barbacoa-humeante-flicker';
+
+/** Registers the looping flame-flicker animation, called once from PreloadScene.create(). */
+export function registerBarbacoaHumeanteAnimations(scene: Phaser.Scene): void {
+  scene.anims.create({
+    key: BARBACOA_HUMEANTE_ANIM_KEY,
+    frames: BARBACOA_HUMEANTE_TEXTURE_KEYS.map((key) => ({ key })),
+    frameRate: 8,
+    repeat: -1,
+  });
+}
+
+export const AGUA_RIO_TEXTURE_KEYS = [0, 1, 2, 3, 4, 5, 6].map((i) => `agua-rio-${i}`);
+export const AGUA_RIO_ANIM_KEY = 'agua-rio-undulate';
+
+/** Registers the looping water-surface animation, called once from PreloadScene.create(). */
+export function registerAguaRioAnimations(scene: Phaser.Scene): void {
+  scene.anims.create({
+    key: AGUA_RIO_ANIM_KEY,
+    frames: AGUA_RIO_TEXTURE_KEYS.map((key) => ({ key })),
+    frameRate: 8,
+    repeat: -1,
+  });
+}

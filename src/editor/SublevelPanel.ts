@@ -1,17 +1,15 @@
-import Phaser from 'phaser';
 import type { EditorState } from './EditorState';
 
 /** List of the level's `sublevels` (id/level/unlockOn references) with add/remove. */
 export class SublevelPanel {
-  private dom: Phaser.GameObjects.DOMElement;
+  private el: HTMLDivElement;
 
   constructor(
-    scene: Phaser.Scene,
     private state: EditorState,
-    x: number,
-    y: number,
+    parent: HTMLElement,
   ) {
-    this.dom = scene.add.dom(x, y).setOrigin(0, 0);
+    this.el = document.createElement('div');
+    parent.appendChild(this.el);
     this.render();
     // Deferred for the same reason as EditorPropertyPanel: rebuilding this panel's own DOM
     // synchronously from inside one of its own input/button handlers races the browser's
@@ -31,7 +29,7 @@ export class SublevelPanel {
       )
       .join('');
 
-    this.dom.createFromHTML(`
+    this.el.innerHTML = `
       <div style="width:180px;font:12px sans-serif;color:#eee;display:flex;flex-direction:column;gap:4px;background:#20202c;padding:8px;border:1px solid #444;">
         <strong>Sublevels</strong>
         ${rows || '<span style="color:#888;">Ninguno</span>'}
@@ -42,9 +40,9 @@ export class SublevelPanel {
           <button data-action="add">Añadir sublevel</button>
         </div>
       </div>
-    `);
+    `;
 
-    const node = this.dom.node as HTMLElement;
+    const node = this.el;
     node.querySelectorAll<HTMLButtonElement>('button[data-remove]').forEach((btn) => {
       btn.addEventListener('click', () => {
         this.state.removeSublevel(Number(btn.dataset.remove));
