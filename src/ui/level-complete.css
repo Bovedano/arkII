@@ -1,0 +1,82 @@
+.level-complete-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--pk-orange);
+  font-family: var(--pk-font);
+  color: var(--pk-black);
+  z-index: 10000;
+  text-align: center;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
+
+.level-complete-title {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.level-complete-subtitle {
+  font-size: 1.5rem;
+  margin-top: 0.5rem;
+  color: rgba(20, 20, 20, 0.75);
+}
+
+.level-complete-time {
+  font-size: 1.75rem;
+  margin-top: 1.5rem;
+  font-weight: 700;
+}
+
+.level-complete-record {
+  font-size: 1.25rem;
+  margin-top: 0.5rem;
+  color: rgba(20, 20, 20, 0.75);
+}
+
+.level-complete-record.is-new {
+  display: inline-block;
+  color: var(--pk-black);
+  font-weight: 700;
+  background: rgba(20, 20, 20, 0.12);
+  padding: 0.25em 0.75em;
+  border-radius: 999px;
+}
+
+.level-complete-share {
+  margin-top: 2rem;
+}
+
+.level-complete-share-label {
+  font-size: 1rem;
+  color: rgba(20, 20, 20, 0.6);
+  margin-bottom: 0.75rem;
+}
+
+.level-complete-share-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.share-btn {
+  font-size: 1.1rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--pk-black);
+  border-radius: 999px;
+  color: var(--pk-black);
+}
+
+.level-complete-actions {
+  margin-top: 2.5rem;
+  display: flex;
+  gap: 2rem;
+}
+
+.level-complete-actions .menu-option {
+  font-size: 1.5rem;
+}

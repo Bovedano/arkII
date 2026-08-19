@@ -4,6 +4,7 @@ import { LevelLoader } from '../systems/LevelLoader';
 import { getGameState } from '../systems/GameState';
 import { DomOverlay } from '../editor/DomOverlay';
 import { renderMenuOption, wireMenuActions } from '../ui/domMenu';
+import { formatTime } from '../ui/format';
 
 export class LevelSelectScene extends Phaser.Scene {
   constructor() {
@@ -27,13 +28,15 @@ export class LevelSelectScene extends Phaser.Scene {
       const unlockId = childLevelToUnlockId.get(meta.id);
       const locked = unlockId !== undefined && !gameState.isSublevelUnlocked(unlockId);
       const label = locked ? '??? (bloqueado)' : meta.title;
-      return renderMenuOption({ action: `level:${meta.id}`, label, locked });
+      const bestTimeSec = !locked ? gameState.getBestTimeSec(meta.id) : undefined;
+      const suffix = bestTimeSec !== undefined ? `✓ ${formatTime(bestTimeSec)}` : undefined;
+      return renderMenuOption({ action: `level:${meta.id}`, label, locked, suffix });
     });
 
     const overlay = new DomOverlay(this, {});
     overlay.root.className = 'menu-overlay';
     overlay.root.innerHTML = `
-      <div class="menu-back" data-action="back">&lt; Menú</div>
+      <div class="menu-back" data-action="back">&lt; Volver</div>
       <div class="menu-subtitle">Selecciona un nivel</div>
       <div class="menu-list">${rows.join('')}</div>
     `;

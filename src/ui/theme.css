@@ -1,0 +1,15 @@
+/* Peña PKII brand palette: black letters on butane-orange backgrounds. */
+:root {
+  --pk-orange: #f2600c;
+  --pk-orange-dark: #c94e09;
+  --pk-black: #141414;
+  --pk-font: 'PKII', sans-serif;
+}
+
+@font-face {
+  font-family: 'PKII';
+  src: url('/fonts/postcryp.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}

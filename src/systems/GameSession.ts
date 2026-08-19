@@ -19,6 +19,9 @@ export class GameSession {
   readonly total: number;
   private readonly timeLimitSec: number;
   timeRemainingSec: number;
+  /** Total time spent in this attempt, independent of the countdown — not reset by
+   *  loseLife(), so it keeps accumulating across respawns until the level is completed. */
+  elapsedSec = 0;
 
   constructor(level: LevelDefinition) {
     this.total = level.elements.filter((el) => el.type === 'CervezaEstrella').length;
@@ -32,6 +35,7 @@ export class GameSession {
 
   /** Advances the clock; returns true only on the exact frame it reaches 0. */
   tick(deltaMs: number): boolean {
+    this.elapsedSec += deltaMs / 1000;
     if (this.timeRemainingSec <= 0) return false;
     this.timeRemainingSec = Math.max(0, this.timeRemainingSec - deltaMs / 1000);
     return this.timeRemainingSec === 0;

@@ -10,6 +10,7 @@ import { GEPenista } from '../game-elements/characters/GEPenista';
 import { GameSession } from '../systems/GameSession';
 import { Hud } from '../ui/Hud';
 import { TouchInputController } from '../ui/TouchInputController';
+import { LevelCompleteScreen } from '../ui/LevelCompleteScreen';
 
 interface WithVisualAndParams extends GameElementLike {
   visual: Phaser.GameObjects.GameObject;
@@ -38,6 +39,7 @@ export class GameScene extends Phaser.Scene {
   private playerSpawn?: { x: number; y: number };
   private session!: GameSession;
   private hud!: Hud;
+  private completed = false;
 
   constructor() {
     super('Game');
@@ -65,7 +67,7 @@ export class GameScene extends Phaser.Scene {
     this.session = new GameSession(this.level);
     this.hud = new Hud(this);
     if (this.wantsTouchControls() && player) {
-      new TouchInputController(this, player.getCursors(), player.getActionKey());
+      new TouchInputController(this, player.getCursors());
     }
 
     EventBus.on('level-event', this.levelEventHandler);
@@ -85,6 +87,8 @@ export class GameScene extends Phaser.Scene {
   }
 
   update(time: number, delta: number): void {
+    if (this.completed) return;
+
     for (let i = 0; i < this.elements.length; i++) {
       this.elements[i].update?.(time, delta);
     }
@@ -193,5 +197,28 @@ export class GameScene extends Phaser.Scene {
     for (const sub of this.level.sublevels ?? []) {
       if (sub.unlockOn === eventKey) gameState.unlockSublevel(sub.id);
     }
+
+    if (!this.completed && this.session.total > 0 && this.session.collected >= this.session.total) {
+      this.onLevelComplete();
+    }
+  }
+
+  /** Freezes gameplay, persists the completion/best-time, and shows the HTML overlay. */
+  private onLevelComplete(): void {
+    this.completed = true;
+    this.physics.pause();
+
+    const gameState = getGameState(this.registry);
+    const timeSec = Math.round(this.session.elapsedSec);
+    const { isNewRecord, bestTimeSec } = gameState.recordCompletion(this.levelId, timeSec);
+
+    new LevelCompleteScreen(this, {
+      levelTitle: this.level.title,
+      timeSec,
+      isNewRecord,
+      bestTimeSec,
+      onRetry: () => this.scene.start('Game', { levelId: this.levelId }),
+      onLevelSelect: () => this.scene.start('LevelSelect'),
+    });
   }
 }

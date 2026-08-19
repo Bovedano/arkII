@@ -17,7 +17,8 @@ export class PreloadScene extends Phaser.Scene {
   }
 
   preload(): void {
-    const bar = this.add.rectangle(480, 270, 4, 32, 0xffffff);
+    this.cameras.main.setBackgroundColor('#f2600c');
+    const bar = this.add.rectangle(480, 270, 4, 32, 0x141414);
     this.load.on('progress', (value: number) => {
       bar.width = 4 + 460 * value;
     });
@@ -34,10 +35,14 @@ export class PreloadScene extends Phaser.Scene {
 
     this.load.image('cerveza-estrella', 'assets/collectibles/cerveza-estrella.png');
     this.load.image('arbol', 'assets/blocks/arbol.png');
+    this.load.image('matorral-con-espinas', 'assets/blocks/matorral-con-espinas.png');
     this.load.image('rama-alamo', 'assets/blocks/rama-alamo.png');
     this.load.image('mesa-comida', 'assets/blocks/mesa-comida.png');
     this.load.image('toyota-pickup', 'assets/blocks/toyota-pickup.png');
-    this.load.image('coche-seat-ibiza', 'assets/blocks/coche-seat-ibiza.png');
+    this.load.image('coche-seat-ibiza-blanco', 'assets/blocks/coche-seat-ibiza-blanco.png');
+    this.load.image('coche-seat-ibiza-negro', 'assets/blocks/coche-seat-ibiza-negro.png');
+    this.load.image('coche-mercedes-azul', 'assets/blocks/coche-mercedes-azul.png');
+    this.load.image('coche-opel-insignia-negro', 'assets/blocks/coche-opel-insignia-negro.png');
     for (let i = 0; i < 5; i++) {
       this.load.image(`barbacoa-humeante-${i}`, `assets/blocks/barbacoa-humeante/frame-${i}.png`);
     }

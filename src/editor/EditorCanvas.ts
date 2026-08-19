@@ -27,7 +27,7 @@ type VisualLike = Phaser.GameObjects.GameObject & {
   on: (event: string, handler: (...args: unknown[]) => void) => unknown;
 };
 
-type EditorElement = GameElement & { visual: VisualLike };
+type EditorElement = GameElement & { visual: VisualLike; extraVisuals?: VisualLike[] };
 
 interface HandlePair {
   tl: Phaser.GameObjects.Rectangle;
@@ -38,15 +38,20 @@ interface GroupInstanceVisual {
   instanceIndex: number;
   childVisuals: VisualLike[];
   wrapper: Phaser.GameObjects.Rectangle;
+  handles: HandlePair;
 }
 
-/** Gates a group-instance wrapper's `drag`/`dragend` handlers to the instance currently being
- *  dragged — mirrors HandleMoveState/ResizeState's role for the resize handles. Positions are
- *  captured fresh at drag start (pointerdown), not read from the wrapper-creation closure —
- *  after a prior move, that closure's bounds/child positions are stale, so deltas computed
- *  against them would double-count the earlier move. */
-interface GroupDragState {
+/** Gates a group instance's corner-handle `drag`/`dragend` handlers to the instance currently
+ *  being dragged — mirrors HandleMoveState/ResizeState's role for single-element handles. The
+ *  wrapper itself (the group's body) is deliberately inert, same as a single element's body —
+ *  only these corner handles can move the group, so an accidental click-drag on the group's
+ *  body never displaces it. Positions are captured fresh at drag start (pointerdown), not read
+ *  from the wrapper-creation closure — after a prior move, that closure's bounds/child
+ *  positions are stale, so deltas computed against them would double-count the earlier move. */
+interface GroupHandleMoveState {
   instanceIndex: number;
+  handleStartX: number;
+  handleStartY: number;
   startWrapperX: number;
   startWrapperY: number;
   startChildX: number[];
@@ -100,7 +105,7 @@ export class EditorCanvas {
   private resizeState: ResizeState | null = null;
   private handleMoveState: HandleMoveState | null = null;
   private groupInstanceVisuals: GroupInstanceVisual[] = [];
-  private groupDragState: GroupDragState | null = null;
+  private groupHandleMoveState: GroupHandleMoveState | null = null;
   private lastGroupClickAt: Map<number, number> = new Map();
   private multiSelectionBoxes: Phaser.GameObjects.Rectangle[] = [];
   private lastWidth: number | null = null;
@@ -148,6 +153,7 @@ export class EditorCanvas {
     // level there's often no empty spot left to grab, so left-drag alone isn't enough.
     this.background.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
       if (!pointer.leftButtonDown()) return;
+      if (this.tryEnterGroupEditAt(pointer)) return;
       this.startPan(pointer);
     });
     scene.input.mouse?.disableContextMenu();
@@ -236,6 +242,29 @@ export class EditorCanvas {
     this.lastPointerY = pointer.y;
   }
 
+  /** Manual hit test recovering "double click a group's body enters group-edit mode" without
+   *  making the wrapper interactive (see createGroupInstanceVisual for why). Returns true —
+   *  and enters edit mode — only on the second click of a pair landing inside the same group's
+   *  bounds within DOUBLE_CLICK_MS; a lone first click just records itself and lets the caller
+   *  fall through to panning, same as any other click on empty background. */
+  private tryEnterGroupEditAt(pointer: Phaser.Input.Pointer): boolean {
+    const { x, y } = this.screenToLevel(pointer.x, pointer.y);
+    for (const giv of this.groupInstanceVisuals) {
+      const bounds = this.localBounds(giv.wrapper);
+      if (!Phaser.Geom.Rectangle.Contains(bounds, x, y)) continue;
+      const now = this.scene.time.now;
+      const lastClick = this.lastGroupClickAt.get(giv.instanceIndex) ?? 0;
+      this.lastGroupClickAt.set(giv.instanceIndex, now);
+      if (now - lastClick < DOUBLE_CLICK_MS) {
+        const inst = this.state.level.groupInstances?.[giv.instanceIndex];
+        if (inst) this.state.enterGroupEdit(inst.groupId);
+        return true;
+      }
+      return false;
+    }
+    return false;
+  }
+
   private applyView(): void {
     this.container.setScale(this.state.zoom);
     this.container.setPosition(this.rect.x + this.state.panX, this.rect.y + this.state.panY);
@@ -251,10 +280,12 @@ export class EditorCanvas {
     this.handles = [];
     this.resizeState = null;
     this.handleMoveState = null;
-    this.groupDragState = null;
+    this.groupHandleMoveState = null;
     for (const giv of this.groupInstanceVisuals) {
       for (const visual of giv.childVisuals) (visual as unknown as Phaser.GameObjects.GameObject).destroy();
       giv.wrapper.destroy();
+      giv.handles.tl.destroy();
+      giv.handles.br.destroy();
     }
     this.groupInstanceVisuals = [];
     this.backgroundImage?.destroy();
@@ -299,9 +330,17 @@ export class EditorCanvas {
       if (def.params.hidden) {
         instance.visual.setVisible?.(true);
         instance.visual.setAlpha?.(0.35);
+        for (const extra of instance.extraVisuals ?? []) {
+          extra.setVisible?.(true);
+          extra.setAlpha?.(0.35);
+        }
       }
 
       this.container.add(instance.visual);
+      // A type may create secondary GameObjects beyond `visual` (e.g. GEFixedBackground's
+      // mirrored repeat tiles) — those must join the same pan/zoom/mask container, or they'd
+      // render in raw scene coordinates instead of the editor's level preview.
+      for (const extra of instance.extraVisuals ?? []) this.container.add(extra as unknown as Phaser.GameObjects.GameObject);
       this.instances.push(instance);
 
       // Deliberately not interactive/draggable — an element's body is inert. Selecting and
@@ -324,6 +363,10 @@ export class EditorCanvas {
       this.container.bringToTop(handle.tl);
       this.container.bringToTop(handle.br);
     }
+    for (const giv of this.groupInstanceVisuals) {
+      this.container.bringToTop(giv.handles.tl);
+      this.container.bringToTop(giv.handles.br);
+    }
     this.updateSelectionBox();
 
     this.scene.physics.world.pause();
@@ -332,10 +375,12 @@ export class EditorCanvas {
   /**
    * Builds one placed group instance: every child element (rendered read-only — no individual
    * interactivity, so Phaser's topmost-hit-test always resolves a click to the invisible
-   * `wrapper` covering the whole group, never to a single child) plus that wrapper, which
-   * carries all of the instance's interaction: single click selects the whole instance, a
-   * second click within DOUBLE_CLICK_MS enters group-edit mode, and dragging moves every
-   * child together by the same delta.
+   * `wrapper` covering the whole group, never to a single child) plus that wrapper, which is
+   * deliberately inert for selection and movement (same as a single element's body, see
+   * render()) — it only catches a double click within DOUBLE_CLICK_MS to enter group-edit
+   * mode. Selecting and moving the instance both happen exclusively through its corner
+   * handles, same affordance as single elements, so a click or drag on the group's body never
+   * selects or displaces it.
    */
   private createGroupInstanceVisual(inst: GroupInstanceDef, instanceIndex: number): GroupInstanceVisual {
     const resolved = resolveGroupInstance(this.state.level, inst);
@@ -357,6 +402,14 @@ export class EditorCanvas {
         }
         this.container.add(instance.visual);
         childVisuals.push(instance.visual);
+        for (const extra of instance.extraVisuals ?? []) {
+          if (def.params.hidden) {
+            extra.setVisible?.(true);
+            extra.setAlpha?.(0.35);
+          }
+          this.container.add(extra as unknown as Phaser.GameObjects.GameObject);
+          childVisuals.push(extra);
+        }
       }
     }
 
@@ -366,64 +419,104 @@ export class EditorCanvas {
     const bounds =
       childVisuals.length > 0 ? this.unionLocalBounds(childVisuals) : new Phaser.Geom.Rectangle(inst.x, inst.y, 24, 24);
 
+    // The wrapper (the group's body) is deliberately NOT interactive — same as a single
+    // element's body, see render(). A left-drag starting anywhere over it must fall through to
+    // the background and pan the viewport, exactly like a drag over a plain element; selecting
+    // and moving the instance happen exclusively through its corner handles. Double-clicking
+    // the body still enters group-edit mode, but that's recovered via a manual hit test in the
+    // background's own pointerdown handler (see tryEnterGroupEditAt) rather than by making the
+    // wrapper interactive, which would swallow the pan-drag gesture again.
     const wrapper = this.scene.add
       .rectangle(bounds.x, bounds.y, Math.max(bounds.width, 4), Math.max(bounds.height, 4), 0xff4a4a, resolved ? 0 : 0.25)
       .setOrigin(0, 0)
-      .setStrokeStyle(resolved ? 0 : 2, 0xff4a4a)
-      .setInteractive({ useHandCursor: true });
+      .setStrokeStyle(resolved ? 0 : 2, 0xff4a4a);
     this.container.add(wrapper);
-    this.scene.input.setDraggable(wrapper);
 
-    wrapper.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
+    const handles = this.createGroupHandlePair(instanceIndex, wrapper);
+
+    return { instanceIndex, childVisuals, wrapper, handles };
+  }
+
+  /** Two small squares pinned to a placed group instance's bounding-box corners — mirrors
+   *  createHandlePair for single elements. The only way to move a placed group instance;
+   *  its body (the wrapper) is inert, see createGroupInstanceVisual. */
+  private createGroupHandlePair(instanceIndex: number, wrapper: Phaser.GameObjects.Rectangle): HandlePair {
+    const bounds = this.localBounds(wrapper);
+    const style = (rect: Phaser.GameObjects.Rectangle) =>
+      rect.setStrokeStyle(1, 0x000000).setDepth(10000).setInteractive({ useHandCursor: true });
+
+    const tl = style(this.scene.add.rectangle(bounds.left, bounds.top, HANDLE_SIZE, HANDLE_SIZE, 0x9a4aff, 0.9));
+    const br = style(this.scene.add.rectangle(bounds.right, bounds.bottom, HANDLE_SIZE, HANDLE_SIZE, 0x9a4aff, 0.9));
+    this.container.add(tl);
+    this.container.add(br);
+    this.scene.input.setDraggable(tl);
+    this.scene.input.setDraggable(br);
+
+    this.wireGroupHandle(tl, instanceIndex);
+    this.wireGroupHandle(br, instanceIndex);
+
+    return { tl, br };
+  }
+
+  private wireGroupHandle(handle: Phaser.GameObjects.Rectangle, instanceIndex: number): void {
+    handle.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
       if (!pointer.leftButtonDown()) return;
-      const now = this.scene.time.now;
-      const lastClick = this.lastGroupClickAt.get(instanceIndex) ?? 0;
-      this.lastGroupClickAt.set(instanceIndex, now);
-      if (now - lastClick < DOUBLE_CLICK_MS) {
-        this.state.enterGroupEdit(inst.groupId);
-        return;
-      }
       this.state.selectGroupInstance(instanceIndex);
       const giv = this.groupInstanceVisuals[instanceIndex];
-      this.groupDragState = {
+      if (!giv) return;
+      this.groupHandleMoveState = {
         instanceIndex,
-        startWrapperX: wrapper.x,
-        startWrapperY: wrapper.y,
-        startChildX: giv ? giv.childVisuals.map((v) => v.x) : [],
-        startChildY: giv ? giv.childVisuals.map((v) => v.y) : [],
+        handleStartX: handle.x,
+        handleStartY: handle.y,
+        startWrapperX: giv.wrapper.x,
+        startWrapperY: giv.wrapper.y,
+        startChildX: giv.childVisuals.map((v) => v.x),
+        startChildY: giv.childVisuals.map((v) => v.y),
       };
     });
     // dragX/dragY are already in local (container) space, same convention as the per-element
-    // drag handler above — applying the wrapper's own delta (measured from drag-start, not
-    // from the possibly-stale render-time bounds) to every child keeps them moving together
-    // as one rigid block.
-    wrapper.on('drag', (...args: unknown[]) => {
+    // drag handler above — applying the handle's own delta (measured from drag-start, not
+    // from the possibly-stale render-time bounds) to the wrapper and every child keeps them
+    // moving together as one rigid block.
+    handle.on('drag', (...args: unknown[]) => {
       const [pointer, dragX, dragY] = args as [Phaser.Input.Pointer, number, number];
       if (!pointer.leftButtonDown()) return;
-      const drag = this.groupDragState;
-      if (!drag || drag.instanceIndex !== instanceIndex) return;
-      const dx = dragX - drag.startWrapperX;
-      const dy = dragY - drag.startWrapperY;
+      const move = this.groupHandleMoveState;
+      if (!move || move.instanceIndex !== instanceIndex) return;
+      const dx = dragX - move.handleStartX;
+      const dy = dragY - move.handleStartY;
       const giv = this.groupInstanceVisuals[instanceIndex];
       if (giv) {
         for (let i = 0; i < giv.childVisuals.length; i++) {
-          giv.childVisuals[i].x = drag.startChildX[i] + dx;
-          giv.childVisuals[i].y = drag.startChildY[i] + dy;
+          giv.childVisuals[i].x = move.startChildX[i] + dx;
+          giv.childVisuals[i].y = move.startChildY[i] + dy;
         }
+        giv.wrapper.setPosition(move.startWrapperX + dx, move.startWrapperY + dy);
+        this.repositionGroupHandles(instanceIndex);
       }
-      wrapper.setPosition(dragX, dragY);
       this.updateSelectionBox();
     });
-    wrapper.on('dragend', () => {
-      const drag = this.groupDragState;
-      if (!drag || drag.instanceIndex !== instanceIndex) return;
-      const dx = wrapper.x - drag.startWrapperX;
-      const dy = wrapper.y - drag.startWrapperY;
+    handle.on('dragend', () => {
+      const move = this.groupHandleMoveState;
+      if (!move || move.instanceIndex !== instanceIndex) return;
+      const giv = this.groupInstanceVisuals[instanceIndex];
+      const inst = this.state.level.groupInstances?.[instanceIndex];
+      this.groupHandleMoveState = null;
+      if (!giv || !inst) return;
+      const dx = giv.wrapper.x - move.startWrapperX;
+      const dy = giv.wrapper.y - move.startWrapperY;
       this.state.moveGroupInstance(instanceIndex, inst.x + dx, inst.y + dy);
-      this.groupDragState = null;
     });
+  }
 
-    return { instanceIndex, childVisuals, wrapper };
+  /** Keeps a placed group instance's corner handles pinned to its wrapper bounds while it's
+   *  repositioned — mirrors repositionHandles for single elements. */
+  private repositionGroupHandles(instanceIndex: number): void {
+    const giv = this.groupInstanceVisuals[instanceIndex];
+    if (!giv) return;
+    const bounds = this.localBounds(giv.wrapper);
+    giv.handles.tl.setPosition(bounds.left, bounds.top);
+    giv.handles.br.setPosition(bounds.right, bounds.bottom);
   }
 
   private select(index: number): void {
@@ -628,6 +721,7 @@ export class EditorCanvas {
     } else {
       giv.wrapper.setPosition(x, y); // orphaned placeholder: the wrapper *is* the instance
     }
+    this.repositionGroupHandles(instanceIndex);
     this.updateSelectionBox();
   }
 

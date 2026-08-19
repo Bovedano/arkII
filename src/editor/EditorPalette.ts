@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { GameElementRegistry } from '../game-elements/core/registry';
+import { GAME_WIDTH, GAME_HEIGHT } from '../config/gameConfig';
 import type { EditorState } from './EditorState';
 import type { EditorCanvas } from './EditorCanvas';
 
@@ -59,9 +60,17 @@ export class EditorPalette {
     this.staticEntries.push({ obj: heading, baseY: rect.y });
 
     let y = rect.y + 26;
-    for (const { type } of GameElementRegistry.list()) {
+    for (const { type, meta } of GameElementRegistry.list()) {
       const label = this.makeDraggableLabel(type, y, (levelX, levelY) => {
-        state.addElement(type, Math.round(levelX), Math.round(levelY));
+        // fixedToCamera types (e.g. FixedBackground) ignore scrollFactor and read their x/y
+        // as screen pixels, not level/world coordinates — dropping them at the world position
+        // under the cursor would bake in a coordinate far outside the visible canvas, so start
+        // them centered on screen instead. The property panel documents the valid range.
+        if (meta.fixedToCamera) {
+          state.addElement(type, GAME_WIDTH / 2, GAME_HEIGHT / 2);
+        } else {
+          state.addElement(type, Math.round(levelX), Math.round(levelY));
+        }
       });
       label.setMask(this.mask);
       this.staticEntries.push({ obj: label, baseY: y });

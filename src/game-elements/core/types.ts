@@ -47,6 +47,11 @@ export interface GameElementParamFieldSchema {
 export interface GameElementTypeMeta {
   defaultParams: GameElementParams;
   paramSchema: GameElementParamFieldSchema[];
+  /** True for types that pin themselves to the camera (scrollFactor 0, e.g. FixedBackground) —
+   *  their x/y are screen pixels (0..GAME_WIDTH, 0..GAME_HEIGHT), not level/world coordinates.
+   *  The editor uses this to place new instances sensibly instead of dropping in world space,
+   *  and to hint the property panel's X/Y fields. */
+  fixedToCamera?: boolean;
 }
 
 export interface GameElementCtorArgs<P extends GameElementParams = GameElementParams> {
@@ -67,6 +72,13 @@ export interface GameElementLike {
   init(): void;
   update?(time: number, delta: number): void;
   destroy(): void;
+  /** Optional secondary Phaser GameObjects a type creates beyond its primary `visual` (e.g.
+   *  GEFixedBackground's mirrored repeat tiles). The level editor adds these to its own preview
+   *  container too, so they render under its pan/zoom/mask exactly like `visual` does — a type
+   *  that creates extra GameObjects via `scene.add.*` directly and leaves them off this list
+   *  will render them in raw scene coordinates in the editor (wrong position, unclipped),
+   *  even though they're correct in real gameplay (which has no such container). */
+  readonly extraVisuals?: (Phaser.GameObjects.GameObject & { x: number; y: number })[];
 }
 
 // `abstract new` (not plain `new`) so mixins can be applied directly to the abstract

@@ -3,6 +3,8 @@ const STORAGE_KEY = 'super-t:save';
 export interface PersistedState {
   unlockedSublevels: string[];
   unlockedAbilities: string[];
+  /** levelId -> best completion time in seconds. */
+  completedLevels: Record<string, number>;
 }
 
 /**
@@ -17,15 +19,18 @@ export class GameState {
     this.state = GameState.load();
     this.registry.set('unlockedSublevels', [...this.state.unlockedSublevels]);
     this.registry.set('unlockedAbilities', [...this.state.unlockedAbilities]);
+    this.registry.set('completedLevels', { ...this.state.completedLevels });
   }
 
   private static load(): PersistedState {
+    const empty = (): PersistedState => ({ unlockedSublevels: [], unlockedAbilities: [], completedLevels: {} });
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return { unlockedSublevels: [], unlockedAbilities: [] };
+    if (!raw) return empty();
     try {
-      return JSON.parse(raw) as PersistedState;
+      // Spread over `empty()` so saves written before completedLevels existed still parse.
+      return { ...empty(), ...(JSON.parse(raw) as Partial<PersistedState>) };
     } catch {
-      return { unlockedSublevels: [], unlockedAbilities: [] };
+      return empty();
     }
   }
 
@@ -53,6 +58,27 @@ export class GameState {
     this.state.unlockedAbilities.push(id);
     this.registry.set('unlockedAbilities', [...this.state.unlockedAbilities]);
     this.save();
+  }
+
+  isLevelCompleted(id: string): boolean {
+    return id in this.state.completedLevels;
+  }
+
+  getBestTimeSec(id: string): number | undefined {
+    return this.state.completedLevels[id];
+  }
+
+  /** Records a level completion. Only persists when it's the first completion or an
+   *  improvement over the existing best time; either way returns the resulting best. */
+  recordCompletion(id: string, timeSec: number): { isNewRecord: boolean; bestTimeSec: number } {
+    const previous = this.state.completedLevels[id];
+    const isNewRecord = previous === undefined || timeSec < previous;
+    if (isNewRecord) {
+      this.state.completedLevels[id] = timeSec;
+      this.registry.set('completedLevels', { ...this.state.completedLevels });
+      this.save();
+    }
+    return { isNewRecord, bestTimeSec: isNewRecord ? timeSec : previous };
   }
 }
 

@@ -1,19 +1,25 @@
 import Phaser from 'phaser';
 import { appConfig } from './appConfig';
 
+// Also the coordinate space FixedBackground elements are placed in (see
+// GEFixedBackground — it pins itself to the camera via scrollFactor(0,0), so its x/y are
+// screen pixels in this range rather than level/world coordinates).
+export const GAME_WIDTH = 960;
+export const GAME_HEIGHT = 540;
+
 export const gameConfig: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
   parent: 'app',
-  width: 960,
-  height: 540,
+  width: GAME_WIDTH,
+  height: GAME_HEIGHT,
   pixelArt: true,
   backgroundColor: '#1d1d2b',
 
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
-    width: 960,
-    height: 540,
+    width: GAME_WIDTH,
+    height: GAME_HEIGHT,
   },
 
   physics: {

@@ -1,4 +1,5 @@
 import { GameElementRegistry } from '../game-elements/core/registry';
+import { GAME_WIDTH, GAME_HEIGHT } from '../config/gameConfig';
 import type { GameElementBehavior } from '../game-elements/core/types';
 import type { EditorState } from './EditorState';
 
@@ -69,9 +70,14 @@ export class EditorPropertyPanel {
       })
       .join('');
 
+    const positionHint = meta.fixedToCamera
+      ? `<div style="color:#888;font-size:11px;">Posición fija en pantalla (0–${GAME_WIDTH} × 0–${GAME_HEIGHT}), no es coordenada del nivel.</div>`
+      : '';
+
     this.el.innerHTML = `
       <div style="width:190px;font:12px sans-serif;color:#eee;display:flex;flex-direction:column;gap:4px;background:#20202c;padding:8px;border:1px solid #444;">
         <strong>${def.type} (${def.id ?? ''})</strong>
+        ${positionHint}
         <label style="display:flex;justify-content:space-between;">X <input type="number" data-field="x" value="${def.x}" style="width:70px;" /></label>
         <label style="display:flex;justify-content:space-between;">Y <input type="number" data-field="y" value="${def.y}" style="width:70px;" /></label>
         <label style="display:flex;justify-content:space-between;">zIndex <input type="number" data-field="zIndex" value="${def.params.zIndex}" style="width:70px;" /></label>

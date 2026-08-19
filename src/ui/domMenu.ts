@@ -2,12 +2,15 @@ export interface MenuOptionSpec {
   action: string;
   label: string;
   locked?: boolean;
+  /** Optional trailing text, e.g. a completed checkmark + best time. */
+  suffix?: string;
 }
 
-export function renderMenuOption({ action, label, locked }: MenuOptionSpec): string {
+export function renderMenuOption({ action, label, locked, suffix }: MenuOptionSpec): string {
   const classes = ['menu-option', locked ? 'locked' : ''].filter(Boolean).join(' ');
   const attr = locked ? '' : ` data-action="${action}"`;
-  return `<div class="${classes}"${attr}>${label}</div>`;
+  const suffixHtml = suffix ? ` <span class="menu-option-suffix">${suffix}</span>` : '';
+  return `<div class="${classes}"${attr}>${label}${suffixHtml}</div>`;
 }
 
 export function wireMenuActions(root: Element, handlers: Record<string, () => void>): void {

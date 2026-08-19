@@ -6,7 +6,7 @@
 .hud-bar {
   position: absolute;
   left: 0;
-  bottom: 0;
+  top: 0;
   width: 960px;
   height: 48px;
   display: flex;
@@ -14,9 +14,9 @@
   justify-content: space-between;
   padding: 0 16px;
   box-sizing: border-box;
-  background: rgba(10, 14, 23, 0.55);
-  color: #ffffff;
-  font: 20px sans-serif;
+  background: rgba(242, 96, 12, 0.85);
+  color: var(--pk-black);
+  font: bold 20px var(--pk-font);
 }
 
 .hud-lives {
@@ -35,5 +35,5 @@
 }
 
 .hud-timer.low {
-  color: #ff5a5a;
+  color: #7a1500;
 }

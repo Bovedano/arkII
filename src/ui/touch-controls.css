@@ -10,7 +10,7 @@
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(242, 96, 12, 0.35);
   pointer-events: auto;
   touch-action: none;
 }
@@ -23,15 +23,20 @@
   height: 56px;
   margin: -28px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(20, 20, 20, 0.55);
 }
 
-.touch-buttons {
+.touch-jump-hit {
   position: absolute;
-  right: 24px;
-  bottom: 24px;
+  right: 0px;
+  bottom: 0px;
+  width: 128px;
+  height: 128px;
   display: flex;
-  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  touch-action: none;
 }
 
 .touch-btn {
@@ -39,13 +44,13 @@
   height: 64px;
   border-radius: 50%;
   border: none;
-  background: rgba(255, 255, 255, 0.2);
-  color: #ffffff;
-  font: 16px sans-serif;
-  pointer-events: auto;
+  background: rgba(242, 96, 12, 0.4);
+  color: var(--pk-black);
+  font: 16px var(--pk-font);
+  pointer-events: none;
   touch-action: none;
 }
 
 .touch-btn.active {
-  background: rgba(255, 255, 255, 0.35);
+  background: rgba(242, 96, 12, 0.65);
 }

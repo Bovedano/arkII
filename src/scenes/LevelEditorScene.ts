@@ -195,6 +195,30 @@ export class LevelEditorScene extends Phaser.Scene {
       this.state.setPlayerStart(Math.round(x), Math.round(y));
       this.toggleSetStart();
     });
+
+    this.bindUndoRedoShortcuts();
+  }
+
+  /** Ctrl+Z / Ctrl+Y for undo/redo. Listens on `window` (not Phaser's keyboard plugin) since
+   *  most of the editor UI — including text inputs where native undo should keep working — is
+   *  real DOM, not canvas: bails out when focus is in an editable field. */
+  private bindUndoRedoShortcuts(): void {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (!event.ctrlKey || event.altKey) return;
+      const target = event.target as HTMLElement | null;
+      const tag = target?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || target?.isContentEditable) return;
+
+      if (event.key.toLowerCase() === 'z') {
+        event.preventDefault();
+        this.state.undo();
+      } else if (event.key.toLowerCase() === 'y') {
+        event.preventDefault();
+        this.state.redo();
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    this.events.once('shutdown', () => window.removeEventListener('keydown', onKeyDown));
   }
 
   private toggleSetStart(): void {

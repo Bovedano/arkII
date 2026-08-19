@@ -19,22 +19,19 @@ export class TouchInputController {
   constructor(
     scene: Phaser.Scene,
     private cursors: Phaser.Types.Input.Keyboard.CursorKeys,
-    private actionKey: Phaser.Input.Keyboard.Key,
   ) {
     this.overlay = new DomOverlay(scene, {});
     this.overlay.root.className = 'touch-controls-root';
     this.overlay.root.innerHTML = `
       <div class="touch-joystick" data-role="joystick"><div class="touch-joystick-knob"></div></div>
-      <div class="touch-buttons">
-        <button class="touch-btn" data-role="action">A</button>
-        <button class="touch-btn" data-role="jump">&#x2B06;</button>
+      <div class="touch-jump-hit" data-role="jump">
+        <button class="touch-btn">&#x2B06;</button>
       </div>
     `;
 
     this.unbindAlign = fitToCanvas(scene, this.overlay.root);
     this.wireJoystick();
     this.wireButton('jump', cursors.up);
-    this.wireButton('action', actionKey);
     scene.events.once('shutdown', () => {
       this.unbindAlign();
       this.releaseAll();
@@ -122,6 +119,5 @@ export class TouchInputController {
     this.cursors.left.onUp(fake);
     this.cursors.right.onUp(fake);
     this.cursors.up.onUp(fake);
-    this.actionKey.onUp(fake);
   }
 }

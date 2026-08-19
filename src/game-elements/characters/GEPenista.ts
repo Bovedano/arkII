@@ -89,10 +89,6 @@ export class GEPenista extends PhysicsBody(Renderable(EventCapable(GameElement<P
     return this.cursors;
   }
 
-  getActionKey(): Phaser.Input.Keyboard.Key {
-    return this.actionKey;
-  }
-
   /** Repositions and stops the character in place — used by GameScene after a fall/timeout,
    *  without recreating the element. */
   respawnAt(x: number, y: number): void {

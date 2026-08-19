@@ -6,9 +6,12 @@
 import './backgrounds/GEFixedBackground';
 import './blocks/GEColorBlock';
 import './blocks/GEArbol';
+import './blocks/GEMatorralConEspinas';
 import './blocks/GERamaAlamo';
 import './blocks/GEMesaComida';
 import './blocks/GECocheSeatIbiza';
+import './blocks/GECocheMercedesAzul';
+import './blocks/GECocheOpelInsigniaNegro';
 import './blocks/GEToyotaPickup';
 import './blocks/GEBarbacoaHumeante';
 import './blocks/GEAguaRio';

@@ -8,9 +8,12 @@ import { LevelSelectScene } from './scenes/LevelSelectScene';
 import { GameScene } from './scenes/GameScene';
 import { LevelEditorScene } from './scenes/LevelEditorScene';
 import { forceRescaleOnResize } from './ui/forceRescaleOnResize';
+import './ui/theme.css';
 import './ui/menu.css';
+import './ui/title-screen.css';
 import './ui/hud.css';
 import './ui/touch-controls.css';
+import './ui/level-complete.css';
 // Side-effect import: registers every GameElement type before any level can be loaded.
 import './game-elements/registerAll';
 
