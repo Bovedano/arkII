@@ -19,6 +19,27 @@
   font: bold 20px var(--pk-font);
 }
 
+.hud-left,
+.hud-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hud-exit,
+.hud-fullscreen {
+  pointer-events: auto;
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 4px;
+  background: var(--pk-black);
+  color: var(--pk-orange);
+  font: bold 16px var(--pk-font);
+  line-height: 1;
+}
+
 .hud-lives {
   display: flex;
   gap: 4px;

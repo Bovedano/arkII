@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { DomOverlay } from '../editor/DomOverlay';
 import { wireMenuActions } from './domMenu';
 import { formatTime } from './format';
+import { renderShareCard } from './shareCard';
 import { appConfig } from '../config/appConfig';
 
 export interface LevelCompleteOptions {
@@ -17,11 +18,13 @@ export interface LevelCompleteOptions {
  *  canvas-aligned) shown once a level's last collectible is picked up. */
 export class LevelCompleteScreen {
   private overlay: DomOverlay;
+  private cardPromise: Promise<Blob>;
 
   constructor(scene: Phaser.Scene, options: LevelCompleteOptions) {
     const { levelTitle, timeSec, isNewRecord, bestTimeSec } = options;
     const shareText = `¡He completado "${levelTitle}" en ${formatTime(timeSec)} en ${appConfig.name}!`;
     const shareUrl = window.location.href;
+    this.cardPromise = renderShareCard({ appName: appConfig.name, levelTitle, timeSec, isNewRecord });
 
     this.overlay = new DomOverlay(scene, {});
     this.overlay.root.className = 'level-complete-overlay';
@@ -34,6 +37,11 @@ export class LevelCompleteScreen {
       </div>
       <div class="level-complete-share">
         <div class="level-complete-share-label">Compartir</div>
+        <div class="level-complete-share-row">
+          <div class="menu-option share-btn share-btn-primary" data-action="share:image" data-field="share-image">
+            📤 Compartir imagen
+          </div>
+        </div>
         <div class="level-complete-share-row">
           <div class="menu-option share-btn" data-action="share:whatsapp">WhatsApp</div>
           <div class="menu-option share-btn" data-action="share:x">X</div>
@@ -48,7 +56,9 @@ export class LevelCompleteScreen {
     `;
 
     const copyEl = this.overlay.root.querySelector<HTMLElement>('[data-field="copy"]')!;
+    const shareImageEl = this.overlay.root.querySelector<HTMLElement>('[data-field="share-image"]')!;
     wireMenuActions(this.overlay.root, {
+      'share:image': () => this.shareImage(shareText, shareImageEl),
       'share:whatsapp': () =>
         window.open(`https://wa.me/?text=${encodeURIComponent(`${shareText} ${shareUrl}`)}`, '_blank', 'noopener,noreferrer'),
       'share:x': () =>

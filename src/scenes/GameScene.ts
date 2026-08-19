@@ -65,7 +65,7 @@ export class GameScene extends Phaser.Scene {
     const spawnDef = this.level.elements.find((el) => el.type === 'Penista');
     if (spawnDef) this.playerSpawn = { x: spawnDef.x, y: spawnDef.y };
     this.session = new GameSession(this.level);
-    this.hud = new Hud(this);
+    this.hud = new Hud(this, { onExit: () => this.exitToMenu() });
     if (this.wantsTouchControls() && player) {
       new TouchInputController(this, player.getCursors());
     }
@@ -73,13 +73,7 @@ export class GameScene extends Phaser.Scene {
     EventBus.on('level-event', this.levelEventHandler);
     this.events.once('shutdown', () => EventBus.off('level-event', this.levelEventHandler));
 
-    this.input.keyboard?.once('keydown-ESC', () => {
-      if (this.testMode) {
-        this.scene.start('LevelEditor', { resumeDraft: true });
-      } else {
-        this.scene.start('LevelSelect');
-      }
-    });
+    this.input.keyboard?.once('keydown-ESC', () => this.exitToMenu());
 
     if (appConfig.dev) {
       this.input.keyboard?.on('keydown-F9', () => this.toggleDebugBorders());
@@ -112,6 +106,16 @@ export class GameScene extends Phaser.Scene {
     const gameOver = this.session.loseLife();
     if (this.playerSpawn) this.player.respawnAt(this.playerSpawn.x, this.playerSpawn.y);
     if (gameOver) this.scene.start('LevelSelect');
+  }
+
+  /** Leaves the level: back to the editor draft in test mode, otherwise to LevelSelect.
+   *  Shared by the ESC key and the HUD's exit button. */
+  private exitToMenu(): void {
+    if (this.testMode) {
+      this.scene.start('LevelEditor', { resumeDraft: true });
+    } else {
+      this.scene.start('LevelSelect');
+    }
   }
 
   /** True on real touch devices, and also as a fallback on narrow windows — Chrome DevTools'

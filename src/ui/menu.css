@@ -9,6 +9,9 @@
   font-family: var(--pk-font);
   color: var(--pk-black);
   z-index: 10000;
+  overflow-y: auto;
+  padding: 1.5rem 0;
+  box-sizing: border-box;
 }
 
 .menu-title {
