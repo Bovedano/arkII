@@ -282,7 +282,7 @@ export class EditorState {
     });
   }
 
-  setLevelMeta(partial: { id?: string; title?: string }): void {
+  setLevelMeta(partial: { id?: string; title?: string; dev?: boolean }): void {
     this.withHistory(() => {
       Object.assign(this.level, partial);
       this.notify();

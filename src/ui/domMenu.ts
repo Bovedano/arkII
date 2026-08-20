@@ -2,15 +2,20 @@ export interface MenuOptionSpec {
   action: string;
   label: string;
   locked?: boolean;
-  /** Optional trailing text, e.g. a completed checkmark + best time. */
-  suffix?: string;
+  /** Best recorded time, shown as a corner medal badge when the level is completed. */
+  bestTime?: string;
 }
 
-export function renderMenuOption({ action, label, locked, suffix }: MenuOptionSpec): string {
-  const classes = ['menu-option', locked ? 'locked' : ''].filter(Boolean).join(' ');
+export function renderMenuOption({ action, label, locked, bestTime }: MenuOptionSpec): string {
+  const completed = bestTime !== undefined;
+  const classes = ['menu-option', locked ? 'locked' : '', completed ? 'completed' : '']
+    .filter(Boolean)
+    .join(' ');
   const attr = locked ? '' : ` data-action="${action}"`;
-  const suffixHtml = suffix ? ` <span class="menu-option-suffix">${suffix}</span>` : '';
-  return `<div class="${classes}"${attr}>${label}${suffixHtml}</div>`;
+  const badgeHtml = completed
+    ? `<span class="menu-option-badge">✓</span><span class="menu-option-time">${bestTime}</span>`
+    : '';
+  return `<div class="${classes}"${attr}><span class="menu-option-label">${label}</span>${badgeHtml}</div>`;
 }
 
 export function wireMenuActions(root: Element, handlers: Record<string, () => void>): void {

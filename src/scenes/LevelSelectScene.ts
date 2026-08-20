@@ -5,6 +5,7 @@ import { getGameState } from '../systems/GameState';
 import { DomOverlay } from '../editor/DomOverlay';
 import { renderMenuOption, wireMenuActions } from '../ui/domMenu';
 import { formatTime } from '../ui/format';
+import { appConfig } from '../config/appConfig';
 
 export class LevelSelectScene extends Phaser.Scene {
   constructor() {
@@ -24,13 +25,15 @@ export class LevelSelectScene extends Phaser.Scene {
       }
     }
 
-    const rows = LEVEL_REGISTRY.map((meta) => {
+    const visibleLevels = LEVEL_REGISTRY.filter((meta) => !meta.dev || appConfig.dev);
+
+    const rows = visibleLevels.map((meta) => {
       const unlockId = childLevelToUnlockId.get(meta.id);
       const locked = unlockId !== undefined && !gameState.isSublevelUnlocked(unlockId);
       const label = locked ? '??? (bloqueado)' : meta.title;
       const bestTimeSec = !locked ? gameState.getBestTimeSec(meta.id) : undefined;
-      const suffix = bestTimeSec !== undefined ? `✓ ${formatTime(bestTimeSec)}` : undefined;
-      return renderMenuOption({ action: `level:${meta.id}`, label, locked, suffix });
+      const bestTime = bestTimeSec !== undefined ? formatTime(bestTimeSec) : undefined;
+      return renderMenuOption({ action: `level:${meta.id}`, label, locked, bestTime });
     });
 
     const overlay = new DomOverlay(this, {});
@@ -42,7 +45,7 @@ export class LevelSelectScene extends Phaser.Scene {
     `;
 
     const handlers: Record<string, () => void> = { back: () => this.scene.start('MainMenu') };
-    for (const meta of LEVEL_REGISTRY) {
+    for (const meta of visibleLevels) {
       handlers[`level:${meta.id}`] = () => this.scene.start('Game', { levelId: meta.id });
     }
     wireMenuActions(overlay.root, handlers);

@@ -3,6 +3,7 @@
 export const LEVEL_01_TEXT = `{
   "id": "level-01",
   "title": "Nivel 1",
+  "dev": true,
   "config": { "width": 1600, "height": 540, "gravity": 600, "background": "#4a7fc9" },
   "sublevels": [
     { "id": "cueva_secreta", "level": "level-01b", "unlockOn": "switch1:on" }

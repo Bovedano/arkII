@@ -22,6 +22,8 @@ const DRAFT_OPTION_VALUE = '__draft__';
 interface LevelEditorSceneData {
   /** Set when returning from "Probar nivel" (GameScene ESC) — resumes the saved draft directly. */
   resumeDraft?: boolean;
+  /** Set after importing a level JSON file — opens the editor straight into that level. */
+  presetLevel?: LevelDefinition;
 }
 
 export class LevelEditorScene extends Phaser.Scene {
@@ -35,6 +37,10 @@ export class LevelEditorScene extends Phaser.Scene {
   }
 
   create(data: LevelEditorSceneData): void {
+    if (data?.presetLevel) {
+      this.buildEditor(undefined, data.presetLevel);
+      return;
+    }
     const draft = data?.resumeDraft ? EditorDraftStore.load() : null;
     if (draft) {
       this.buildEditor(undefined, draft);
@@ -172,6 +178,16 @@ export class LevelEditorScene extends Phaser.Scene {
       .on('pointerdown', () => LevelExport.download(this.state.level));
 
     this.add
+      .text(700, 480, 'Importar JSON', {
+        fontSize: '14px',
+        color: '#ffd24a',
+        backgroundColor: '#20202c',
+        padding: { x: 6, y: 4 },
+      })
+      .setInteractive({ useHandCursor: true })
+      .on('pointerdown', () => this.importLevelFromFile());
+
+    this.add
       .text(170, 510, 'Probar nivel', {
         fontSize: '14px',
         color: '#4ac9ff',
@@ -197,6 +213,35 @@ export class LevelEditorScene extends Phaser.Scene {
     });
 
     this.bindUndoRedoShortcuts();
+  }
+
+  /** Opens a native file picker for a previously-downloaded level JSON, then restarts the
+   *  scene straight into that level (mirrors how "Cambiar nivel" restarts to swap levels). */
+  private importLevelFromFile(): void {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'application/json,.json';
+    input.style.display = 'none';
+    input.addEventListener('change', () => {
+      const file = input.files?.[0];
+      input.remove();
+      if (!file) return;
+      file
+        .text()
+        .then((text) => {
+          let level: LevelDefinition;
+          try {
+            level = LevelLoader.parse(text);
+          } catch {
+            window.alert('El archivo no es un JSON de nivel válido.');
+            return;
+          }
+          this.scene.start('LevelEditor', { presetLevel: level });
+        })
+        .catch(() => window.alert('No se pudo leer el archivo.'));
+    });
+    document.body.appendChild(input);
+    input.click();
   }
 
   /** Ctrl+Z / Ctrl+Y for undo/redo. Listens on `window` (not Phaser's keyboard plugin) since

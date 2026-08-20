@@ -7,6 +7,8 @@ import {
 } from '../systems/animations';
 import { BACKGROUND_ASSETS } from '../config/backgroundAssets';
 import { FLOOR_THEMES } from '../config/floorThemes';
+import { appConfig } from '../config/appConfig';
+import { DomOverlay } from '../editor/DomOverlay';
 
 const RUN_FRAMES = 4; // frame_000..003
 const JUMP_FRAMES = 8; // frame_000..007
@@ -18,9 +20,24 @@ export class PreloadScene extends Phaser.Scene {
 
   preload(): void {
     this.cameras.main.setBackgroundColor('#f2600c');
-    const bar = this.add.rectangle(480, 270, 4, 32, 0x141414);
+
+    const overlay = new DomOverlay(this, {});
+    overlay.root.className = 'menu-overlay title-screen';
+    overlay.root.innerHTML = `
+      <div class="title-scene-bg" aria-hidden="true"></div>
+      <div class="title-scanlines" aria-hidden="true"></div>
+      <div class="title-content">
+        <div class="menu-title title-logo">${appConfig.name}</div>
+        <div class="title-tagline">cargando...</div>
+        <div class="loading-bar-track"><div class="loading-bar-fill"></div></div>
+        <div class="loading-percent">0%</div>
+      </div>
+    `;
+    const fill = overlay.root.querySelector<HTMLDivElement>('.loading-bar-fill')!;
+    const percent = overlay.root.querySelector<HTMLDivElement>('.loading-percent')!;
     this.load.on('progress', (value: number) => {
-      bar.width = 4 + 460 * value;
+      fill.style.width = `${Math.round(value * 100)}%`;
+      percent.textContent = `${Math.round(value * 100)}%`;
     });
 
     for (const dir of ['east', 'west'] as const) {

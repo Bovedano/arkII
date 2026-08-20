@@ -34,6 +34,7 @@ export class LevelConfigPanel {
         <strong>Nivel</strong>
         <label style="display:flex;justify-content:space-between;">Id <input type="text" data-field="id" value="${level.id}" style="width:100px;" /></label>
         <label style="display:flex;justify-content:space-between;">Título <input type="text" data-field="title" value="${level.title}" style="width:100px;" /></label>
+        <label style="display:flex;justify-content:space-between;">Dev <input type="checkbox" data-field="dev" ${level.dev ? 'checked' : ''} /></label>
         <label style="display:flex;justify-content:space-between;">Ancho <input type="number" data-field="width" value="${level.config.width}" style="width:70px;" /></label>
         <label style="display:flex;justify-content:space-between;">Alto <input type="number" data-field="height" value="${level.config.height}" style="width:70px;" /></label>
         <label style="display:flex;justify-content:space-between;">Gravedad <input type="number" data-field="gravity" value="${level.config.gravity}" style="width:70px;" /></label>
@@ -65,6 +66,9 @@ export class LevelConfigPanel {
     });
     node.querySelector<HTMLInputElement>('input[data-field="title"]')?.addEventListener('change', (event) => {
       this.state.setLevelMeta({ title: (event.target as HTMLInputElement).value });
+    });
+    node.querySelector<HTMLInputElement>('input[data-field="dev"]')?.addEventListener('change', (event) => {
+      this.state.setLevelMeta({ dev: (event.target as HTMLInputElement).checked });
     });
     node.querySelector<HTMLInputElement>('input[data-field="width"]')?.addEventListener('change', (event) => {
       this.state.setLevelConfig({ width: Number((event.target as HTMLInputElement).value) });

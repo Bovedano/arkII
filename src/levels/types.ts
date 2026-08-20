@@ -72,6 +72,8 @@ export interface GroupInstanceDef {
 export interface LevelDefinition {
   id: string;
   title: string;
+  /** Marks the level as dev-only: it's hidden from the level select menu unless appConfig.dev is true. */
+  dev?: boolean;
   config: LevelConfig;
   sublevels?: SublevelDef[];
   elements: LevelElementDef[];

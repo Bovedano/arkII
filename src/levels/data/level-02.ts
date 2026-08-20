@@ -3,6 +3,7 @@
 export const LEVEL_02_TEXT = `{
   "id": "level-mrvwo79q",
   "title": "Nuevo nivel",
+  "dev": true,
   "config": {
     "width": 960,
     "height": 900,

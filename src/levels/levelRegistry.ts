@@ -3,6 +3,8 @@ import type { LevelDefinition } from './types';
 export interface LevelMeta {
   id: string;
   title: string;
+  /** Dev-only levels are hidden from the level select menu unless appConfig.dev is true. */
+  dev: boolean;
   /** Plain-text (JSON) level definition — hardcoded today, a DB column tomorrow. */
   text: string;
 }
@@ -18,7 +20,7 @@ export const LEVEL_REGISTRY: LevelMeta[] = Object.entries(modules).map(([path, m
     throw new Error(`El archivo de nivel "${path}" debe exportar exactamente una constante string.`);
   }
   const parsed = JSON.parse(text) as LevelDefinition;
-  return { id: parsed.id, title: parsed.title, text };
+  return { id: parsed.id, title: parsed.title, dev: parsed.dev ?? false, text };
 });
 
 export function getLevelText(id: string): string {

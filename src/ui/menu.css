@@ -32,6 +32,7 @@
 }
 
 .menu-option {
+  position: relative;
   font-size: 1.5rem;
   font-weight: 700;
   cursor: pointer;
@@ -63,10 +64,42 @@
   cursor: default;
 }
 
-.menu-option-suffix {
-  font-size: 0.75em;
-  font-weight: 400;
-  color: rgba(20, 20, 20, 0.6);
+.menu-option.completed {
+  padding-right: 1.6em;
+}
+
+.menu-option-label {
+  display: inline-block;
+}
+
+.menu-option-badge {
+  position: absolute;
+  top: -0.7em;
+  right: -0.7em;
+  width: 1.6em;
+  height: 1.6em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--pk-black);
+  background: var(--pk-gold);
+  border: 3px solid var(--pk-black);
+  border-radius: 50%;
+  box-shadow: 2px 2px 0 rgba(20, 20, 20, 0.35);
+  transform: rotate(12deg);
+  pointer-events: none;
+}
+
+.menu-option-time {
+  display: block;
+  margin-top: 0.2em;
+  font-size: 0.6em;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: inherit;
+  opacity: 0.7;
 }
 
 .menu-back {
