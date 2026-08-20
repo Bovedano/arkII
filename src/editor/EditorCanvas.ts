@@ -114,10 +114,17 @@ export class EditorCanvas {
   private lastPointerX = 0;
   private lastPointerY = 0;
 
-  constructor(scene: Phaser.Scene, state: EditorState, rect: ViewportRect) {
+  /** @param hasRestoredView - True when `state.zoom`/`panX`/`panY` were just restored from
+   *  EditorViewStore, so the first render() must not clobber them with an auto-fit — see the
+   *  width/height-change check in render(). */
+  constructor(scene: Phaser.Scene, state: EditorState, rect: ViewportRect, hasRestoredView = false) {
     this.scene = scene;
     this.state = state;
     this.rect = rect;
+    if (hasRestoredView) {
+      this.lastWidth = state.level.config.width;
+      this.lastHeight = state.level.config.height;
+    }
 
     this.background = scene.add
       .rectangle(rect.x, rect.y, rect.width, rect.height, 0x000000, 0)

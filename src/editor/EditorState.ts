@@ -61,7 +61,7 @@ export class EditorState {
     const level: LevelDefinition = {
       id,
       title: 'Nuevo nivel',
-      config: { width: 960, height: 540, gravity: 600, background: '#4a7fc9' },
+      config: { width: 1200, height: 540, gravity: 600, background: '#4a7fc9' },
       sublevels: [],
       groups: [],
       groupInstances: [],
@@ -70,7 +70,7 @@ export class EditorState {
           type: 'ColorBlock',
           x: 0,
           y: 500,
-          params: { width: 960, height: 40, color: '#4a3728', zIndex: 0, behavior: 'solid' },
+          params: { width: 1200, height: 40, color: '#4a3728', zIndex: 0, behavior: 'solid' },
         },
         { type: 'Penista', x: 100, y: 400, params: { zIndex: 10, behavior: 'solid' } },
       ],
@@ -239,6 +239,27 @@ export class EditorState {
       def.y = y;
       Object.assign(def.params, paramUpdates);
       this.notify();
+    });
+  }
+
+  /** Clones the element at `index` with identical params, placed just to its right (offset by
+   *  its `width` param when present, else a flat fallback), and selects the new copy. */
+  duplicateElement(index: number): number {
+    return this.withHistory(() => {
+      const source = this.activeElements[index];
+      if (!source) return index;
+      const offsetX = typeof source.params.width === 'number' ? source.params.width : 40;
+      const copy: LevelElementDef = {
+        ...source,
+        id: `${source.type}-${Date.now().toString(36)}`,
+        x: source.x + offsetX,
+        params: { ...source.params },
+      };
+      this.activeElements.splice(index + 1, 0, copy);
+      this.selectedIndex = index + 1;
+      this.multiSelected = new Set([this.selectedIndex]);
+      this.notify();
+      return this.selectedIndex;
     });
   }
 

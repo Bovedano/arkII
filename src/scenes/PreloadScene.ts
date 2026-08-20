@@ -4,8 +4,10 @@ import {
   registerBarbacoaHumeanteAnimations,
   registerAguaRioAnimations,
   registerPajaroBlancoAnimations,
+  registerEsporaDienteLeonAnimations,
 } from '../systems/animations';
 import { BACKGROUND_ASSETS } from '../config/backgroundAssets';
+import { ARBOL_VARIANTS } from '../config/arbolVariants';
 import { FLOOR_THEMES } from '../config/floorThemes';
 import { appConfig } from '../config/appConfig';
 import { DomOverlay } from '../editor/DomOverlay';
@@ -51,7 +53,9 @@ export class PreloadScene extends Phaser.Scene {
     }
 
     this.load.image('cerveza-estrella', 'assets/collectibles/cerveza-estrella.png');
-    this.load.image('arbol', 'assets/blocks/arbol.png');
+    for (const file of ARBOL_VARIANTS) {
+      this.load.image(file, `assets/blocks/arbol/${file}`);
+    }
     this.load.image('matorral-con-espinas', 'assets/blocks/matorral-con-espinas.png');
     this.load.image('rama-alamo', 'assets/blocks/rama-alamo.png');
     this.load.image('mesa-comida', 'assets/blocks/mesa-comida.png');
@@ -71,6 +75,12 @@ export class PreloadScene extends Phaser.Scene {
         this.load.image(`pajaro-blanco-fly-${dir}-${i}`, `assets/pajaro-blanco/fly/${dir}-${i}.png`);
       }
     }
+    for (let i = 0; i < 8; i++) {
+      this.load.image(`espora-diente-leon-${i}`, `assets/espora-diente-leon/frame-${i}.png`);
+    }
+    for (let i = 0; i < 7; i++) {
+      this.load.image(`espora-diente-leon-fly-${i}`, `assets/espora-diente-leon/fly-${i}.png`);
+    }
 
     for (const file of BACKGROUND_ASSETS) {
       this.load.image(file, `assets/backgrounds/${file}`);
@@ -89,6 +99,7 @@ export class PreloadScene extends Phaser.Scene {
     registerBarbacoaHumeanteAnimations(this);
     registerAguaRioAnimations(this);
     registerPajaroBlancoAnimations(this);
+    registerEsporaDienteLeonAnimations(this);
     this.scene.start('MainMenu');
   }
 }

@@ -30,6 +30,11 @@ export interface GameElementParams {
   /** Vertical mirror. Applied generically by the Renderable mixin (see setVisual) —
    *  every type gets it for free, defaulted to false by GameElementRegistry.register(). */
   flipY?: boolean;
+  /** When true (and `behavior` is 'solid' or 'semisolid'), the player rides along with this
+   *  element's own movement while standing on top of it — a moving platform. Wired generically
+   *  by GameScene.tickCarriers(), defaulted to false by GameElementRegistry.register(). Has no
+   *  effect on elements that never move (nothing to carry the player along with). */
+  carry?: boolean;
   [key: string]: unknown;
 }
 

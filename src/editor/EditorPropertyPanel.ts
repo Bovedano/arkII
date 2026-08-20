@@ -83,12 +83,16 @@ export class EditorPropertyPanel {
         <label style="display:flex;justify-content:space-between;">zIndex <input type="number" data-field="zIndex" value="${def.params.zIndex}" style="width:70px;" /></label>
         <label style="display:flex;justify-content:space-between;">behavior <select data-field="behavior">${behaviorOptions}</select></label>
         <label style="display:flex;justify-content:space-between;">hidden <input type="checkbox" data-field="hidden" ${def.params.hidden ? 'checked' : ''} /></label>
+        <label style="display:flex;justify-content:space-between;">Carry (arrastra al jugador) <input type="checkbox" data-field="carry" ${def.params.carry ? 'checked' : ''} /></label>
         <label style="display:flex;justify-content:space-between;">Escala <input type="number" step="0.1" data-field="scale" value="${def.params.scale ?? 1}" style="width:70px;" /></label>
         <label style="display:flex;justify-content:space-between;">Rotación <input type="number" step="1" data-field="rotation" value="${def.params.rotation ?? 0}" style="width:70px;" /></label>
         <label style="display:flex;justify-content:space-between;">Espejo H <input type="checkbox" data-field="flipX" ${def.params.flipX ? 'checked' : ''} /></label>
         <label style="display:flex;justify-content:space-between;">Espejo V <input type="checkbox" data-field="flipY" ${def.params.flipY ? 'checked' : ''} /></label>
         ${schemaFields}
-        <button data-action="delete" style="margin-top:6px;">Eliminar</button>
+        <div style="display:flex;gap:4px;margin-top:6px;">
+          <button data-action="duplicate" style="flex:1;">Duplicar</button>
+          <button data-action="delete" style="flex:1;">Eliminar</button>
+        </div>
       </div>
     `;
 
@@ -134,6 +138,10 @@ export class EditorPropertyPanel {
       if (checked) this.state.updateElementParam(index, 'behavior', 'solid');
     });
 
+    node.querySelector<HTMLInputElement>('input[data-field="carry"]')?.addEventListener('change', (event) => {
+      this.state.updateElementParam(index, 'carry', (event.target as HTMLInputElement).checked);
+    });
+
     node.querySelectorAll<HTMLInputElement>('input[data-key]').forEach((input) => {
       input.addEventListener('change', () => {
         const key = input.dataset.key as string;
@@ -148,6 +156,10 @@ export class EditorPropertyPanel {
         const key = select.dataset.key as string;
         this.state.updateElementParam(index, key, select.value);
       });
+    });
+
+    node.querySelector('button[data-action="duplicate"]')?.addEventListener('click', () => {
+      this.state.duplicateElement(index);
     });
 
     node.querySelector('button[data-action="delete"]')?.addEventListener('click', () => {

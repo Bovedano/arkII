@@ -102,3 +102,26 @@ export function registerPajaroBlancoAnimations(scene: Phaser.Scene): void {
     repeat: -1,
   });
 }
+
+export const ESPORA_DIENTE_LEON_TEXTURE_KEYS = [0, 1, 2, 3, 4, 5, 6, 7].map((i) => `espora-diente-leon-${i}`);
+export const ESPORA_DIENTE_LEON_FLY_TEXTURE_KEYS = [0, 1, 2, 3, 4, 5, 6].map((i) => `espora-diente-leon-fly-${i}`);
+export const ESPORA_DIENTE_LEON_GROUND_ANIM_KEY = 'espora-diente-leon-ground';
+export const ESPORA_DIENTE_LEON_FLY_ANIM_KEY = 'espora-diente-leon-fly';
+
+/** Registers a slow idle loop (grounded, 8 "float" frames) and a separate loop for flying
+ *  (7 "sway" frames) — two distinct source animations, not the same frames at different speeds.
+ *  Called once from PreloadScene.create(). */
+export function registerEsporaDienteLeonAnimations(scene: Phaser.Scene): void {
+  scene.anims.create({
+    key: ESPORA_DIENTE_LEON_GROUND_ANIM_KEY,
+    frames: ESPORA_DIENTE_LEON_TEXTURE_KEYS.map((key) => ({ key })),
+    frameRate: 4,
+    repeat: -1,
+  });
+  scene.anims.create({
+    key: ESPORA_DIENTE_LEON_FLY_ANIM_KEY,
+    frames: ESPORA_DIENTE_LEON_FLY_TEXTURE_KEYS.map((key) => ({ key })),
+    frameRate: 10,
+    repeat: -1,
+  });
+}

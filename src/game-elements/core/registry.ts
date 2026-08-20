@@ -14,7 +14,7 @@ class GameElementRegistryImpl {
     // declaration.
     this.metas.set(type, {
       ...meta,
-      defaultParams: { scale: 1, rotation: 0, flipX: false, flipY: false, ...meta.defaultParams },
+      defaultParams: { scale: 1, rotation: 0, flipX: false, flipY: false, carry: false, ...meta.defaultParams },
     });
   }
 

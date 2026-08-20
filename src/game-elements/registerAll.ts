@@ -18,5 +18,6 @@ import './blocks/GEAguaRio';
 import './blocks/GEFloor';
 import './characters/GEPenista';
 import './interactive/GESwitch';
+import './interactive/GEEsporaDienteLeon';
 import './collectibles/GECervezaEstrella';
 import './enemies/GEPajaroBlanco';

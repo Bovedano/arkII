@@ -14,7 +14,7 @@ import { LevelCompleteScreen } from '../ui/LevelCompleteScreen';
 
 interface WithVisualAndParams extends GameElementLike {
   visual: Phaser.GameObjects.GameObject;
-  params: { behavior?: string };
+  params: { behavior?: string; carry?: boolean };
   trigger?: () => void;
 }
 
@@ -37,6 +37,7 @@ export class GameScene extends Phaser.Scene {
   private levelEventHandler = (eventKey: string) => this.onLevelEvent(eventKey);
   private player?: GEPenista;
   private playerSpawn?: { x: number; y: number };
+  private carriers: WithVisualAndParams[] = [];
   private session!: GameSession;
   private hud!: Hud;
   private completed = false;
@@ -86,6 +87,7 @@ export class GameScene extends Phaser.Scene {
     for (let i = 0; i < this.elements.length; i++) {
       this.elements[i].update?.(time, delta);
     }
+    this.tickCarriers();
 
     const timedOut = this.session.tick(delta);
     this.checkFall();
@@ -148,6 +150,7 @@ export class GameScene extends Phaser.Scene {
 
   /** Wires collision/overlap between the player and every other element, driven by `behavior`. */
   private wireBehaviorInteractions(player: GEPenista): void {
+    this.carriers = [];
     for (const el of this.elements) {
       if (el === player) continue;
       const withVisual = el as unknown as WithVisualAndParams;
@@ -164,6 +167,57 @@ export class GameScene extends Phaser.Scene {
           this.isLandingFromAbove(player, withVisual.visual),
         );
       }
+
+      // A moving platform: any 'solid'/'semisolid' element opting in via the generic `carry`
+      // param gets checked every frame in tickCarriers() so the player rides along with it.
+      if (withVisual.params?.carry && (behavior === 'solid' || behavior === 'semisolid')) {
+        this.carriers.push(withVisual);
+      }
+    }
+  }
+
+  /** Nudges the player by each carry-enabled element's own physics-step movement this frame,
+   *  if the player is currently resting on top of it — Arcade's own collision resolution
+   *  doesn't carry a rider along a moving platform on its own. `body.deltaX()/deltaY()` is
+   *  Phaser's own record of how far the body moved during *this physics step* specifically
+   *  (set before any element's update() runs, i.e. before Scene.update() even starts) — so it
+   *  naturally ignores anything an element does to itself afterwards, like a teleport-style
+   *  reset, instead of carrying that jump onto the player too. */
+  private tickCarriers(): void {
+    if (!this.player || this.carriers.length === 0) return;
+    const playerBody = this.player.visual.body as Phaser.Physics.Arcade.Body;
+
+    for (const carrier of this.carriers) {
+      const body = (carrier.visual as Phaser.Types.Physics.Arcade.GameObjectWithBody).body as Phaser.Physics.Arcade.Body;
+      const dx = body.deltaX();
+      const dy = body.deltaY();
+      if (dx === 0 && dy === 0) continue;
+
+      const standingOnMe =
+        playerBody.touching.down &&
+        playerBody.bottom <= body.top + 4 &&
+        playerBody.right > body.left &&
+        playerBody.left < body.right;
+      // TEMP DEBUG — remove once the "doesn't carry horizontally" bug is found. Paste the
+      // console output (while riding a horizontal flight) back so it can be diagnosed.
+      // eslint-disable-next-line no-console
+      console.log('[carry]', {
+        dx: dx.toFixed(2),
+        dy: dy.toFixed(2),
+        standingOnMe,
+        touchingDown: playerBody.touching.down,
+        playerBottom: playerBody.bottom.toFixed(1),
+        carrierTop: body.top.toFixed(1),
+        playerLeft: playerBody.left.toFixed(1),
+        playerRight: playerBody.right.toFixed(1),
+        carrierLeft: body.left.toFixed(1),
+        carrierRight: body.right.toFixed(1),
+      });
+      if (!standingOnMe) continue;
+
+      const playerVisual = this.player.visual as Phaser.GameObjects.GameObject & { x: number; y: number };
+      playerVisual.x += dx;
+      playerVisual.y += dy;
     }
   }
 

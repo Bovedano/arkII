@@ -128,7 +128,7 @@ export class LevelEditorScene extends Phaser.Scene {
 
     this.add.text(480, 12, 'Editor de Niveles', { fontSize: '18px', color: '#ffffff' }).setOrigin(0.5, 0);
 
-    this.canvas = new EditorCanvas(this, this.state, CANVAS_RECT);
+    this.canvas = new EditorCanvas(this, this.state, CANVAS_RECT, !!savedView);
     new EditorPalette(this, this.state, this.canvas, { x: 10, y: 90, width: 150 });
 
     // Side panels live in #editor-sidebar, a real flexbox column sibling of the game canvas
