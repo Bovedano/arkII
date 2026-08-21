@@ -41,23 +41,6 @@ interface GroupInstanceVisual {
   handles: HandlePair;
 }
 
-/** Gates a group instance's corner-handle `drag`/`dragend` handlers to the instance currently
- *  being dragged — mirrors HandleMoveState/ResizeState's role for single-element handles. The
- *  wrapper itself (the group's body) is deliberately inert, same as a single element's body —
- *  only these corner handles can move the group, so an accidental click-drag on the group's
- *  body never displaces it. Positions are captured fresh at drag start (pointerdown), not read
- *  from the wrapper-creation closure — after a prior move, that closure's bounds/child
- *  positions are stale, so deltas computed against them would double-count the earlier move. */
-interface GroupHandleMoveState {
-  instanceIndex: number;
-  handleStartX: number;
-  handleStartY: number;
-  startWrapperX: number;
-  startWrapperY: number;
-  startChildX: number[];
-  startChildY: number[];
-}
-
 const DOUBLE_CLICK_MS = 300;
 
 interface ResizeState {
@@ -73,14 +56,36 @@ interface ResizeState {
   lastY: number;
 }
 
-/** A plain (non-ctrl) drag on a corner handle translates the element instead of resizing it —
- *  tracked as a plain pointer-delta applied to the visual's start position. */
-interface HandleMoveState {
-  index: number;
+/** A plain (non-ctrl) drag on a corner handle translates the pointed-to item(s) instead of
+ *  resizing — tracked as a plain pointer-delta applied to each item's start position(s).
+ *  Elements and placed group instances share this one state shape: dragging a handle that
+ *  belongs to an item inside an active multi-selection (shift-click) moves *every* selected
+ *  item together as one rigid block, regardless of whether it's an element, a group instance,
+ *  or a mix of both — so `elements`/`groups` are independent arrays, not a single-kind list.
+ *  Positions are captured fresh at drag start (pointerdown), not read from render-time state —
+ *  after a prior move, that would be stale and deltas computed against it would double-count
+ *  the earlier move. */
+interface MultiMoveState {
+  /** Identifies the literal handle whose Phaser `drag`/`dragend` events drive this state —
+   *  every other handle's listeners bail out when their own (kind, index) doesn't match. */
+  primaryKind: 'element' | 'group';
+  primaryIndex: number;
   handleStartX: number;
   handleStartY: number;
-  visualStartX: number;
-  visualStartY: number;
+  elements: { index: number; startX: number; startY: number }[];
+  groups: {
+    index: number;
+    startWrapperX: number;
+    startWrapperY: number;
+    startChildX: number[];
+    startChildY: number[];
+    /** The instance's own `level.groupInstances[index].x/y` at drag start — the wrapper's
+     *  bounds don't coincide with this, so committing the move needs both: the wrapper's
+     *  movement gives the delta, which is then applied to this starting instance position
+     *  (mirrors the single-instance dragend logic this replaced). */
+    startInstX: number;
+    startInstY: number;
+  }[];
 }
 
 const HANDLE_SIZE = 14;
@@ -103,9 +108,8 @@ export class EditorCanvas {
   private instances: EditorElement[] = [];
   private handles: HandlePair[] = [];
   private resizeState: ResizeState | null = null;
-  private handleMoveState: HandleMoveState | null = null;
+  private multiMoveState: MultiMoveState | null = null;
   private groupInstanceVisuals: GroupInstanceVisual[] = [];
-  private groupHandleMoveState: GroupHandleMoveState | null = null;
   private lastGroupClickAt: Map<number, number> = new Map();
   private multiSelectionBoxes: Phaser.GameObjects.Rectangle[] = [];
   private lastWidth: number | null = null;
@@ -206,6 +210,25 @@ export class EditorCanvas {
     this.render();
   }
 
+  /** Refits zoom/pan to frame the currently active content — the level bounds normally, or the
+   *  open group's own elements while in group-edit mode — mirroring the auto-fit render() does
+   *  the first time a level/group is opened (see the width/height-change check there). Exposed
+   *  for a "Restaurar vista" button so a pan/zoom the user has lost track of (panned or zoomed
+   *  far off the content) can always be recovered without leaving the editor. */
+  resetView(): void {
+    if (this.state.editingGroupId) {
+      const elements = this.state.activeElements;
+      const padding = 200;
+      const fitWidth = Math.max(...elements.map((el) => el.x), 0) + padding;
+      const fitHeight = Math.max(...elements.map((el) => el.y), 0) + padding;
+      this.state.setZoom(Math.min(this.rect.width / fitWidth, this.rect.height / fitHeight, 1));
+    } else {
+      const { width, height } = this.state.level.config;
+      this.state.setZoom(Math.min(this.rect.width / width, this.rect.height / height, 1));
+    }
+    this.state.setPan(0, 0);
+  }
+
   /** Converts a screen-space point (e.g. pointer.x/y) into level-space coordinates. */
   screenToLevel(screenX: number, screenY: number): { x: number; y: number } {
     return {
@@ -288,8 +311,7 @@ export class EditorCanvas {
     }
     this.handles = [];
     this.resizeState = null;
-    this.handleMoveState = null;
-    this.groupHandleMoveState = null;
+    this.multiMoveState = null;
     for (const giv of this.groupInstanceVisuals) {
       for (const visual of giv.childVisuals) (visual as unknown as Phaser.GameObjects.GameObject).destroy();
       giv.wrapper.destroy();
@@ -484,54 +506,145 @@ export class EditorCanvas {
     return { tl, br };
   }
 
+  /** Captures drag-start state for a plain handle drag on `primaryKind`/`primaryIndex`. When
+   *  that item is part of an active multi-selection (total selected across both kinds > 1),
+   *  every selected element AND group instance is captured, so the whole mixed selection drags
+   *  as one rigid block; otherwise just the single clicked item is captured. */
+  private buildMultiMoveState(
+    primaryKind: 'element' | 'group',
+    primaryIndex: number,
+    handle: Phaser.GameObjects.Rectangle,
+  ): MultiMoveState {
+    const totalSelected = this.state.multiSelected.size + this.state.multiSelectedGroupInstances.size;
+    const isPartOfMultiSelection =
+      totalSelected > 1 &&
+      (primaryKind === 'element'
+        ? this.state.multiSelected.has(primaryIndex)
+        : this.state.multiSelectedGroupInstances.has(primaryIndex));
+
+    const elementIndices = isPartOfMultiSelection
+      ? [...this.state.multiSelected]
+      : primaryKind === 'element'
+        ? [primaryIndex]
+        : [];
+    const groupIndices = isPartOfMultiSelection
+      ? [...this.state.multiSelectedGroupInstances]
+      : primaryKind === 'group'
+        ? [primaryIndex]
+        : [];
+
+    return {
+      primaryKind,
+      primaryIndex,
+      handleStartX: handle.x,
+      handleStartY: handle.y,
+      elements: elementIndices.map((index) => {
+        const inst = this.instances[index];
+        return { index, startX: inst?.visual.x ?? 0, startY: inst?.visual.y ?? 0 };
+      }),
+      groups: groupIndices.map((index) => {
+        const giv = this.groupInstanceVisuals[index];
+        const inst = this.state.level.groupInstances?.[index];
+        return {
+          index,
+          startWrapperX: giv?.wrapper.x ?? 0,
+          startWrapperY: giv?.wrapper.y ?? 0,
+          startChildX: giv?.childVisuals.map((v) => v.x) ?? [],
+          startChildY: giv?.childVisuals.map((v) => v.y) ?? [],
+          startInstX: inst?.x ?? 0,
+          startInstY: inst?.y ?? 0,
+        };
+      }),
+    };
+  }
+
+  /** Live drag preview: applies a pointer delta to every element/group-instance captured in
+   *  `multiMoveState`, keeping the whole selection moving together as one rigid block. */
+  private applyMultiMoveDelta(dx: number, dy: number): void {
+    const move = this.multiMoveState;
+    if (!move) return;
+    for (const el of move.elements) {
+      const inst = this.instances[el.index];
+      if (!inst) continue;
+      inst.visual.x = el.startX + dx;
+      inst.visual.y = el.startY + dy;
+      this.repositionHandles(el.index);
+    }
+    for (const g of move.groups) {
+      const giv = this.groupInstanceVisuals[g.index];
+      if (!giv) continue;
+      for (let i = 0; i < giv.childVisuals.length; i++) {
+        giv.childVisuals[i].x = g.startChildX[i] + dx;
+        giv.childVisuals[i].y = g.startChildY[i] + dy;
+      }
+      giv.wrapper.setPosition(g.startWrapperX + dx, g.startWrapperY + dy);
+      this.repositionGroupHandles(g.index);
+    }
+    this.updateSelectionBox();
+  }
+
+  /** Commits a finished multi-move into the level definition, as a single undo step covering
+   *  every moved element and group instance (see EditorState.moveSelection). */
+  private commitMultiMove(): void {
+    const move = this.multiMoveState;
+    this.multiMoveState = null;
+    if (!move) return;
+
+    const elementMoves = move.elements
+      .map((el) => {
+        const inst = this.instances[el.index];
+        return inst ? { index: el.index, x: inst.visual.x, y: inst.visual.y } : null;
+      })
+      .filter((m): m is { index: number; x: number; y: number } => m !== null);
+
+    const groupMoves = move.groups
+      .map((g) => {
+        const giv = this.groupInstanceVisuals[g.index];
+        if (!giv) return null;
+        const dx = giv.wrapper.x - g.startWrapperX;
+        const dy = giv.wrapper.y - g.startWrapperY;
+        return { index: g.index, x: g.startInstX + dx, y: g.startInstY + dy };
+      })
+      .filter((m): m is { index: number; x: number; y: number } => m !== null);
+
+    if (elementMoves.length === 0 && groupMoves.length === 0) return;
+    this.state.moveSelection(elementMoves, groupMoves);
+  }
+
   private wireGroupHandle(handle: Phaser.GameObjects.Rectangle, instanceIndex: number): void {
     handle.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
       if (!pointer.leftButtonDown()) return;
-      this.state.selectGroupInstance(instanceIndex);
-      const giv = this.groupInstanceVisuals[instanceIndex];
-      if (!giv) return;
-      this.groupHandleMoveState = {
-        instanceIndex,
-        handleStartX: handle.x,
-        handleStartY: handle.y,
-        startWrapperX: giv.wrapper.x,
-        startWrapperY: giv.wrapper.y,
-        startChildX: giv.childVisuals.map((v) => v.x),
-        startChildY: giv.childVisuals.map((v) => v.y),
-      };
+
+      // Shift-click a handle toggles this instance into/out of the multi-selection (mirrors
+      // the per-element handle below), so it can be dragged together with other selected
+      // elements/instances, or fed into a future multi-kind action.
+      if ((pointer.event as MouseEvent | undefined)?.shiftKey) {
+        this.state.toggleSelectGroupInstance(instanceIndex);
+        return;
+      }
+
+      // An instance already part of an active multi-selection keeps that selection intact (so
+      // the drag below moves the whole group of items) — collapsing to a single selection only
+      // happens when the clicked instance isn't part of one.
+      const totalSelected = this.state.multiSelected.size + this.state.multiSelectedGroupInstances.size;
+      const isPartOfMultiSelection = totalSelected > 1 && this.state.multiSelectedGroupInstances.has(instanceIndex);
+      if (!isPartOfMultiSelection) this.state.selectGroupInstance(instanceIndex);
+
+      this.multiMoveState = this.buildMultiMoveState('group', instanceIndex, handle);
     });
     // dragX/dragY are already in local (container) space, same convention as the per-element
-    // drag handler above — applying the handle's own delta (measured from drag-start, not
-    // from the possibly-stale render-time bounds) to the wrapper and every child keeps them
-    // moving together as one rigid block.
+    // drag handler above.
     handle.on('drag', (...args: unknown[]) => {
       const [pointer, dragX, dragY] = args as [Phaser.Input.Pointer, number, number];
       if (!pointer.leftButtonDown()) return;
-      const move = this.groupHandleMoveState;
-      if (!move || move.instanceIndex !== instanceIndex) return;
-      const dx = dragX - move.handleStartX;
-      const dy = dragY - move.handleStartY;
-      const giv = this.groupInstanceVisuals[instanceIndex];
-      if (giv) {
-        for (let i = 0; i < giv.childVisuals.length; i++) {
-          giv.childVisuals[i].x = move.startChildX[i] + dx;
-          giv.childVisuals[i].y = move.startChildY[i] + dy;
-        }
-        giv.wrapper.setPosition(move.startWrapperX + dx, move.startWrapperY + dy);
-        this.repositionGroupHandles(instanceIndex);
-      }
-      this.updateSelectionBox();
+      const move = this.multiMoveState;
+      if (!move || move.primaryKind !== 'group' || move.primaryIndex !== instanceIndex) return;
+      this.applyMultiMoveDelta(dragX - move.handleStartX, dragY - move.handleStartY);
     });
     handle.on('dragend', () => {
-      const move = this.groupHandleMoveState;
-      if (!move || move.instanceIndex !== instanceIndex) return;
-      const giv = this.groupInstanceVisuals[instanceIndex];
-      const inst = this.state.level.groupInstances?.[instanceIndex];
-      this.groupHandleMoveState = null;
-      if (!giv || !inst) return;
-      const dx = giv.wrapper.x - move.startWrapperX;
-      const dy = giv.wrapper.y - move.startWrapperY;
-      this.state.moveGroupInstance(instanceIndex, inst.x + dx, inst.y + dy);
+      const move = this.multiMoveState;
+      if (!move || move.primaryKind !== 'group' || move.primaryIndex !== instanceIndex) return;
+      this.commitMultiMove();
     });
   }
 
@@ -594,20 +707,19 @@ export class EditorCanvas {
         return;
       }
 
-      this.select(index);
+      // A handle whose element already sits inside an active multi-selection keeps that
+      // selection intact (so the drag below moves the whole selection) — collapsing to a
+      // single selection only happens when the clicked element isn't part of one.
+      const totalSelected = this.state.multiSelected.size + this.state.multiSelectedGroupInstances.size;
+      const isMultiSelected = totalSelected > 1 && this.state.multiSelected.has(index);
+      if (!isMultiSelected) this.select(index);
       this.resizeState = null;
-      this.handleMoveState = null;
+      this.multiMoveState = null;
 
       // A plain drag on a corner handle moves the element (the object's own body is inert —
       // see the render() loop). Ctrl+drag repurposes the handle as a resize instead.
       if (!(pointer.event as MouseEvent | undefined)?.ctrlKey) {
-        this.handleMoveState = {
-          index,
-          handleStartX: handle.x,
-          handleStartY: handle.y,
-          visualStartX: instance.visual.x,
-          visualStartY: instance.visual.y,
-        };
+        this.multiMoveState = this.buildMultiMoveState('element', index, handle);
         return;
       }
 
@@ -631,12 +743,9 @@ export class EditorCanvas {
       const [pointer, dragX, dragY] = args as [Phaser.Input.Pointer, number, number];
       if (!pointer.leftButtonDown()) return;
 
-      if (this.handleMoveState && this.handleMoveState.index === index) {
-        const move = this.handleMoveState;
-        instance.visual.x = move.visualStartX + (dragX - move.handleStartX);
-        instance.visual.y = move.visualStartY + (dragY - move.handleStartY);
-        this.updateSelectionBox();
-        this.repositionHandles(index);
+      const move = this.multiMoveState;
+      if (move && move.primaryKind === 'element' && move.primaryIndex === index) {
+        this.applyMultiMoveDelta(dragX - move.handleStartX, dragY - move.handleStartY);
         return;
       }
 
@@ -647,9 +756,9 @@ export class EditorCanvas {
       this.previewResize();
     });
     handle.on('dragend', () => {
-      if (this.handleMoveState && this.handleMoveState.index === index) {
-        this.state.moveElement(index, instance.visual.x, instance.visual.y);
-        this.handleMoveState = null;
+      const move = this.multiMoveState;
+      if (move && move.primaryKind === 'element' && move.primaryIndex === index) {
+        this.commitMultiMove();
         return;
       }
       if (!this.resizeState || this.resizeState.index !== index) return;
@@ -752,13 +861,36 @@ export class EditorCanvas {
   }
 
   /** Redraws whichever selection outline currently applies — a single element's bounds, a
-   *  set of multi-selected elements' bounds (feeding "create group from selection"), or a
-   *  placed group instance's bounding box — always destroying/recreating the multi-select
-   *  pool from scratch since it varies in count and is only touched on selection changes,
-   *  never on a per-frame drag. */
+   *  single placed group instance's bounding box, or a multi-selection pool covering any mix
+   *  of selected elements (yellow) and group instances (purple) — always destroying/recreating
+   *  the multi-select pool from scratch since it varies in count and is only touched on
+   *  selection changes, never on a per-frame drag. */
   private updateSelectionBox(): void {
     for (const box of this.multiSelectionBoxes) box.destroy();
     this.multiSelectionBoxes = [];
+
+    const totalSelected = this.state.multiSelected.size + this.state.multiSelectedGroupInstances.size;
+    if (totalSelected > 1) {
+      this.selectionBox.setVisible(false);
+      const addBox = (bounds: Phaser.Geom.Rectangle, color: number) => {
+        const box = this.scene.add
+          .rectangle(bounds.left, bounds.top, bounds.width, bounds.height, 0x000000, 0)
+          .setOrigin(0, 0)
+          .setStrokeStyle(2, color);
+        this.container.add(box);
+        this.container.bringToTop(box);
+        this.multiSelectionBoxes.push(box);
+      };
+      for (const idx of this.state.multiSelected) {
+        const instance = this.instances[idx];
+        if (instance) addBox(this.localBounds(instance.visual), 0xffd24a);
+      }
+      for (const idx of this.state.multiSelectedGroupInstances) {
+        const giv = this.groupInstanceVisuals[idx];
+        if (giv) addBox(this.localBounds(giv.wrapper), 0x9a4aff);
+      }
+      return;
+    }
 
     const groupIndex = this.state.selectedGroupInstanceIndex;
     if (groupIndex !== null) {
@@ -772,23 +904,6 @@ export class EditorCanvas {
       this.selectionBox.setPosition(bounds.left, bounds.top);
       this.selectionBox.setSize(bounds.width, bounds.height);
       this.selectionBox.setVisible(true);
-      return;
-    }
-
-    if (this.state.multiSelected.size > 1) {
-      this.selectionBox.setVisible(false);
-      for (const idx of this.state.multiSelected) {
-        const instance = this.instances[idx];
-        if (!instance) continue;
-        const bounds = this.localBounds(instance.visual);
-        const box = this.scene.add
-          .rectangle(bounds.left, bounds.top, bounds.width, bounds.height, 0x000000, 0)
-          .setOrigin(0, 0)
-          .setStrokeStyle(2, 0xffd24a);
-        this.container.add(box);
-        this.container.bringToTop(box);
-        this.multiSelectionBoxes.push(box);
-      }
       return;
     }
 

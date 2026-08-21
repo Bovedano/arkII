@@ -18,6 +18,12 @@ interface WithVisualAndParams extends GameElementLike {
   trigger?: () => void;
 }
 
+interface RespawnElement extends GameElementLike {
+  x: number;
+  y: number;
+  setActive: (active: boolean) => void;
+}
+
 interface GameSceneData {
   levelId: string;
   /** When set (editor "Probar nivel"), used instead of the registry/disk copy — always the
@@ -281,6 +287,7 @@ export class GameScene extends Phaser.Scene {
   private onLevelEvent(eventKey: string): void {
     if (eventKey.endsWith(':collected')) this.session.collect();
     if (eventKey.endsWith(':hazard')) this.handleLifeLoss();
+    if (eventKey.endsWith(':respawn')) this.activateRespawn(eventKey.slice(0, -':respawn'.length));
 
     const gameState = getGameState(this.registry);
     for (const sub of this.level.sublevels ?? []) {
@@ -290,6 +297,19 @@ export class GameScene extends Phaser.Scene {
     if (!this.completed && this.session.total > 0 && this.session.collected >= this.session.total) {
       this.onLevelComplete();
     }
+  }
+
+  /** Makes the Respawn element with this id the level's active checkpoint: moves where the
+   *  player reappears after losing a life to its position, and tells every Respawn instance
+   *  to update its own visual (waving flag for the touched one, static for the rest) — only
+   *  one is ever active at a time, "last touched wins". */
+  private activateRespawn(id: string): void {
+    const respawns = this.elements.filter((el) => el.type === 'Respawn') as unknown as RespawnElement[];
+    const target = respawns.find((el) => el.id === id);
+    if (!target) return;
+
+    this.playerSpawn = { x: target.x, y: target.y };
+    for (const respawn of respawns) respawn.setActive(respawn.id === id);
   }
 
   /** Freezes gameplay, persists the completion/best-time, and shows the HTML overlay. */

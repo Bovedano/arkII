@@ -9,7 +9,7 @@
 .touch-joystick {
   position: absolute;
   left: 48px;
-  bottom: 24px;
+  bottom: 64px;
   width: 120px;
   height: 120px;
   border-radius: 50%;
@@ -32,7 +32,7 @@
 .touch-jump-hit {
   position: absolute;
   right: 24px;
-  bottom: 24px;
+  bottom: 64px;
   width: 128px;
   height: 128px;
   display: flex;

@@ -10,7 +10,7 @@ import { PAJARO_BLANCO_ANIM_KEYS, PAJARO_BLANCO_TEXTURE_KEYS } from '../../syste
  * across all 14 flight frames (east + west), so the collision box matches the bird's body/wing
  * span instead of the frame's transparent padding. Tune here if the sprite art changes.
  */
-const PAJARO_BLANCO_BODY_BOX = { width: 56, height: 61, offsetX: 36, offsetY: 34 };
+const PAJARO_BLANCO_BODY_BOX = { width: 46, height: 51, offsetX: 40, offsetY: 34 };
 
 export interface PajaroBlancoParams extends GameElementParams {
   /** Total width of the east-west patrol, centered on the element's placed position. */

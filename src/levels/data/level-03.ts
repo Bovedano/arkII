@@ -15,8 +15,8 @@ export const LEVEL_03_TEXT = `{
     {
       "id": "CervezaEstrella-ms7qtwjl",
       "type": "CervezaEstrella",
-      "x": 318.36710750529363,
-      "y": 1153.4531674562186,
+      "x": 45.130819085353494,
+      "y": 1156.439402815581,
       "params": {
         "zIndex": 5,
         "behavior": "sensor",
@@ -26,20 +26,20 @@ export const LEVEL_03_TEXT = `{
     {
       "id": "Arbol-ms7rzahe",
       "type": "Arbol",
-      "x": 1828.8543969228267,
-      "y": 852.1767304382229,
+      "x": 2254.6351705899647,
+      "y": 785.9818466390234,
       "params": {
         "zIndex": 5,
         "behavior": "background",
-        "scale": 2.8679387727297065,
-        "variant": "arbol-5.png"
+        "scale": 3.56793877272971,
+        "variant": "arbol-3.png"
       }
     },
     {
       "id": "Penista-ms96tayh",
       "type": "Penista",
-      "x": 110.34397401559278,
-      "y": 1132.8802495541927,
+      "x": 3030.4634880991885,
+      "y": 1156.645705955785,
       "params": {
         "abilities": [
           "run",
@@ -52,36 +52,14 @@ export const LEVEL_03_TEXT = `{
     {
       "id": "Floor-ms98kzzp",
       "type": "Floor",
-      "x": 12836.819172206444,
-      "y": 1209.2016929759639,
+      "x": 13687.883021383306,
+      "y": 1212.8623535936238,
       "params": {
         "centerCount": 400,
         "theme": "green",
         "height": 64,
         "zIndex": 0,
         "behavior": "solid"
-      }
-    },
-    {
-      "id": "CervezaEstrella-msa5zonj",
-      "type": "CervezaEstrella",
-      "x": 3540.781484029757,
-      "y": 1041.7623966942149,
-      "params": {
-        "zIndex": 5,
-        "behavior": "sensor",
-        "scale": 1
-      }
-    },
-    {
-      "id": "AguaRio-msboz478",
-      "type": "AguaRio",
-      "x": 2161.906764410922,
-      "y": 1221.5757083825267,
-      "params": {
-        "zIndex": 5,
-        "behavior": "background",
-        "scale": 1.529501878057256
       }
     },
     {
@@ -117,8 +95,8 @@ export const LEVEL_03_TEXT = `{
     {
       "id": "CervezaEstrella-mseqn31u",
       "type": "CervezaEstrella",
-      "x": 1636.3178471057106,
-      "y": 1058.1834893048126,
+      "x": 1815.4891837745238,
+      "y": 1059.676606984494,
       "params": {
         "scale": 1,
         "rotation": 0,
@@ -140,25 +118,6 @@ export const LEVEL_03_TEXT = `{
         "flipY": false,
         "zIndex": 4,
         "behavior": "sensor"
-      }
-    },
-    {
-      "id": "PajaroBlanco-msetmgxc",
-      "type": "PajaroBlanco",
-      "x": 3262.5083115327743,
-      "y": 899.3165825451657,
-      "params": {
-        "scale": 1,
-        "rotation": 0,
-        "flipX": false,
-        "flipY": false,
-        "zIndex": 8,
-        "behavior": "damage",
-        "patrolDistance": 240,
-        "speed": 150,
-        "startDirection": "east",
-        "bobAmplitude": 8,
-        "bobFrequency": 1.6
       }
     },
     {
@@ -355,6 +314,401 @@ export const LEVEL_03_TEXT = `{
         "zIndex": 5,
         "behavior": "sensor"
       }
+    },
+    {
+      "id": "CervezaEstrella-mt2s3fj7",
+      "type": "CervezaEstrella",
+      "x": 9391,
+      "y": 1131,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "sensor"
+      }
+    },
+    {
+      "id": "Floor-mt2xiixb",
+      "type": "Floor",
+      "x": 278.14371455777365,
+      "y": 1212.8623535936238,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "centerCount": 8,
+        "theme": "green",
+        "height": 64,
+        "zIndex": 0,
+        "behavior": "solid"
+      }
+    },
+    {
+      "id": "Arbol-mt2xk4s8",
+      "type": "Arbol",
+      "x": 121.76931558263567,
+      "y": 828.0574679458234,
+      "params": {
+        "scale": 3.2,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 12,
+        "behavior": "background",
+        "variant": "arbol-4.png"
+      }
+    },
+    {
+      "id": "AguaRio-mt2xmaia",
+      "type": "AguaRio",
+      "x": 710.5483386943193,
+      "y": 1273.5870607808715,
+      "params": {
+        "scale": 2.2,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "background"
+      }
+    },
+    {
+      "id": "PajaroBlanco-mt2xo8cs",
+      "type": "PajaroBlanco",
+      "x": 535.7831266381556,
+      "y": 913.8898828748991,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 14,
+        "behavior": "damage",
+        "patrolDistance": 240,
+        "speed": 90,
+        "startDirection": "east",
+        "bobAmplitude": 8,
+        "bobFrequency": 1.6
+      }
+    },
+    {
+      "id": "Arbol-mt2xpy67",
+      "type": "Arbol",
+      "x": 1508.3523808666741,
+      "y": 816.7845845163438,
+      "params": {
+        "scale": 3.3,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "background",
+        "variant": "arbol-6.png"
+      }
+    },
+    {
+      "id": "RamaAlamo-mt2xttiq",
+      "type": "RamaAlamo",
+      "x": 1584.8342673337625,
+      "y": 980.6858226486079,
+      "params": {
+        "scale": 1.6,
+        "rotation": 0,
+        "flipX": true,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "background"
+      }
+    },
+    {
+      "id": "CervezaEstrella-mt2xuh3u",
+      "type": "CervezaEstrella",
+      "x": 1573.219789541274,
+      "y": 952.4086214003595,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "sensor"
+      }
+    },
+    {
+      "id": "ColorBlock-mt2xvekq",
+      "type": "ColorBlock",
+      "x": 1552.927819790264,
+      "y": 975.4309740007293,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "width": 63,
+        "height": 15,
+        "color": "#4a3728",
+        "zIndex": 0,
+        "behavior": "solid",
+        "hidden": true
+      }
+    },
+    {
+      "id": "Arbol-mt2xy38e",
+      "type": "Arbol",
+      "x": 2642.0652018304772,
+      "y": 846.9095556972193,
+      "params": {
+        "scale": 3,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "background",
+        "variant": "arbol-2.png"
+      }
+    },
+    {
+      "id": "RamaAlamo-mt2xyz7c",
+      "type": "RamaAlamo",
+      "x": 2583.792834167203,
+      "y": 997.1605874741055,
+      "params": {
+        "scale": 1.9,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "background"
+      }
+    },
+    {
+      "id": "RamaAlamo-mt2y99om",
+      "type": "RamaAlamo",
+      "x": 2206.970627333506,
+      "y": 837.894701641445,
+      "params": {
+        "scale": 1.7,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "background"
+      }
+    },
+    {
+      "id": "RamaAlamo-mt2y50tr",
+      "type": "RamaAlamo",
+      "x": 2308.998749603247,
+      "y": 952.3670570836697,
+      "params": {
+        "scale": 1.9,
+        "rotation": 0,
+        "flipX": true,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "background"
+      }
+    },
+    {
+      "id": "RamaAlamo-mt2y9l89",
+      "type": "RamaAlamo",
+      "x": 2270.6112898106408,
+      "y": 708.4911694024082,
+      "params": {
+        "scale": 1.5,
+        "rotation": 0,
+        "flipX": true,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "background"
+      }
+    },
+    {
+      "id": "ColorBlock-mt2y1q2b",
+      "type": "ColorBlock",
+      "x": 2545.051140695607,
+      "y": 985.3967651952179,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "width": 81,
+        "height": 23,
+        "color": "#4a3728",
+        "zIndex": 6,
+        "behavior": "solid",
+        "hidden": true
+      }
+    },
+    {
+      "id": "ColorBlock-mt2y2gzx",
+      "type": "ColorBlock",
+      "x": 2265.219976570914,
+      "y": 939.3589700717145,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "width": 81,
+        "height": 23,
+        "color": "#4a3728",
+        "zIndex": 6,
+        "behavior": "solid",
+        "hidden": true
+      }
+    },
+    {
+      "id": "ColorBlock-mt2y3ol8",
+      "type": "ColorBlock",
+      "x": 2165.8043945085674,
+      "y": 827.375144095625,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "width": 75,
+        "height": 21,
+        "color": "#4a3728",
+        "zIndex": 12,
+        "behavior": "solid",
+        "hidden": true
+      }
+    },
+    {
+      "id": "ColorBlock-mt2y82ij",
+      "type": "ColorBlock",
+      "x": 2238.094676753834,
+      "y": 696.7273471235208,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "width": 62,
+        "height": 22,
+        "color": "#4a3728",
+        "zIndex": 12,
+        "behavior": "solid",
+        "hidden": true
+      }
+    },
+    {
+      "id": "CervezaEstrella-mt2yarrh",
+      "type": "CervezaEstrella",
+      "x": 2283.069055277599,
+      "y": 680.0836772589621,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "sensor"
+      }
+    },
+    {
+      "id": "EsporaDienteLeon-mt2yims9",
+      "type": "EsporaDienteLeon",
+      "x": 3149.3359667607865,
+      "y": 1154.7642149720978,
+      "params": {
+        "scale": 0.5,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "solid",
+        "groundDelaySec": 10,
+        "swayAmplitudeDeg": 12,
+        "flight1Speed": 150,
+        "flight1DurationSec": 2,
+        "flight1DirectionDeg": 290,
+        "flight2Speed": 0,
+        "flight2DurationSec": 0,
+        "flight2DirectionDeg": 0,
+        "flight3Speed": 0,
+        "flight3DurationSec": 0,
+        "flight3DirectionDeg": 0,
+        "flight4Speed": 0,
+        "flight4DurationSec": 0,
+        "flight4DirectionDeg": 0,
+        "flight5Speed": 0,
+        "flight5DurationSec": 0,
+        "flight5DirectionDeg": 0,
+        "initialAppearDelaySec": 5,
+        "appearDelaySec": 5
+      }
+    },
+    {
+      "id": "DienteLeonFlor-mt2z10uo",
+      "type": "DienteLeonFlor",
+      "x": 3147.0246325502385,
+      "y": 1169.191306462148,
+      "params": {
+        "scale": 0.3,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "background"
+      }
+    },
+    {
+      "id": "Respawn-mt38hmqf",
+      "type": "Respawn",
+      "x": 2133.1937298963026,
+      "y": 1124.994945617528,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "sensor"
+      }
+    },
+    {
+      "id": "Respawn-mt38hu82",
+      "type": "Respawn",
+      "x": 1644.5968649481515,
+      "y": 1121.4038413306787,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "sensor"
+      }
     }
   ],
   "groups": [
@@ -410,23 +764,23 @@ export const LEVEL_03_TEXT = `{
         {
           "id": "BarbacoaHumeante-msa6gkgk",
           "type": "BarbacoaHumeante",
-          "x": 58.59722763795361,
-          "y": 25.529960240112473,
+          "x": 61.29634363483791,
+          "y": 60.61872087147273,
           "params": {
             "zIndex": 5,
             "behavior": "sensor",
-            "scale": 0.585871373142553
+            "scale": 0.485871373142553
           }
         },
         {
           "id": "ColorBlock-msek7r1m",
           "type": "ColorBlock",
-          "x": 4.479283416720364,
-          "y": 4.479353039043588,
+          "x": 18.649642400362936,
+          "y": 34.844626662336125,
           "params": {
             "scale": 1,
-            "width": 111,
-            "height": 97,
+            "width": 85,
+            "height": 86,
             "color": "#4a3728",
             "zIndex": 0,
             "behavior": "damage",
@@ -1243,32 +1597,26 @@ export const LEVEL_03_TEXT = `{
     {
       "id": "group-msa5xm8x-inst-msa5xm8x",
       "groupId": "group-msa5xm8x",
-      "x": 667.7138714628561,
-      "y": 1088.5539267849379
+      "x": 996.1946553556803,
+      "y": 1097.512632863025
     },
     {
       "id": "group-msa5xm8x-inst-msa5yk1p",
       "groupId": "group-msa5xm8x",
-      "x": 1545.833856374626,
-      "y": 1092.550914994097
+      "x": 1723.5120985711994,
+      "y": 1095.5371503534593
     },
     {
       "id": "group-msa5xm8x-inst-msa5zcai",
       "groupId": "group-msa5xm8x",
-      "x": 2664.5259993043514,
-      "y": 1093.895268104185
+      "x": 2655.8162815496175,
+      "y": 1100.1165917695234
     },
     {
       "id": "group-msekh6qu-inst-msekh6qu",
       "groupId": "group-msekh6qu",
-      "x": 409.4870777605676,
-      "y": 1087.1902616090513
-    },
-    {
-      "id": "group-mseq0wci-inst-mseq0wci",
-      "groupId": "group-mseq0wci",
-      "x": 3142.1790827498853,
-      "y": 1005.4982019296327
+      "x": 1243.44560996646,
+      "y": 1070.400023507945
     },
     {
       "id": "group-mseqqblu-inst-mser1k3b",
@@ -1285,8 +1633,8 @@ export const LEVEL_03_TEXT = `{
     {
       "id": "group-msekh6qu-inst-mser55ka",
       "groupId": "group-msekh6qu",
-      "x": 4425.461727817589,
-      "y": 1081.0636213392497
+      "x": 4417.184438760478,
+      "y": 1064.508924015736
     },
     {
       "id": "group-mt2nq33d-inst-mt2nq33d",
@@ -1365,6 +1713,12 @@ export const LEVEL_03_TEXT = `{
       "groupId": "group-mt2ptc6z",
       "x": 8253.87332811254,
       "y": 1078.2379252570856
+    },
+    {
+      "id": "group-msekh6qu-inst-mt2yco1t",
+      "groupId": "group-msekh6qu",
+      "x": 2381.4833869431923,
+      "y": 1069.0917642709173
     }
   ]
 }`;

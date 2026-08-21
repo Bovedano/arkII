@@ -122,6 +122,21 @@ export function registerPajaroBlancoAnimations(scene: Phaser.Scene): void {
   });
 }
 
+export const RESPAWN_STATIC_KEY = 'respawn-base';
+export const RESPAWN_WAVE_TEXTURE_KEYS = [0, 1, 2, 3, 4, 5, 6].map((i) => `respawn-wave-${i}`);
+export const RESPAWN_WAVE_ANIM_KEY = 'respawn-wave';
+
+/** Registers the looping flag-wave animation, played only while a Respawn point is the
+ *  currently active one — called once from PreloadScene.create(). */
+export function registerRespawnAnimations(scene: Phaser.Scene): void {
+  scene.anims.create({
+    key: RESPAWN_WAVE_ANIM_KEY,
+    frames: RESPAWN_WAVE_TEXTURE_KEYS.map((key) => ({ key })),
+    frameRate: 8,
+    repeat: -1,
+  });
+}
+
 export const ESPORA_DIENTE_LEON_TEXTURE_KEYS = [0, 1, 2, 3, 4, 5, 6, 7].map((i) => `espora-diente-leon-${i}`);
 export const ESPORA_DIENTE_LEON_FLY_TEXTURE_KEYS = [0, 1, 2, 3, 4, 5, 6].map((i) => `espora-diente-leon-fly-${i}`);
 export const ESPORA_DIENTE_LEON_GROUND_ANIM_KEY = 'espora-diente-leon-ground';

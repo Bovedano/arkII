@@ -6,6 +6,7 @@ import {
   registerAguaRioAnimations,
   registerPajaroBlancoAnimations,
   registerEsporaDienteLeonAnimations,
+  registerRespawnAnimations,
 } from '../systems/animations';
 import { BACKGROUND_ASSETS } from '../config/backgroundAssets';
 import { ARBOL_VARIANTS } from '../config/arbolVariants';
@@ -59,6 +60,7 @@ export class PreloadScene extends Phaser.Scene {
       this.load.image(file, `assets/blocks/arbol/${file}`);
     }
     this.load.image('matorral-con-espinas', 'assets/blocks/matorral-con-espinas.png');
+    this.load.image('diente-leon-flor', 'assets/blocks/diente-leon-flor.png');
     this.load.image('rama-alamo', 'assets/blocks/rama-alamo.png');
     this.load.image('mesa-comida', 'assets/blocks/mesa-comida.png');
     this.load.image('toyota-pickup', 'assets/blocks/toyota-pickup.png');
@@ -90,6 +92,10 @@ export class PreloadScene extends Phaser.Scene {
     for (let i = 0; i < 7; i++) {
       this.load.image(`espora-diente-leon-fly-${i}`, `assets/espora-diente-leon/fly-${i}.png`);
     }
+    this.load.image('respawn-base', 'assets/respawn/base.png');
+    for (let i = 0; i < 7; i++) {
+      this.load.image(`respawn-wave-${i}`, `assets/respawn/wave-${i}.png`);
+    }
 
     for (const file of BACKGROUND_ASSETS) {
       this.load.image(file, `assets/backgrounds/${file}`);
@@ -110,6 +116,7 @@ export class PreloadScene extends Phaser.Scene {
     registerAguaRioAnimations(this);
     registerPajaroBlancoAnimations(this);
     registerEsporaDienteLeonAnimations(this);
+    registerRespawnAnimations(this);
     this.scene.start('MainMenu');
   }
 }

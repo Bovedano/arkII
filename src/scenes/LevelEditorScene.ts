@@ -7,6 +7,7 @@ import { EditorZoomControl } from '../editor/EditorZoomControl';
 import { LevelConfigPanel } from '../editor/LevelConfigPanel';
 import { SublevelPanel } from '../editor/SublevelPanel';
 import { GroupPanel } from '../editor/GroupPanel';
+import { RangeSelectPanel } from '../editor/RangeSelectPanel';
 import { LevelExport } from '../editor/LevelExport';
 import { EditorDraftStore } from '../editor/EditorDraftStore';
 import { EditorViewStore } from '../editor/EditorViewStore';
@@ -138,9 +139,10 @@ export class LevelEditorScene extends Phaser.Scene {
     const sidebar = new EditorSidebar(this);
     new EditorPropertyPanel(this.state, sidebar.root);
     new LevelConfigPanel(this.state, sidebar.root);
-    new EditorZoomControl(this.state, sidebar.root);
+    new EditorZoomControl(this.state, this.canvas, sidebar.root);
     new SublevelPanel(this.state, sidebar.root);
     new GroupPanel(this.state, sidebar.root);
+    new RangeSelectPanel(this.state, sidebar.root);
 
     this.setStartButton = this.add
       .text(170, 480, 'Establecer punto de partida', {

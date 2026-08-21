@@ -32,9 +32,18 @@ export class EditorState {
    *  editing instead of always landing back at the top level. */
   editingGroupId: string | null = null;
   selectedGroupInstanceIndex: number | null = null;
-  /** Elements multi-selected (shift-click) to feed "create group from selection". Superset
-   *  containing `selectedIndex` when exactly one element is selected. */
+  /** Elements multi-selected (shift-click) — feeds "create group from selection" and, together
+   *  with `multiSelectedGroupInstances`, lets a drag on any selected item's handle move the
+   *  whole mixed selection as one block. Superset containing `selectedIndex` when the selection
+   *  is exactly one element and no group instances are selected. */
   multiSelected: Set<number> = new Set();
+  /** Placed group instances multi-selected (shift-click) — the group-instance counterpart to
+   *  `multiSelected`. Superset containing `selectedGroupInstanceIndex` when the selection is
+   *  exactly one group instance and no elements are selected. Elements and group instances can
+   *  be selected together (e.g. shift-clicking an element then a group instance): both sets are
+   *  non-empty and `selectedIndex`/`selectedGroupInstanceIndex` are both null, since neither
+   *  alone describes the whole selection — see syncSingleSelection. */
+  multiSelectedGroupInstances: Set<number> = new Set();
   /** Editor-only viewport state (zoom/pan) — never part of the exported LevelDefinition, but
    *  persisted separately per level by EditorViewStore (see LevelEditorScene). */
   zoom = 1;
@@ -163,6 +172,7 @@ export class EditorState {
     this.selectedIndex = null;
     this.multiSelected = new Set();
     this.selectedGroupInstanceIndex = null;
+    this.multiSelectedGroupInstances = new Set();
     this.notify();
   }
 
@@ -174,6 +184,7 @@ export class EditorState {
     this.selectedIndex = null;
     this.multiSelected = new Set();
     this.selectedGroupInstanceIndex = null;
+    this.multiSelectedGroupInstances = new Set();
     this.notify();
   }
 
@@ -216,6 +227,32 @@ export class EditorState {
       def.x = x;
       def.y = y;
       this.notifyMove(index, x, y);
+    });
+  }
+
+  /** Commits a drag that moved a whole selection together as one rigid block — any mix of
+   *  elements and placed group instances (dragging a handle that belongs to an active
+   *  multi-selection moves everything selected, regardless of kind) — as a single undo step
+   *  instead of one entry per item. */
+  moveSelection(
+    elementMoves: { index: number; x: number; y: number }[],
+    groupInstanceMoves: { index: number; x: number; y: number }[],
+  ): void {
+    this.withHistory(() => {
+      for (const { index, x, y } of elementMoves) {
+        const def = this.activeElements[index];
+        if (!def) continue;
+        def.x = x;
+        def.y = y;
+        this.notifyMove(index, x, y);
+      }
+      for (const { index, x, y } of groupInstanceMoves) {
+        const inst = this.level.groupInstances?.[index];
+        if (!inst) continue;
+        inst.x = x;
+        inst.y = y;
+        this.notifyGroupInstanceMove(index, x, y);
+      }
     });
   }
 
@@ -271,28 +308,67 @@ export class EditorState {
     });
   }
 
+  /** Plain (non-shift) click on an element: replaces the *whole* selection — elements and
+   *  group instances alike — with just this element. */
   select(index: number | null): void {
     this.selectedIndex = index;
     this.multiSelected = index !== null ? new Set([index]) : new Set();
     this.selectedGroupInstanceIndex = null;
+    this.multiSelectedGroupInstances = new Set();
     this.notifySelection();
   }
 
-  /** Shift-click on an element body: adds/removes it from the multi-selection used to build
-   *  a group. `selectedIndex` mirrors the multi-selection only when it collapses to exactly
-   *  one element, so the single-element property panel keeps working as before. */
+  /** Plain (non-shift) click on a placed group instance: replaces the whole selection with
+   *  just this instance — the group-instance counterpart to `select`. */
+  selectGroupInstance(index: number | null): void {
+    this.selectedGroupInstanceIndex = index;
+    this.multiSelectedGroupInstances = index !== null ? new Set([index]) : new Set();
+    this.selectedIndex = null;
+    this.multiSelected = new Set();
+    this.notifySelection();
+  }
+
+  /** After `multiSelected`/`multiSelectedGroupInstances` change, recomputes the "exactly one
+   *  item selected" pointers (`selectedIndex`/`selectedGroupInstanceIndex`) so the
+   *  single-selection property panel keeps working when a multi-selection collapses to one
+   *  item — of either kind. Both pointers are null whenever the selection is empty, mixed
+   *  across kinds, or has more than one item of the same kind. */
+  private syncSingleSelection(): void {
+    const soleElement = this.multiSelected.size === 1 && this.multiSelectedGroupInstances.size === 0;
+    const soleGroupInstance = this.multiSelectedGroupInstances.size === 1 && this.multiSelected.size === 0;
+    this.selectedIndex = soleElement ? [...this.multiSelected][0] : null;
+    this.selectedGroupInstanceIndex = soleGroupInstance ? [...this.multiSelectedGroupInstances][0] : null;
+  }
+
+  /** Shift-click on an element's handle: adds/removes it from the multi-selection — used both
+   *  to build a group and, together with `multiSelectedGroupInstances`, to drag the whole
+   *  selection as one block (see EditorCanvas). Never clears the group-instance side of the
+   *  selection, so shift-clicking elements and group instances together builds one mixed
+   *  selection. */
   toggleSelect(index: number): void {
     if (this.multiSelected.has(index)) this.multiSelected.delete(index);
     else this.multiSelected.add(index);
-    this.selectedIndex = this.multiSelected.size === 1 ? [...this.multiSelected][0] : null;
-    this.selectedGroupInstanceIndex = null;
+    this.syncSingleSelection();
     this.notifySelection();
   }
 
-  selectGroupInstance(index: number | null): void {
-    this.selectedGroupInstanceIndex = index;
-    this.selectedIndex = null;
-    this.multiSelected = new Set();
+  /** Shift-click on a placed group instance's handle — the group-instance counterpart to
+   *  `toggleSelect`. */
+  toggleSelectGroupInstance(index: number): void {
+    if (this.multiSelectedGroupInstances.has(index)) this.multiSelectedGroupInstances.delete(index);
+    else this.multiSelectedGroupInstances.add(index);
+    this.syncSingleSelection();
+    this.notifySelection();
+  }
+
+  /** Bulk-replaces the whole selection with an explicit set of elements and group instances —
+   *  used by RangeSelectPanel to select everything falling inside a dragged X/Y slider window.
+   *  Like the other selection methods, this is editor-only state and doesn't touch undo
+   *  history. */
+  selectRange(elementIndices: number[], groupInstanceIndices: number[]): void {
+    this.multiSelected = new Set(elementIndices);
+    this.multiSelectedGroupInstances = new Set(groupInstanceIndices);
+    this.syncSingleSelection();
     this.notifySelection();
   }
 
@@ -422,7 +498,10 @@ export class EditorState {
       this.level.groupInstances = (this.level.groupInstances ?? []).filter((gi) => gi.groupId !== groupId);
       this.level.groups = (this.level.groups ?? []).filter((g) => g.id !== groupId);
       if (this.editingGroupId === groupId) this.editingGroupId = null;
-      if (this.selectedGroupInstanceIndex !== null) this.selectedGroupInstanceIndex = null;
+      // The filter above renumbers every remaining group instance, invalidating any index-based
+      // selection of them regardless of whether the deleted group was itself selected.
+      this.selectedGroupInstanceIndex = null;
+      this.multiSelectedGroupInstances = new Set();
       this.notify();
       return 'deleted' as GroupDeleteResult;
     });
