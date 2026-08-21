@@ -52,6 +52,7 @@ export class PreloadScene extends Phaser.Scene {
         this.load.image(`penista-jump-${dir}-${i}`, `assets/penista/running-jump/${dir}-${i}.png`);
       }
     }
+    this.load.image('penista-death-front', 'assets/penista/death-front.png');
 
     this.load.image('cerveza-estrella', 'assets/collectibles/cerveza-estrella.png');
     for (const file of ARBOL_VARIANTS) {

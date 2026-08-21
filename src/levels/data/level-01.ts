@@ -12,6 +12,7 @@ export const LEVEL_01_TEXT = `{
     { "type": "ColorBlock", "x": 0, "y": 500, "params": { "width": 1600, "height": 40, "color": "#4a3728", "zIndex": 0, "behavior": "solid" } },
     { "type": "FixedBackground", "x": 400, "y": 270, "params": { "zIndex": -50, "behavior": "background", "image": "paisaje.png", "parallaxX": 0, "parallaxY": 0 } },
     { "id": "switch1", "type": "Switch", "x": 700, "y": 468, "params": { "width": 32, "height": 32, "zIndex": 1, "behavior": "sensor" } },
-    { "type": "Penista", "x": 100, "y": 400, "params": { "zIndex": 10, "behavior": "solid" } }
+    { "type": "Penista", "x": 100, "y": 400, "params": { "zIndex": 10, "behavior": "solid" } },
+    { "id": "cerveza-test", "type": "CervezaEstrella", "x": 300, "y": 468, "params": { "zIndex": 5, "behavior": "sensor" } }
   ]
 }`;

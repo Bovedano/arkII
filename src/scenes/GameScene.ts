@@ -29,6 +29,9 @@ interface GameSceneData {
 
 export class GameScene extends Phaser.Scene {
   private static readonly FALL_MARGIN = 150;
+  /** How far past the camera's (frozen) bottom edge the player must fall before the death
+   *  bounce is considered finished and respawn happens. */
+  private static readonly DEATH_OFFSCREEN_MARGIN = 60;
 
   private levelId!: string;
   private testMode = false;
@@ -41,6 +44,8 @@ export class GameScene extends Phaser.Scene {
   private session!: GameSession;
   private hud!: Hud;
   private completed = false;
+  private dying = false;
+  private pendingGameOver = false;
 
   constructor() {
     super('Game');
@@ -52,6 +57,10 @@ export class GameScene extends Phaser.Scene {
   }
 
   create(data: GameSceneData): void {
+    this.physics.resume(); // undo the pause() from a previous completion — the World persists across scene.start()
+    this.completed = false;
+    this.dying = false;
+    this.pendingGameOver = false;
     this.elements = [];
     this.level = LevelLoader.parse(data.levelText ?? getLevelText(this.levelId));
     this.elements = LevelLoader.instantiate(this, this.level);
@@ -89,6 +98,12 @@ export class GameScene extends Phaser.Scene {
     }
     this.tickCarriers();
 
+    if (this.dying) {
+      this.checkDeathBounceComplete();
+      this.hud.refresh(this.session.snapshot());
+      return;
+    }
+
     const timedOut = this.session.tick(delta);
     this.checkFall();
     if (timedOut) this.handleLifeLoss();
@@ -101,13 +116,29 @@ export class GameScene extends Phaser.Scene {
     if (this.player.visual.y > this.level.config.height + GameScene.FALL_MARGIN) this.handleLifeLoss();
   }
 
-  /** Shared by falling and the clock running out: subtracts a life, resets the clock/position,
-   *  and returns to LevelSelect once lives run out. */
+  /** Shared by falling, touching a hazard, and the clock running out: subtracts a life and starts
+   *  the Mario-style death bounce (camera frozen so the fall reads as leaving the screen). The
+   *  actual respawn happens once checkDeathBounceComplete() sees it clear the camera view. */
   private handleLifeLoss(): void {
+    if (!this.player || this.dying) return;
+    this.dying = true;
+    this.pendingGameOver = this.session.loseLife();
+    this.cameras.main.stopFollow();
+    this.player.startDeathBounce();
+  }
+
+  /** Ends the death-bounce state once the player has fallen clear below the (frozen) camera
+   *  view: repositions at the spawn point, restores normal camera follow, and only now applies
+   *  the game-over transition if the life lost was the last one. */
+  private checkDeathBounceComplete(): void {
     if (!this.player) return;
-    const gameOver = this.session.loseLife();
+    const offscreenY = this.cameras.main.worldView.bottom + GameScene.DEATH_OFFSCREEN_MARGIN;
+    if (this.player.visual.y < offscreenY) return;
+
+    this.dying = false;
     if (this.playerSpawn) this.player.respawnAt(this.playerSpawn.x, this.playerSpawn.y);
-    if (gameOver) this.scene.start('LevelSelect');
+    this.setupCamera(this.player);
+    if (this.pendingGameOver) this.scene.start('LevelSelect');
   }
 
   /** Leaves the level: back to the editor draft in test mode, otherwise to LevelSelect.

@@ -12,6 +12,10 @@ export const PENISTA_IDLE_KEYS = {
   west: 'penista-idle-west',
 };
 
+/** Front-facing (camera-facing) pose shown during the Mario-style death bounce — the only
+ *  non-profile Penista sprite, source art is 124x124 vs. the 48x68 profile frames. */
+export const PENISTA_DEATH_FRONT_KEY = 'penista-death-front';
+
 export const PENISTA_ANIM_KEYS = {
   runEast: 'penista-run-east',
   runWest: 'penista-run-west',
