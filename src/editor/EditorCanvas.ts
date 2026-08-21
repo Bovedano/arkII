@@ -110,6 +110,7 @@ export class EditorCanvas {
   private multiSelectionBoxes: Phaser.GameObjects.Rectangle[] = [];
   private lastWidth: number | null = null;
   private lastHeight: number | null = null;
+  private lastEditingGroupId: string | null | undefined = undefined;
   private isPanning = false;
   private lastPointerX = 0;
   private lastPointerY = 0;
@@ -124,6 +125,7 @@ export class EditorCanvas {
     if (hasRestoredView) {
       this.lastWidth = state.level.config.width;
       this.lastHeight = state.level.config.height;
+      this.lastEditingGroupId = state.editingGroupId;
     }
 
     this.background = scene.add
@@ -303,7 +305,24 @@ export class EditorCanvas {
     // A group's own elements use coordinates relative to its local origin, not the level's —
     // the level-bounds frame would mislead the user while editing one.
     this.levelBounds.setVisible(!this.state.editingGroupId);
-    if (width !== this.lastWidth || height !== this.lastHeight) {
+
+    const editingGroupId = this.state.editingGroupId;
+    const enteredOrExitedGroup = editingGroupId !== this.lastEditingGroupId;
+    this.lastEditingGroupId = editingGroupId;
+
+    if (editingGroupId) {
+      // Entering a group swaps activeElements to its local-origin coordinates (see
+      // EditorState.activeElements), which can sit far outside the level's pan/zoom framing —
+      // fit the view to the group's own elements instead, or they'd render off-screen.
+      if (enteredOrExitedGroup) {
+        const elements = this.state.activeElements;
+        const padding = 200;
+        const fitWidth = Math.max(...elements.map((el) => el.x), 0) + padding;
+        const fitHeight = Math.max(...elements.map((el) => el.y), 0) + padding;
+        this.state.setZoom(Math.min(this.rect.width / fitWidth, this.rect.height / fitHeight, 1));
+        this.state.setPan(0, 0);
+      }
+    } else if (width !== this.lastWidth || height !== this.lastHeight || enteredOrExitedGroup) {
       this.lastWidth = width;
       this.lastHeight = height;
       this.state.setZoom(Math.min(this.rect.width / width, this.rect.height / height, 1));

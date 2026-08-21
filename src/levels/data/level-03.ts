@@ -2,7 +2,7 @@ export const LEVEL_03_TEXT = `{
   "id": "level-mrxhqjwz",
   "title": "La vida en la alameda",
   "config": {
-    "width": 12573,
+    "width": 12582,
     "height": 1240,
     "gravity": 600,
     "background": "#52f3ff",
@@ -31,14 +31,15 @@ export const LEVEL_03_TEXT = `{
       "params": {
         "zIndex": 5,
         "behavior": "background",
-        "scale": 2.8679387727297065
+        "scale": 2.8679387727297065,
+        "variant": "arbol-5.png"
       }
     },
     {
       "id": "Penista-ms96tayh",
       "type": "Penista",
-      "x": 3941.6719095015496,
-      "y": 1131.1874853707034,
+      "x": 110.34397401559278,
+      "y": 1132.8802495541927,
       "params": {
         "abilities": [
           "run",
@@ -51,8 +52,8 @@ export const LEVEL_03_TEXT = `{
     {
       "id": "Floor-ms98kzzp",
       "type": "Floor",
-      "x": 12833.826280529682,
-      "y": 1203.2159090909097,
+      "x": 12836.819172206444,
+      "y": 1209.2016929759639,
       "params": {
         "centerCount": 400,
         "theme": "green",
@@ -144,8 +145,8 @@ export const LEVEL_03_TEXT = `{
     {
       "id": "PajaroBlanco-msetmgxc",
       "type": "PajaroBlanco",
-      "x": 3260.2686698244142,
-      "y": 914.9943181818182,
+      "x": 3262.5083115327743,
+      "y": 899.3165825451657,
       "params": {
         "scale": 1,
         "rotation": 0,
@@ -158,6 +159,201 @@ export const LEVEL_03_TEXT = `{
         "startDirection": "east",
         "bobAmplitude": 8,
         "bobFrequency": 1.6
+      }
+    },
+    {
+      "id": "FixedBackground-mszvq2nb",
+      "type": "FixedBackground",
+      "x": 4030,
+      "y": 500,
+      "params": {
+        "scale": 2.3,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "zIndex": -50,
+        "behavior": "background",
+        "image": "panoramica.jpg",
+        "parallaxX": 30,
+        "parallaxY": 50,
+        "repeatX": 3
+      }
+    },
+    {
+      "id": "CervezaEstrella-mt004o0v",
+      "type": "CervezaEstrella",
+      "x": 6610.303028227217,
+      "y": 1153.367003435343,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "zIndex": 5,
+        "behavior": "sensor"
+      }
+    },
+    {
+      "id": "PajaroBlanco-mt004uj6",
+      "type": "PajaroBlanco",
+      "x": 6615.914700121146,
+      "y": 977.1010103060288,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "zIndex": 8,
+        "behavior": "damage",
+        "patrolDistance": 340,
+        "speed": 90,
+        "startDirection": "east",
+        "bobAmplitude": 8,
+        "bobFrequency": 1.6
+      }
+    },
+    {
+      "id": "PajaroBlanco-mt03228i",
+      "type": "PajaroBlanco",
+      "x": 6083,
+      "y": 903,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "zIndex": 8,
+        "behavior": "damage",
+        "patrolDistance": 240,
+        "speed": 120,
+        "startDirection": "east",
+        "bobAmplitude": 8,
+        "bobFrequency": 2
+      }
+    },
+    {
+      "id": "EsporaDienteLeon-mt19dzni",
+      "type": "EsporaDienteLeon",
+      "x": 5275.387699568316,
+      "y": 1154.7972883226644,
+      "params": {
+        "scale": 0.5,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "zIndex": 5,
+        "behavior": "solid",
+        "groundDelaySec": 0,
+        "swayAmplitudeDeg": 12,
+        "flight1Speed": 150,
+        "flight1DurationSec": 2.5,
+        "flight1DirectionDeg": 270,
+        "flight2Speed": 100,
+        "flight2DurationSec": 3,
+        "flight2DirectionDeg": 170,
+        "flight3Speed": 0,
+        "flight3DurationSec": 0,
+        "flight3DirectionDeg": 0,
+        "flight4Speed": 0,
+        "flight4DurationSec": 0,
+        "flight4DirectionDeg": 0,
+        "flight5Speed": 0,
+        "flight5DurationSec": 0,
+        "flight5DirectionDeg": 0,
+        "carry": false
+      }
+    },
+    {
+      "id": "EsporaDienteLeon-mt1bk3g0",
+      "type": "EsporaDienteLeon",
+      "x": 5396.418814867653,
+      "y": 1153.2508385593728,
+      "params": {
+        "scale": 0.5,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "zIndex": 5,
+        "behavior": "solid",
+        "groundDelaySec": 2,
+        "swayAmplitudeDeg": 12,
+        "flight1Speed": 150,
+        "flight1DurationSec": 2,
+        "flight1DirectionDeg": 270,
+        "flight2Speed": 100,
+        "flight2DurationSec": 3,
+        "flight2DirectionDeg": 170,
+        "flight3Speed": 0,
+        "flight3DurationSec": 0,
+        "flight3DirectionDeg": 0,
+        "flight4Speed": 0,
+        "flight4DurationSec": 0,
+        "flight4DirectionDeg": 0,
+        "flight5Speed": 0,
+        "flight5DurationSec": 0,
+        "flight5DirectionDeg": 0,
+        "carry": false
+      }
+    },
+    {
+      "id": "AguaRio-mt1do4t5",
+      "type": "AguaRio",
+      "x": 4990.220976888317,
+      "y": 1206.0574811363379,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "background"
+      }
+    },
+    {
+      "id": "AguaRio-mt1do8q1",
+      "type": "AguaRio",
+      "x": 5092.36720321532,
+      "y": 1207.5874107114944,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "background"
+      }
+    },
+    {
+      "id": "Arbol-mt1gljb1",
+      "type": "Arbol",
+      "x": 7054.1955963783075,
+      "y": 919.6939164626169,
+      "params": {
+        "scale": 2.3,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "background",
+        "variant": "arbol-3.png"
+      }
+    },
+    {
+      "id": "CervezaEstrella-mt2qhzp0",
+      "type": "CervezaEstrella",
+      "x": 9177.277732977906,
+      "y": 1147.3219603346315,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "sensor"
       }
     }
   ],
@@ -214,23 +410,23 @@ export const LEVEL_03_TEXT = `{
         {
           "id": "BarbacoaHumeante-msa6gkgk",
           "type": "BarbacoaHumeante",
-          "x": 32.84134799181169,
-          "y": 9.852224603459945,
+          "x": 58.59722763795361,
+          "y": 25.529960240112473,
           "params": {
             "zIndex": 5,
             "behavior": "sensor",
-            "scale": 0.3858713731425526
+            "scale": 0.585871373142553
           }
         },
         {
           "id": "ColorBlock-msek7r1m",
           "type": "ColorBlock",
-          "x": 0,
-          "y": 0,
+          "x": 4.479283416720364,
+          "y": 4.479353039043588,
           "params": {
             "scale": 1,
-            "width": 65,
-            "height": 54,
+            "width": 111,
+            "height": 97,
             "color": "#4a3728",
             "zIndex": 0,
             "behavior": "damage",
@@ -451,6 +647,596 @@ export const LEVEL_03_TEXT = `{
           }
         }
       ]
+    },
+    {
+      "id": "group-mt2nq33d",
+      "name": "IbizaBlanco",
+      "elements": [
+        {
+          "id": "ColorBlock-mt2nogm2",
+          "type": "ColorBlock",
+          "x": 0,
+          "y": 31.68344620147741,
+          "params": {
+            "scale": 1,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "carry": false,
+            "width": 162,
+            "height": 105,
+            "color": "#4a3728",
+            "zIndex": 6,
+            "behavior": "solid",
+            "hidden": true
+          }
+        },
+        {
+          "id": "ColorBlock-mt2npbeo",
+          "type": "ColorBlock",
+          "x": 32.7982173066751,
+          "y": 2.239676519521794,
+          "params": {
+            "scale": 1,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "carry": false,
+            "width": 100,
+            "height": 55,
+            "color": "#4a3728",
+            "zIndex": 7,
+            "behavior": "solid",
+            "hidden": true
+          }
+        },
+        {
+          "id": "CocheSeatIbiza-mt2nxgj3",
+          "type": "CocheSeatIbiza",
+          "x": 82.1926045392249,
+          "y": 61.91250978806019,
+          "params": {
+            "scale": 0.8,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "carry": false,
+            "color": "blanco",
+            "zIndex": 5,
+            "behavior": "background"
+          }
+        }
+      ]
+    },
+    {
+      "id": "group-mt2obiwk",
+      "name": "CocheInsignia",
+      "elements": [
+        {
+          "id": "CocheOpelInsigniaNegro-mszzpat1",
+          "type": "CocheOpelInsigniaNegro",
+          "x": 188.35905585578712,
+          "y": 58.58625572034816,
+          "params": {
+            "scale": 1.7,
+            "rotation": 0,
+            "flipX": true,
+            "flipY": false,
+            "zIndex": 5,
+            "behavior": "background"
+          }
+        },
+        {
+          "id": "ColorBlock-mt2ntdmf",
+          "type": "ColorBlock",
+          "x": 0,
+          "y": 33.927337306773325,
+          "params": {
+            "scale": 1,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "carry": false,
+            "width": 394,
+            "height": 81,
+            "color": "#4a3728",
+            "zIndex": 8,
+            "behavior": "solid",
+            "hidden": true
+          }
+        },
+        {
+          "id": "ColorBlock-mt2nu7rj",
+          "type": "ColorBlock",
+          "x": 53.647728640718015,
+          "y": 16.117632892427082,
+          "params": {
+            "scale": 1,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "carry": false,
+            "width": 209,
+            "height": 35,
+            "color": "#4a3728",
+            "zIndex": 7,
+            "behavior": "solid",
+            "hidden": true
+          }
+        },
+        {
+          "id": "ColorBlock-mt2nuvwf",
+          "type": "ColorBlock",
+          "x": 95.10620603063126,
+          "y": 0,
+          "params": {
+            "scale": 1,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "carry": false,
+            "width": 146,
+            "height": 35,
+            "color": "#4a3728",
+            "zIndex": 6,
+            "behavior": "solid",
+            "hidden": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "group-mt2oddol",
+      "name": "CocheMercedes",
+      "elements": [
+        {
+          "id": "CocheMercedesAzul-mt000yqv",
+          "type": "CocheMercedesAzul",
+          "x": 85.01921400533593,
+          "y": 68.84037621789025,
+          "params": {
+            "scale": 0.7,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "zIndex": 5,
+            "behavior": "background"
+          }
+        },
+        {
+          "id": "ColorBlock-mt2oc3bn",
+          "type": "ColorBlock",
+          "x": 0,
+          "y": 27.396988295292886,
+          "params": {
+            "scale": 1,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "carry": false,
+            "width": 175,
+            "height": 109,
+            "color": "#4a3728",
+            "zIndex": 8,
+            "behavior": "solid",
+            "hidden": true
+          }
+        },
+        {
+          "id": "ColorBlock-mt2ocfot",
+          "type": "ColorBlock",
+          "x": 26.53949039228246,
+          "y": 0,
+          "params": {
+            "scale": 1,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "carry": false,
+            "width": 114,
+            "height": 48,
+            "color": "#4a3728",
+            "zIndex": 8,
+            "behavior": "solid",
+            "hidden": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "group-mt2oesl3",
+      "name": "CocheIbizaNegro",
+      "elements": [
+        {
+          "id": "CocheSeatIbiza-mt002q0w",
+          "type": "CocheSeatIbiza",
+          "x": 79.74539213892513,
+          "y": 56.93126925622346,
+          "params": {
+            "scale": 0.8,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "color": "negro",
+            "zIndex": 5,
+            "behavior": "background"
+          }
+        },
+        {
+          "id": "ColorBlock-mt2odihj",
+          "type": "ColorBlock",
+          "x": 0,
+          "y": 29.68276632388529,
+          "params": {
+            "scale": 1,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "carry": false,
+            "width": 162,
+            "height": 106,
+            "color": "#4a3728",
+            "zIndex": 5,
+            "behavior": "solid",
+            "hidden": true
+          }
+        },
+        {
+          "id": "ColorBlock-mt2odtqs",
+          "type": "ColorBlock",
+          "x": 22.53949039228337,
+          "y": 0,
+          "params": {
+            "scale": 1,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "carry": false,
+            "width": 115,
+            "height": 63,
+            "color": "#4a3728",
+            "zIndex": 5,
+            "behavior": "solid",
+            "hidden": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "group-mt2oh7rv",
+      "name": "CocheVolvo",
+      "elements": [
+        {
+          "id": "VolvoXc40-mt2of9w9",
+          "type": "VolvoXc40",
+          "x": 77.4277067652747,
+          "y": 57.793530390435535,
+          "params": {
+            "scale": 0.7,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "carry": false,
+            "zIndex": 5,
+            "behavior": "background"
+          }
+        },
+        {
+          "id": "ColorBlock-mt2ofu2y",
+          "type": "ColorBlock",
+          "x": 0,
+          "y": 26.158839938132132,
+          "params": {
+            "scale": 1,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "carry": false,
+            "width": 157,
+            "height": 103,
+            "color": "#4a3728",
+            "zIndex": 8,
+            "behavior": "solid",
+            "hidden": true
+          }
+        },
+        {
+          "id": "ColorBlock-mt2og99k",
+          "type": "ColorBlock",
+          "x": 22.301034877814345,
+          "y": 0,
+          "params": {
+            "scale": 1,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "carry": false,
+            "width": 112,
+            "height": 47,
+            "color": "#4a3728",
+            "zIndex": 7,
+            "behavior": "solid",
+            "hidden": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "group-mt2pe7g1",
+      "name": "CocheDacia",
+      "elements": [
+        {
+          "id": "CocheDaciaLodgyGris-mt2paht6",
+          "type": "CocheDaciaLodgyGris",
+          "x": 156.39897630959968,
+          "y": 51.199537885031305,
+          "params": {
+            "scale": 1.5,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "carry": false,
+            "zIndex": 5,
+            "behavior": "background"
+          }
+        },
+        {
+          "id": "ColorBlock-mt2pb2i9",
+          "type": "ColorBlock",
+          "x": 0,
+          "y": 37.79584096528038,
+          "params": {
+            "scale": 1,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "carry": false,
+            "width": 281,
+            "height": 77,
+            "color": "#4a3728",
+            "zIndex": 8,
+            "behavior": "solid",
+            "hidden": true
+          }
+        },
+        {
+          "id": "ColorBlock-mt2pbuwd",
+          "type": "ColorBlock",
+          "x": 89.02175342099054,
+          "y": 0,
+          "params": {
+            "scale": 1,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "carry": false,
+            "width": 227,
+            "height": 126,
+            "color": "#4a3728",
+            "zIndex": 6,
+            "behavior": "solid",
+            "hidden": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "group-mt2pixb8",
+      "name": "Valla",
+      "elements": [
+        {
+          "id": "VallaTroncos-mt2phuvz",
+          "type": "VallaTroncos",
+          "x": 74.46913993183352,
+          "y": 31.287529291028704,
+          "params": {
+            "scale": 1,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "carry": false,
+            "zIndex": 5,
+            "behavior": "background"
+          }
+        },
+        {
+          "id": "ColorBlock-mt2pi325",
+          "type": "ColorBlock",
+          "x": 0,
+          "y": 0,
+          "params": {
+            "scale": 1,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "carry": false,
+            "width": 153,
+            "height": 77,
+            "color": "#4a3728",
+            "zIndex": 0,
+            "behavior": "solid",
+            "hidden": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "group-mt2ploh9",
+      "name": "BBQApagada",
+      "elements": [
+        {
+          "id": "BarbacoaLadrillo-mt2pjn7z",
+          "type": "BarbacoaLadrillo",
+          "x": 49.5811288520963,
+          "y": 32.571109857035935,
+          "params": {
+            "scale": 1,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "carry": false,
+            "zIndex": 5,
+            "behavior": "background",
+            "encendido": false
+          }
+        },
+        {
+          "id": "ColorBlock-mt2pl0j0",
+          "type": "ColorBlock",
+          "x": 0,
+          "y": 0,
+          "params": {
+            "scale": 1,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "carry": false,
+            "width": 97,
+            "height": 83,
+            "color": "#4a3728",
+            "zIndex": 6,
+            "behavior": "solid",
+            "hidden": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "group-mt2ppr1u",
+      "name": "BBQEncendida",
+      "elements": [
+        {
+          "id": "BarbacoaLadrillo-mt2pnu1k",
+          "type": "BarbacoaLadrillo",
+          "x": 49.70199144372782,
+          "y": 49.82543223810717,
+          "params": {
+            "scale": 1,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "carry": false,
+            "zIndex": 5,
+            "behavior": "background",
+            "encendido": true
+          }
+        },
+        {
+          "id": "ColorBlock-mt2potad",
+          "type": "ColorBlock",
+          "x": 7.83874597926058,
+          "y": 1.119838259760897,
+          "params": {
+            "scale": 1,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "carry": false,
+            "width": 81,
+            "height": 25,
+            "color": "#4a3728",
+            "zIndex": 0,
+            "behavior": "damage",
+            "hidden": true
+          }
+        },
+        {
+          "id": "ColorBlock-mt2pxxgp",
+          "type": "ColorBlock",
+          "x": -3.1063849176862846,
+          "y": 25.408895713150798,
+          "params": {
+            "scale": 1,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "carry": false,
+            "width": 100,
+            "height": 73,
+            "color": "#4a3728",
+            "zIndex": 8,
+            "behavior": "solid",
+            "hidden": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "group-mt2ptc6z",
+      "name": "Espino",
+      "elements": [
+        {
+          "id": "MatorralConEspinas-mt0025v5",
+          "type": "MatorralConEspinas",
+          "x": 47.66207176480566,
+          "y": 39.11273533243252,
+          "params": {
+            "scale": 1,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "zIndex": 5,
+            "behavior": "background"
+          }
+        },
+        {
+          "id": "ColorBlock-mt2prt8j",
+          "type": "ColorBlock",
+          "x": 0,
+          "y": 29.28577802859263,
+          "params": {
+            "scale": 1,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "carry": false,
+            "width": 100,
+            "height": 77,
+            "color": "#4a3728",
+            "zIndex": 7,
+            "behavior": "damage",
+            "hidden": true
+          }
+        },
+        {
+          "id": "ColorBlock-mt2ps8n4",
+          "type": "ColorBlock",
+          "x": 12.85843985208794,
+          "y": 0,
+          "params": {
+            "scale": 1,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "carry": false,
+            "width": 46,
+            "height": 47,
+            "color": "#4a3728",
+            "zIndex": 7,
+            "behavior": "damage",
+            "hidden": true
+          }
+        },
+        {
+          "id": "ColorBlock-mt2pshzd",
+          "type": "ColorBlock",
+          "x": 46.27125835691095,
+          "y": 14.11098716662491,
+          "params": {
+            "scale": 1,
+            "rotation": 0,
+            "flipX": false,
+            "flipY": false,
+            "carry": false,
+            "width": 50,
+            "height": 44,
+            "color": "#4a3728",
+            "zIndex": 8,
+            "behavior": "damage",
+            "hidden": true
+          }
+        }
+      ]
     }
   ],
   "groupInstances": [
@@ -469,26 +1255,26 @@ export const LEVEL_03_TEXT = `{
     {
       "id": "group-msa5xm8x-inst-msa5zcai",
       "groupId": "group-msa5xm8x",
-      "x": 2671.244924429432,
-      "y": 1078.2175324675325
+      "x": 2664.5259993043514,
+      "y": 1093.895268104185
     },
     {
       "id": "group-msekh6qu-inst-msekh6qu",
       "groupId": "group-msekh6qu",
-      "x": 426.2843905732688,
-      "y": 1126.3846007006825
+      "x": 409.4870777605676,
+      "y": 1087.1902616090513
     },
     {
       "id": "group-mseq0wci-inst-mseq0wci",
       "groupId": "group-mseq0wci",
-      "x": 3165.267104256336,
-      "y": 1004.5112387612388
+      "x": 3142.1790827498853,
+      "y": 1005.4982019296327
     },
     {
       "id": "group-mseqqblu-inst-mser1k3b",
       "groupId": "group-mseqqblu",
-      "x": 4640.274563241794,
-      "y": 791.3068181818187
+      "x": 4646.636311102012,
+      "y": 792.1077816413763
     },
     {
       "id": "group-msa5xm8x-inst-mser4wow",
@@ -499,8 +1285,86 @@ export const LEVEL_03_TEXT = `{
     {
       "id": "group-msekh6qu-inst-mser55ka",
       "groupId": "group-msekh6qu",
-      "x": 4509.448291881095,
-      "y": 1123.0575560802833
+      "x": 4425.461727817589,
+      "y": 1081.0636213392497
+    },
+    {
+      "id": "group-mt2nq33d-inst-mt2nq33d",
+      "groupId": "group-mt2nq33d",
+      "x": 5592.929665109401,
+      "y": 1047.465588398406
+    },
+    {
+      "id": "group-mt2obiwk-inst-mt2obiwk",
+      "groupId": "group-mt2obiwk",
+      "x": 5808.067306534777,
+      "y": 1069.8604338486045
+    },
+    {
+      "id": "group-mt2oddol-inst-mt2oddol",
+      "groupId": "group-mt2oddol",
+      "x": 6364.763057646302,
+      "y": 1050.0316787475963
+    },
+    {
+      "id": "group-mt2oesl3-inst-mt2oesl3",
+      "groupId": "group-mt2oesl3",
+      "x": 6671.794347327974,
+      "y": 1049.0474065713574
+    },
+    {
+      "id": "group-mt2oh7rv-inst-mt2oh7rv",
+      "groupId": "group-mt2oh7rv",
+      "x": 7143.649760858521,
+      "y": 1055.4127161190536
+    },
+    {
+      "id": "group-mt2pe7g1-inst-mt2pe7g1",
+      "groupId": "group-mt2pe7g1",
+      "x": 7493.590786786404,
+      "y": 1055.994223562889
+    },
+    {
+      "id": "group-mt2pixb8-inst-mt2pixb8",
+      "groupId": "group-mt2pixb8",
+      "x": 8071.903431600322,
+      "y": 1099.5044729370459
+    },
+    {
+      "id": "group-mt2pixb8-inst-mt2pj4qn",
+      "groupId": "group-mt2pixb8",
+      "x": 8370.067118845656,
+      "y": 1102.0474065713572
+    },
+    {
+      "id": "group-mt2ploh9-inst-mt2ploh9",
+      "groupId": "group-mt2ploh9",
+      "x": 8664.412818504823,
+      "y": 1095.0952593428642
+    },
+    {
+      "id": "group-mt2ppr1u-inst-mt2ppr1u",
+      "groupId": "group-mt2ppr1u",
+      "x": 8906.061066202574,
+      "y": 1077.8252091380323
+    },
+    {
+      "id": "group-mt2ptc6z-inst-mt2ptc6z",
+      "groupId": "group-mt2ptc6z",
+      "x": 5443.427706765275,
+      "y": 1087.1902955856538
+    },
+    {
+      "id": "group-mt2ptc6z-inst-mt2ptjil",
+      "groupId": "group-mt2ptc6z",
+      "x": 6239.317436299036,
+      "y": 1079.222197433325
+    },
+    {
+      "id": "group-mt2ptc6z-inst-mt2ptytl",
+      "groupId": "group-mt2ptc6z",
+      "x": 8253.87332811254,
+      "y": 1078.2379252570856
     }
   ]
 }`;

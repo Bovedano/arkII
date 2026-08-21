@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import {
   registerPenistaAnimations,
   registerBarbacoaHumeanteAnimations,
+  registerBarbacoaLadrilloAnimations,
   registerAguaRioAnimations,
   registerPajaroBlancoAnimations,
   registerEsporaDienteLeonAnimations,
@@ -64,8 +65,15 @@ export class PreloadScene extends Phaser.Scene {
     this.load.image('coche-seat-ibiza-negro', 'assets/blocks/coche-seat-ibiza-negro.png');
     this.load.image('coche-mercedes-azul', 'assets/blocks/coche-mercedes-azul.png');
     this.load.image('coche-opel-insignia-negro', 'assets/blocks/coche-opel-insignia-negro.png');
+    this.load.image('coche-dacia-lodgy-gris', 'assets/blocks/coche-dacia-lodgy-gris.png');
+    this.load.image('volvo-xc40', 'assets/blocks/volvo-xc40.png');
+    this.load.image('valla-troncos', 'assets/blocks/valla-troncos.png');
     for (let i = 0; i < 5; i++) {
       this.load.image(`barbacoa-humeante-${i}`, `assets/blocks/barbacoa-humeante/frame-${i}.png`);
+    }
+    this.load.image('barbacoa-ladrillo', 'assets/blocks/barbacoa-ladrillo.png');
+    for (let i = 0; i < 7; i++) {
+      this.load.image(`barbacoa-ladrillo-encendida-${i}`, `assets/blocks/barbacoa-ladrillo-encendida/frame-${i}.png`);
     }
     for (let i = 0; i < 7; i++) {
       this.load.image(`agua-rio-${i}`, `assets/blocks/agua-rio/frame-${i}.png`);
@@ -97,6 +105,7 @@ export class PreloadScene extends Phaser.Scene {
   create(): void {
     registerPenistaAnimations(this);
     registerBarbacoaHumeanteAnimations(this);
+    registerBarbacoaLadrilloAnimations(this);
     registerAguaRioAnimations(this);
     registerPajaroBlancoAnimations(this);
     registerEsporaDienteLeonAnimations(this);

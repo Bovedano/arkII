@@ -64,6 +64,21 @@ export function registerBarbacoaHumeanteAnimations(scene: Phaser.Scene): void {
   });
 }
 
+export const BARBACOA_LADRILLO_ENCENDIDA_TEXTURE_KEYS = [0, 1, 2, 3, 4, 5, 6].map(
+  (i) => `barbacoa-ladrillo-encendida-${i}`,
+);
+export const BARBACOA_LADRILLO_ANIM_KEY = 'barbacoa-ladrillo-flicker';
+
+/** Registers the looping flame-flicker animation, called once from PreloadScene.create(). */
+export function registerBarbacoaLadrilloAnimations(scene: Phaser.Scene): void {
+  scene.anims.create({
+    key: BARBACOA_LADRILLO_ANIM_KEY,
+    frames: BARBACOA_LADRILLO_ENCENDIDA_TEXTURE_KEYS.map((key) => ({ key })),
+    frameRate: 8,
+    repeat: -1,
+  });
+}
+
 export const AGUA_RIO_TEXTURE_KEYS = [0, 1, 2, 3, 4, 5, 6].map((i) => `agua-rio-${i}`);
 export const AGUA_RIO_ANIM_KEY = 'agua-rio-undulate';
 
