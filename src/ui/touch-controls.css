@@ -1,11 +1,14 @@
 .touch-controls-root {
   position: fixed;
   pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .touch-joystick {
   position: absolute;
-  left: 24px;
+  left: 48px;
   bottom: 24px;
   width: 120px;
   height: 120px;
@@ -28,8 +31,8 @@
 
 .touch-jump-hit {
   position: absolute;
-  right: 0px;
-  bottom: 0px;
+  right: 24px;
+  bottom: 24px;
   width: 128px;
   height: 128px;
   display: flex;
@@ -49,6 +52,9 @@
   font: 16px var(--pk-font);
   pointer-events: none;
   touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .touch-btn.active {
