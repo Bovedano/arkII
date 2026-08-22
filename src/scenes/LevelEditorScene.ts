@@ -215,6 +215,7 @@ export class LevelEditorScene extends Phaser.Scene {
     });
 
     this.bindUndoRedoShortcuts();
+    this.bindArrowKeyNudge();
   }
 
   /** Opens a native file picker for a previously-downloaded level JSON, then restarts the
@@ -263,6 +264,65 @@ export class LevelEditorScene extends Phaser.Scene {
         event.preventDefault();
         this.state.redo();
       }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    this.events.once('shutdown', () => window.removeEventListener('keydown', onKeyDown));
+  }
+
+  /** Arrow keys nudge the current selection (elements and/or placed group instances) by 1px for
+   *  fine adjustment, or 10px with Shift held. Same window-level + editable-field-guard pattern
+   *  as bindUndoRedoShortcuts. No-ops when nothing is selected, so arrow keys keep their default
+   *  behavior (e.g. scrolling a focused select) elsewhere in the editor. */
+  private bindArrowKeyNudge(): void {
+    const STEP = 1;
+    const STEP_FAST = 10;
+    const onKeyDown = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null;
+      const tag = target?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || target?.isContentEditable) return;
+
+      let dx = 0;
+      let dy = 0;
+      switch (event.key) {
+        case 'ArrowLeft':
+          dx = -1;
+          break;
+        case 'ArrowRight':
+          dx = 1;
+          break;
+        case 'ArrowUp':
+          dy = -1;
+          break;
+        case 'ArrowDown':
+          dy = 1;
+          break;
+        default:
+          return;
+      }
+
+      const hasSelection = this.state.multiSelected.size > 0 || this.state.multiSelectedGroupInstances.size > 0;
+      if (!hasSelection) return;
+      event.preventDefault();
+
+      const step = event.shiftKey ? STEP_FAST : STEP;
+      dx *= step;
+      dy *= step;
+
+      const elementMoves = [...this.state.multiSelected]
+        .map((index) => {
+          const def = this.state.activeElements[index];
+          return def ? { index, x: def.x + dx, y: def.y + dy } : null;
+        })
+        .filter((m): m is { index: number; x: number; y: number } => m !== null);
+
+      const groupInstanceMoves = [...this.state.multiSelectedGroupInstances]
+        .map((index) => {
+          const inst = this.state.level.groupInstances?.[index];
+          return inst ? { index, x: inst.x + dx, y: inst.y + dy } : null;
+        })
+        .filter((m): m is { index: number; x: number; y: number } => m !== null);
+
+      this.state.moveSelection(elementMoves, groupInstanceMoves);
     };
     window.addEventListener('keydown', onKeyDown);
     this.events.once('shutdown', () => window.removeEventListener('keydown', onKeyDown));
