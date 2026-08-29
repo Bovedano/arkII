@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { DomOverlay } from '../editor/DomOverlay';
 import { fitToCanvas } from './CanvasAlign';
 import { wireMenuActions } from './domMenu';
+import { toggleFullscreen } from './fullscreenButton';
 import type { HudSnapshot } from '../systems/GameSession';
 
 export interface HudOptions {
@@ -35,7 +36,7 @@ export class Hud {
         </div>
       </div>
     `;
-    wireMenuActions(this.overlay.root, { exit: options.onExit, fullscreen: () => this.toggleFullscreen() });
+    wireMenuActions(this.overlay.root, { exit: options.onExit, fullscreen: toggleFullscreen });
     this.heartEls = [...this.overlay.root.querySelectorAll<HTMLElement>('.hud-heart')];
     this.collectedEl = this.overlay.root.querySelector('[data-field="collected"]')!;
     this.totalEl = this.overlay.root.querySelector('[data-field="total"]')!;
@@ -59,13 +60,5 @@ export class Hud {
       this.timerEl.classList.toggle('low', snapshot.timeRemainingSec <= 30);
     }
     this.last = snapshot;
-  }
-
-  private toggleFullscreen(): void {
-    if (document.fullscreenElement) {
-      document.exitFullscreen();
-    } else {
-      document.documentElement.requestFullscreen();
-    }
   }
 }

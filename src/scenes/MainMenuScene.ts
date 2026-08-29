@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { appConfig } from '../config/appConfig';
 import { DomOverlay } from '../editor/DomOverlay';
 import { renderMenuOption, wireMenuActions } from '../ui/domMenu';
+import { mountFullscreenButton } from '../ui/fullscreenButton';
 
 export class MainMenuScene extends Phaser.Scene {
   constructor() {
@@ -31,5 +32,7 @@ export class MainMenuScene extends Phaser.Scene {
       play: () => this.scene.start('LevelSelect'),
       editor: () => this.scene.start('LevelEditor'),
     });
+
+    mountFullscreenButton(overlay.root);
   }
 }

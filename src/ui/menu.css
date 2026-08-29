@@ -102,6 +102,28 @@
   opacity: 0.7;
 }
 
+.menu-fullscreen {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 1;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 3px solid var(--pk-black);
+  border-radius: 2px;
+  background: rgba(20, 20, 20, 0.06);
+  color: var(--pk-black);
+  font: 700 1rem var(--pk-font);
+  line-height: 1;
+  cursor: pointer;
+}
+
+.menu-fullscreen:hover {
+  background: var(--pk-black);
+  color: var(--pk-orange);
+}
+
 .menu-back {
   position: absolute;
   top: 1.25rem;

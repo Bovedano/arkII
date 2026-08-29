@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { DomOverlay } from '../editor/DomOverlay';
 import { wireMenuActions } from './domMenu';
+import { mountFullscreenButton } from './fullscreenButton';
 import { formatTime } from './format';
 import { appConfig } from '../config/appConfig';
 
@@ -72,5 +73,7 @@ export class LevelCompleteScreen {
       retry: options.onRetry,
       'level-select': options.onLevelSelect,
     });
+
+    mountFullscreenButton(this.overlay.root);
   }
 }

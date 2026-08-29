@@ -4,6 +4,7 @@ import { LevelLoader } from '../systems/LevelLoader';
 import { getGameState } from '../systems/GameState';
 import { DomOverlay } from '../editor/DomOverlay';
 import { renderMenuOption, wireMenuActions } from '../ui/domMenu';
+import { mountFullscreenButton } from '../ui/fullscreenButton';
 import { formatTime } from '../ui/format';
 import { appConfig } from '../config/appConfig';
 
@@ -49,5 +50,7 @@ export class LevelSelectScene extends Phaser.Scene {
       handlers[`level:${meta.id}`] = () => this.scene.start('Game', { levelId: meta.id });
     }
     wireMenuActions(overlay.root, handlers);
+
+    mountFullscreenButton(overlay.root);
   }
 }
