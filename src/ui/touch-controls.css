@@ -4,59 +4,82 @@
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
+  overflow: hidden;
 }
 
-.touch-joystick {
+/* Full-height halves: left steers, right jumps. They capture every pointer;
+   the visible joystick/button below sit on top with pointer-events: none. */
+.touch-zone {
   position: absolute;
-  left: 48px;
-  bottom: 64px;
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background: rgba(242, 96, 12, 0.35);
+  top: 48px; /* clear the HUD bar */
+  height: calc(100% - 48px);
+  width: 50%;
   pointer-events: auto;
   touch-action: none;
+}
+
+.touch-zone-move {
+  left: 0;
+}
+
+.touch-zone-jump {
+  right: 0;
+}
+
+.touch-jump-btn {
+  position: absolute;
+  right: 48px;
+  bottom: 72px;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(242, 96, 12, 0.35);
+  color: var(--pk-black);
+  font: 20px var(--pk-font);
+  pointer-events: none;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  transition: background 0.08s ease;
+}
+
+.touch-jump-btn.active {
+  background: rgba(242, 96, 12, 0.7);
+}
+
+/* Floating joystick — positioned in design space at the touch point via left/top,
+   the negative margins re-centre it on that point. */
+.touch-joystick {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 132px;
+  height: 132px;
+  margin-left: -66px;
+  margin-top: -66px;
+  border-radius: 50%;
+  background: rgba(242, 96, 12, 0.28);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.1s ease;
+}
+
+.touch-joystick.visible {
+  opacity: 1;
 }
 
 .touch-joystick-knob {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 56px;
-  height: 56px;
-  margin: -28px;
+  width: 60px;
+  height: 60px;
+  margin: -30px;
   border-radius: 50%;
-  background: rgba(20, 20, 20, 0.55);
-}
-
-.touch-jump-hit {
-  position: absolute;
-  right: 24px;
-  bottom: 64px;
-  width: 128px;
-  height: 128px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: auto;
-  touch-action: none;
-}
-
-.touch-btn {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(242, 96, 12, 0.4);
-  color: var(--pk-black);
-  font: 16px var(--pk-font);
-  pointer-events: none;
-  touch-action: none;
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-touch-callout: none;
-}
-
-.touch-btn.active {
-  background: rgba(242, 96, 12, 0.65);
+  background: rgba(20, 20, 20, 0.5);
 }

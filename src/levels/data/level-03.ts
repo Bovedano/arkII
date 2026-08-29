@@ -9,7 +9,7 @@ export const LEVEL_03_TEXT = `{
     "camera": {
       "marginX": 100
     },
-    "timeLimitSec": 600
+    "timeLimitSec": 1200
   },
   "sublevels": [],
   "elements": [
@@ -39,8 +39,8 @@ export const LEVEL_03_TEXT = `{
     {
       "id": "Penista-ms96tayh",
       "type": "Penista",
-      "x": 243.96985482628796,
-      "y": 1135.0858510276644,
+      "x": 243.71052713333188,
+      "y": 1142.0877318376622,
       "params": {
         "abilities": [
           "run",
@@ -654,7 +654,7 @@ export const LEVEL_03_TEXT = `{
         "carry": false,
         "zIndex": 11,
         "behavior": "solid",
-        "groundDelaySec": 0,
+        "groundDelaySec": 2,
         "swayAmplitudeDeg": 12,
         "flight1Speed": 150,
         "flight1DurationSec": 5,
@@ -673,7 +673,42 @@ export const LEVEL_03_TEXT = `{
         "flight5DirectionDeg": 0,
         "initialAppearDelaySec": 0,
         "appearDelaySec": 0,
-        "initialDelaySec": 1
+        "initialDelaySec": 2
+      }
+    },
+    {
+      "id": "EsporaDienteLeon-mtea98r2",
+      "type": "EsporaDienteLeon",
+      "x": 5976.916898081353,
+      "y": 1144.02544856852,
+      "params": {
+        "scale": 0.5,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 11,
+        "behavior": "solid",
+        "groundDelaySec": 2,
+        "swayAmplitudeDeg": 12,
+        "flight1Speed": 150,
+        "flight1DurationSec": 5,
+        "flight1DirectionDeg": 350,
+        "flight2Speed": 0,
+        "flight2DurationSec": 0,
+        "flight2DirectionDeg": 0,
+        "flight3Speed": 0,
+        "flight3DurationSec": 0,
+        "flight3DirectionDeg": 0,
+        "flight4Speed": 0,
+        "flight4DurationSec": 0,
+        "flight4DirectionDeg": 0,
+        "flight5Speed": 0,
+        "flight5DurationSec": 0,
+        "flight5DirectionDeg": 0,
+        "initialAppearDelaySec": 3.5,
+        "appearDelaySec": 0,
+        "initialDelaySec": 2
       }
     },
     {
@@ -689,7 +724,7 @@ export const LEVEL_03_TEXT = `{
         "carry": false,
         "zIndex": 11,
         "behavior": "solid",
-        "groundDelaySec": 0,
+        "groundDelaySec": 3,
         "swayAmplitudeDeg": 12,
         "flight1Speed": 150,
         "flight1DurationSec": 4,
@@ -706,9 +741,44 @@ export const LEVEL_03_TEXT = `{
         "flight5Speed": 0,
         "flight5DurationSec": 0,
         "flight5DirectionDeg": 0,
-        "initialAppearDelaySec": 0,
+        "initialAppearDelaySec": 4,
         "appearDelaySec": 0,
-        "initialDelaySec": 0
+        "initialDelaySec": 2
+      }
+    },
+    {
+      "id": "EsporaDienteLeon-mtea9htq",
+      "type": "EsporaDienteLeon",
+      "x": 6577.064714866338,
+      "y": 1142.2101461362984,
+      "params": {
+        "scale": 0.5,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 11,
+        "behavior": "solid",
+        "groundDelaySec": 3,
+        "swayAmplitudeDeg": 12,
+        "flight1Speed": 150,
+        "flight1DurationSec": 4,
+        "flight1DirectionDeg": 350,
+        "flight2Speed": 0,
+        "flight2DurationSec": 0,
+        "flight2DirectionDeg": 0,
+        "flight3Speed": 0,
+        "flight3DurationSec": 0,
+        "flight3DirectionDeg": 0,
+        "flight4Speed": 0,
+        "flight4DurationSec": 0,
+        "flight4DirectionDeg": 0,
+        "flight5Speed": 0,
+        "flight5DurationSec": 0,
+        "flight5DirectionDeg": 0,
+        "initialAppearDelaySec": 7.5,
+        "appearDelaySec": 0,
+        "initialDelaySec": 2
       }
     },
     {

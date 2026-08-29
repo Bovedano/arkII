@@ -161,10 +161,15 @@ export class GameScene extends Phaser.Scene {
    *  "Responsive" device-toolbar mode doesn't set navigator.maxTouchPoints unless a named
    *  device preset is picked, so relying on device.input.touch alone makes the controls
    *  untestable there. Real tablets/phones already satisfy device.input.touch regardless of
-   *  width, so this only ever adds cases, never hides the controls on an actual touch device. */
+   *  width, so this only ever adds cases, never hides the controls on an actual touch device.
+   *  In dev mode the controls are always shown so they can be exercised on a desktop. */
   private wantsTouchControls(): boolean {
     const NARROW_WINDOW_PX = 900;
-    return this.sys.game.device.input.touch || window.innerWidth <= NARROW_WINDOW_PX;
+    return (
+      appConfig.dev ||
+      this.sys.game.device.input.touch ||
+      window.innerWidth <= NARROW_WINDOW_PX
+    );
   }
 
   /** Points the camera at the configured `camera.follow` element, falling back to the main
