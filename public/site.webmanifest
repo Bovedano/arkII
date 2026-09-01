@@ -1,0 +1,25 @@
+{
+  "name": "PKII — Juego de plataformas",
+  "short_name": "PKII",
+  "description": "Juego de plataformas de acción para navegador. Juega gratis y sin descargas.",
+  "lang": "es",
+  "start_url": "/",
+  "scope": "/",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/banner.png",
+      "sizes": "1774x887",
+      "type": "image/png"
+    }
+  ]
+}
