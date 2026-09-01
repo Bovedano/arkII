@@ -7,6 +7,8 @@ import {
   registerPajaroBlancoAnimations,
   registerEsporaDienteLeonAnimations,
   registerRespawnAnimations,
+  registerAvispaAnimations,
+  registerCorazonCristalNaranjaAnimations,
 } from '../systems/animations';
 import { BACKGROUND_ASSETS } from '../config/backgroundAssets';
 import { ARBOL_VARIANTS } from '../config/arbolVariants';
@@ -71,6 +73,7 @@ export class PreloadScene extends Phaser.Scene {
     this.load.image('coche-dacia-lodgy-gris', 'assets/blocks/coche-dacia-lodgy-gris.png');
     this.load.image('volvo-xc40', 'assets/blocks/volvo-xc40.png');
     this.load.image('valla-troncos', 'assets/blocks/valla-troncos.png');
+    this.load.image('puente', 'assets/blocks/puente.png');
     for (let i = 0; i < 5; i++) {
       this.load.image(`barbacoa-humeante-${i}`, `assets/blocks/barbacoa-humeante/frame-${i}.png`);
     }
@@ -91,6 +94,12 @@ export class PreloadScene extends Phaser.Scene {
     }
     for (let i = 0; i < 7; i++) {
       this.load.image(`espora-diente-leon-fly-${i}`, `assets/espora-diente-leon/fly-${i}.png`);
+    }
+    for (let i = 0; i < 9; i++) {
+      this.load.image(`avispa-fly-${i}`, `assets/avispa/fly/west-${i}.png`);
+    }
+    for (let i = 0; i < 7; i++) {
+      this.load.image(`corazon-cristal-naranja-${i}`, `assets/corazon-cristal-naranja/frame-${i}.png`);
     }
     this.load.image('respawn-base', 'assets/respawn/base.png');
     for (let i = 0; i < 7; i++) {
@@ -117,6 +126,8 @@ export class PreloadScene extends Phaser.Scene {
     registerPajaroBlancoAnimations(this);
     registerEsporaDienteLeonAnimations(this);
     registerRespawnAnimations(this);
+    registerAvispaAnimations(this);
+    registerCorazonCristalNaranjaAnimations(this);
     this.scene.start('MainMenu');
   }
 }

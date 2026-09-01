@@ -39,8 +39,8 @@ export const LEVEL_03_TEXT = `{
     {
       "id": "Penista-ms96tayh",
       "type": "Penista",
-      "x": 243.71052713333188,
-      "y": 1142.0877318376622,
+      "x": 258.1755911874552,
+      "y": 1133.1605822047316,
       "params": {
         "abilities": [
           "run",
@@ -53,8 +53,8 @@ export const LEVEL_03_TEXT = `{
     {
       "id": "Floor-ms98kzzp",
       "type": "Floor",
-      "x": 3445.5248574233715,
-      "y": 1210.5283933236244,
+      "x": 3445.709563572679,
+      "y": 1212.8623535936238,
       "params": {
         "centerCount": 80,
         "theme": "green",
@@ -81,7 +81,7 @@ export const LEVEL_03_TEXT = `{
     {
       "id": "ColorBlock-msepvabs",
       "type": "ColorBlock",
-      "x": 20551.881147259694,
+      "x": 20572.881147259694,
       "y": 410.79635362451165,
       "params": {
         "scale": 1,
@@ -124,7 +124,7 @@ export const LEVEL_03_TEXT = `{
     {
       "id": "FixedBackground-mszvq2nb",
       "type": "FixedBackground",
-      "x": 4030,
+      "x": 6030,
       "y": 500,
       "params": {
         "scale": 2.3,
@@ -136,7 +136,7 @@ export const LEVEL_03_TEXT = `{
         "image": "panoramica.jpg",
         "parallaxX": 30,
         "parallaxY": 50,
-        "repeatX": 3
+        "repeatX": 5
       }
     },
     {
@@ -315,7 +315,7 @@ export const LEVEL_03_TEXT = `{
         "flipX": false,
         "flipY": false,
         "carry": false,
-        "zIndex": 5,
+        "zIndex": 7,
         "behavior": "background",
         "variant": "arbol-2.png"
       }
@@ -574,40 +574,6 @@ export const LEVEL_03_TEXT = `{
       }
     },
     {
-      "id": "EsporaDienteLeon-mt2yims9",
-      "type": "EsporaDienteLeon",
-      "x": 3020.7683205526687,
-      "y": 1150.6377611223188,
-      "params": {
-        "scale": 0.5,
-        "rotation": 0,
-        "flipX": false,
-        "flipY": false,
-        "carry": false,
-        "zIndex": 11,
-        "behavior": "solid",
-        "groundDelaySec": 5,
-        "swayAmplitudeDeg": 12,
-        "flight1Speed": 152,
-        "flight1DurationSec": 2.8,
-        "flight1DirectionDeg": 275,
-        "flight2Speed": 149,
-        "flight2DurationSec": 7,
-        "flight2DirectionDeg": 360,
-        "flight3Speed": 0,
-        "flight3DurationSec": 0,
-        "flight3DirectionDeg": 0,
-        "flight4Speed": 0,
-        "flight4DurationSec": 0,
-        "flight4DirectionDeg": 0,
-        "flight5Speed": 0,
-        "flight5DurationSec": 0,
-        "flight5DirectionDeg": 0,
-        "initialAppearDelaySec": 0,
-        "appearDelaySec": 2
-      }
-    },
-    {
       "id": "EsporaDienteLeon-mt4jbaj8",
       "type": "EsporaDienteLeon",
       "x": 3185.1272128403393,
@@ -620,7 +586,7 @@ export const LEVEL_03_TEXT = `{
         "carry": false,
         "zIndex": 11,
         "behavior": "solid",
-        "groundDelaySec": 5,
+        "groundDelaySec": 1,
         "swayAmplitudeDeg": 12,
         "flight1Speed": 150,
         "flight1DurationSec": 2,
@@ -637,8 +603,78 @@ export const LEVEL_03_TEXT = `{
         "flight5Speed": 0,
         "flight5DurationSec": 0,
         "flight5DirectionDeg": 0,
-        "initialAppearDelaySec": 3,
-        "appearDelaySec": 2
+        "initialAppearDelaySec": 0,
+        "appearDelaySec": 0
+      }
+    },
+    {
+      "id": "EsporaDienteLeon-mtek5b8v",
+      "type": "EsporaDienteLeon",
+      "x": 2835.0659466728785,
+      "y": 718.3694443274115,
+      "params": {
+        "scale": 0.5,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 6,
+        "behavior": "solid",
+        "groundDelaySec": 0,
+        "swayAmplitudeDeg": 12,
+        "flight1Speed": 150,
+        "flight1DurationSec": 8,
+        "flight1DirectionDeg": 360,
+        "flight2Speed": 0,
+        "flight2DurationSec": 0,
+        "flight2DirectionDeg": 0,
+        "flight3Speed": 0,
+        "flight3DurationSec": 0,
+        "flight3DirectionDeg": 0,
+        "flight4Speed": 0,
+        "flight4DurationSec": 0,
+        "flight4DirectionDeg": 0,
+        "flight5Speed": 0,
+        "flight5DurationSec": 0,
+        "flight5DirectionDeg": 0,
+        "initialAppearDelaySec": 0,
+        "appearDelaySec": 0,
+        "initialDelaySec": 0
+      }
+    },
+    {
+      "id": "EsporaDienteLeon-mtek8zdz",
+      "type": "EsporaDienteLeon",
+      "x": 2838.3062461963636,
+      "y": 718.3694443274115,
+      "params": {
+        "scale": 0.5,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 6,
+        "behavior": "solid",
+        "groundDelaySec": 0,
+        "swayAmplitudeDeg": 12,
+        "flight1Speed": 150,
+        "flight1DurationSec": 8,
+        "flight1DirectionDeg": 360,
+        "flight2Speed": 0,
+        "flight2DurationSec": 0,
+        "flight2DirectionDeg": 0,
+        "flight3Speed": 0,
+        "flight3DurationSec": 0,
+        "flight3DirectionDeg": 0,
+        "flight4Speed": 0,
+        "flight4DurationSec": 0,
+        "flight4DirectionDeg": 0,
+        "flight5Speed": 0,
+        "flight5DurationSec": 0,
+        "flight5DirectionDeg": 0,
+        "initialAppearDelaySec": 4,
+        "appearDelaySec": 0,
+        "initialDelaySec": 0
       }
     },
     {
@@ -884,21 +920,6 @@ export const LEVEL_03_TEXT = `{
         "initialAppearDelaySec": 4,
         "appearDelaySec": 0,
         "initialDelaySec": 0
-      }
-    },
-    {
-      "id": "DienteLeonFlor-mt2z10uo",
-      "type": "DienteLeonFlor",
-      "x": 3018.4569863421207,
-      "y": 1165.0648526123691,
-      "params": {
-        "scale": 0.3,
-        "rotation": 0,
-        "flipX": false,
-        "flipY": false,
-        "carry": false,
-        "zIndex": 15,
-        "behavior": "background"
       }
     },
     {
@@ -1163,21 +1184,6 @@ export const LEVEL_03_TEXT = `{
       }
     },
     {
-      "id": "CervezaEstrella-mt4lmxgb",
-      "type": "CervezaEstrella",
-      "x": 7178.812700573762,
-      "y": 1159.840543104991,
-      "params": {
-        "scale": 1,
-        "rotation": 0,
-        "flipX": false,
-        "flipY": false,
-        "carry": false,
-        "zIndex": 5,
-        "behavior": "sensor"
-      }
-    },
-    {
       "id": "Arbol-mt4lngur",
       "type": "Arbol",
       "x": 8576.248273850044,
@@ -1255,6 +1261,150 @@ export const LEVEL_03_TEXT = `{
         "zIndex": 5,
         "behavior": "background",
         "variant": "arbol-1.png"
+      }
+    },
+    {
+      "id": "Arbol-mtekuusf",
+      "type": "Arbol",
+      "x": 12413.70815909754,
+      "y": 840.8349006749985,
+      "params": {
+        "scale": 3,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "background",
+        "variant": "arbol-2.png"
+      }
+    },
+    {
+      "id": "Arbol-mtel4h26",
+      "type": "Arbol",
+      "x": 13395.845667606729,
+      "y": 840.8349006749984,
+      "params": {
+        "scale": 3,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "background",
+        "variant": "arbol-3.png"
+      }
+    },
+    {
+      "id": "Arbol-mtel7kqu",
+      "type": "Arbol",
+      "x": 14176.485558689097,
+      "y": 842.65020310722,
+      "params": {
+        "scale": 3,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "background",
+        "variant": "arbol-5.png"
+      }
+    },
+    {
+      "id": "Arbol-mtelbr0e",
+      "type": "Arbol",
+      "x": 14776.049888164931,
+      "y": 835.8428189863889,
+      "params": {
+        "scale": 3,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "background",
+        "variant": "arbol-6.png"
+      }
+    },
+    {
+      "id": "Arbol-mteljyfx",
+      "type": "Arbol",
+      "x": 15558.051249635319,
+      "y": 842.65020310722,
+      "params": {
+        "scale": 3,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "background",
+        "variant": "arbol-4.png"
+      }
+    },
+    {
+      "id": "Arbol-mtelpjr1",
+      "type": "Arbol",
+      "x": 16251.55703588447,
+      "y": 840.1367074318364,
+      "params": {
+        "scale": 3,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "background",
+        "variant": "arbol-2.png"
+      }
+    },
+    {
+      "id": "Arbol-mtem7l5x",
+      "type": "Arbol",
+      "x": 16970.47693604331,
+      "y": 840.1367074318364,
+      "params": {
+        "scale": 3,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "background",
+        "variant": "arbol-3.png"
+      }
+    },
+    {
+      "id": "Arbol-mtembvgd",
+      "type": "Arbol",
+      "x": 17549.619209698856,
+      "y": 847.397917160723,
+      "params": {
+        "scale": 3,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "background",
+        "variant": "arbol-5.png"
+      }
+    },
+    {
+      "id": "Arbol-mtemglpp",
+      "type": "Arbol",
+      "x": 19130.05783007553,
+      "y": 841.3214049996147,
+      "params": {
+        "scale": 3,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "background",
+        "variant": "arbol-2.png"
       }
     },
     {
@@ -1345,6 +1495,571 @@ export const LEVEL_03_TEXT = `{
         "startDirection": "west",
         "bobAmplitude": 8,
         "bobFrequency": 1.6
+      }
+    },
+    {
+      "id": "Avispa-mtejv72o",
+      "type": "Avispa",
+      "x": 13928.686181075562,
+      "y": 1031.732455622001,
+      "params": {
+        "scale": 0.5,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 8,
+        "behavior": "damage",
+        "roamWidth": 220,
+        "roamHeight": 140,
+        "speed": 200,
+        "turnSharpness": 0.1,
+        "hoverTime": 0.4,
+        "buzzAmplitude": 3,
+        "buzzFrequency": 14
+      }
+    },
+    {
+      "id": "Avispa-mtelcs3y",
+      "type": "Avispa",
+      "x": 14825.051055139553,
+      "y": 1019.4791642045051,
+      "params": {
+        "scale": 0.5,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 20,
+        "behavior": "damage",
+        "roamWidth": 220,
+        "roamHeight": 140,
+        "speed": 130,
+        "turnSharpness": 0.2,
+        "hoverTime": 0.4,
+        "buzzAmplitude": 3,
+        "buzzFrequency": 14
+      }
+    },
+    {
+      "id": "Avispa-mteliiba",
+      "type": "Avispa",
+      "x": 15317.059223961882,
+      "y": 1129.953283651135,
+      "params": {
+        "scale": 0.5,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 8,
+        "behavior": "damage",
+        "roamWidth": 220,
+        "roamHeight": 140,
+        "speed": 130,
+        "turnSharpness": 0.2,
+        "hoverTime": 0.4,
+        "buzzAmplitude": 3,
+        "buzzFrequency": 14
+      }
+    },
+    {
+      "id": "Avispa-mteljm05",
+      "type": "Avispa",
+      "x": 15432.134591072649,
+      "y": 1074.1327338603203,
+      "params": {
+        "scale": 0.5,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 8,
+        "behavior": "damage",
+        "roamWidth": 220,
+        "roamHeight": 140,
+        "speed": 130,
+        "turnSharpness": 0.2,
+        "hoverTime": 0.4,
+        "buzzAmplitude": 3,
+        "buzzFrequency": 14
+      }
+    },
+    {
+      "id": "Avispa-mtem7v0t",
+      "type": "Avispa",
+      "x": 16784.592045123023,
+      "y": 1048.7184998092177,
+      "params": {
+        "scale": 0.5,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 8,
+        "behavior": "damage",
+        "roamWidth": 220,
+        "roamHeight": 140,
+        "speed": 130,
+        "turnSharpness": 0.2,
+        "hoverTime": 0.4,
+        "buzzAmplitude": 3,
+        "buzzFrequency": 14
+      }
+    },
+    {
+      "id": "Avispa-mtem8qf4",
+      "type": "Avispa",
+      "x": 17169.497876754518,
+      "y": 1026.9348706225583,
+      "params": {
+        "scale": 0.5,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 8,
+        "behavior": "damage",
+        "roamWidth": 220,
+        "roamHeight": 140,
+        "speed": 160,
+        "turnSharpness": 0.1,
+        "hoverTime": 0.2,
+        "buzzAmplitude": 3,
+        "buzzFrequency": 14
+      }
+    },
+    {
+      "id": "Avispa-mtemcsrh",
+      "type": "Avispa",
+      "x": 17545.327239132555,
+      "y": 1106.8081776403096,
+      "params": {
+        "scale": 0.5,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 8,
+        "behavior": "damage",
+        "roamWidth": 220,
+        "roamHeight": 140,
+        "speed": 140,
+        "turnSharpness": 0.1,
+        "hoverTime": 0.01,
+        "buzzAmplitude": 3,
+        "buzzFrequency": 14
+      }
+    },
+    {
+      "id": "Avispa-mteljszq",
+      "type": "Avispa",
+      "x": 15563.742098609358,
+      "y": 1140.6506015552982,
+      "params": {
+        "scale": 0.5,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 8,
+        "behavior": "damage",
+        "roamWidth": 220,
+        "roamHeight": 140,
+        "speed": 130,
+        "turnSharpness": 0.2,
+        "hoverTime": 0.4,
+        "buzzAmplitude": 3,
+        "buzzFrequency": 14
+      }
+    },
+    {
+      "id": "Avispa-mteldf8m",
+      "type": "Avispa",
+      "x": 14750.68754254595,
+      "y": 1084.830051764483,
+      "params": {
+        "scale": 0.5,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 20,
+        "behavior": "damage",
+        "roamWidth": 220,
+        "roamHeight": 100,
+        "speed": 250,
+        "turnSharpness": 0.1,
+        "hoverTime": 0.2,
+        "buzzAmplitude": 3,
+        "buzzFrequency": 14
+      }
+    },
+    {
+      "id": "CorazonCristalNaranja-mtekmg2v",
+      "type": "CorazonCristalNaranja",
+      "x": 7347.558202859089,
+      "y": 1123.1688609449975,
+      "params": {
+        "scale": 0.4,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 8,
+        "behavior": "sensor"
+      }
+    },
+    {
+      "id": "Respawn-mtekvs9b",
+      "type": "Respawn",
+      "x": 13279.281824370322,
+      "y": 1118.4590729666488,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "sensor"
+      }
+    },
+    {
+      "id": "PajaroBlanco-mtekwqni",
+      "type": "PajaroBlanco",
+      "x": 12236.675289312458,
+      "y": 1014.5646819675233,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 8,
+        "behavior": "damage",
+        "patrolDistance": 240,
+        "speed": 90,
+        "startDirection": "east",
+        "bobAmplitude": 8,
+        "bobFrequency": 1.6
+      }
+    },
+    {
+      "id": "CorazonCristalNaranja-mtel14ae",
+      "type": "CorazonCristalNaranja",
+      "x": 12818.974132062629,
+      "y": 1166.2690334932754,
+      "params": {
+        "scale": 0.5,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "sensor"
+      }
+    },
+    {
+      "id": "ColorBlock-mtelgqk6",
+      "type": "ColorBlock",
+      "x": 14728.324905183312,
+      "y": 1014.154510060814,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "width": 49,
+        "height": 19,
+        "color": "#4a3728",
+        "zIndex": 7,
+        "behavior": "solid",
+        "hidden": true
+      }
+    },
+    {
+      "id": "ColorBlock-mtelh4qu",
+      "type": "ColorBlock",
+      "x": 14815.941456773315,
+      "y": 964.1688609449974,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "width": 54,
+        "height": 15,
+        "color": "#4a3728",
+        "zIndex": 7,
+        "behavior": "solid",
+        "hidden": true
+      }
+    },
+    {
+      "id": "CervezaEstrella-mtelk5ty",
+      "type": "CervezaEstrella",
+      "x": 15421.38549061558,
+      "y": 1157.7504702024996,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "sensor"
+      }
+    },
+    {
+      "id": "RamaAlamo-mtell253",
+      "type": "RamaAlamo",
+      "x": 14752.543226684818,
+      "y": 1023.6728673741934,
+      "params": {
+        "scale": 1.4,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 13,
+        "behavior": "background"
+      }
+    },
+    {
+      "id": "RamaAlamo-mtelm18l",
+      "type": "RamaAlamo",
+      "x": 14840.389186035203,
+      "y": 971.1587612992109,
+      "params": {
+        "scale": 1.4,
+        "rotation": 0,
+        "flipX": true,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 13,
+        "behavior": "background"
+      }
+    },
+    {
+      "id": "Respawn-mtelp88v",
+      "type": "Respawn",
+      "x": 16055.840416220948,
+      "y": 1121.5065828349918,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "sensor"
+      }
+    },
+    {
+      "id": "CervezaEstrella-mtelrxva",
+      "type": "CervezaEstrella",
+      "x": 12985.690070990957,
+      "y": 1024.3734572799503,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "sensor"
+      }
+    },
+    {
+      "id": "Floor-mtema5nq",
+      "type": "Floor",
+      "x": 18308.09167233946,
+      "y": 1211.695373458624,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "centerCount": 0,
+        "theme": "green",
+        "height": 64,
+        "zIndex": 0,
+        "behavior": "solid"
+      }
+    },
+    {
+      "id": "Floor-mtembc46",
+      "type": "Floor",
+      "x": 19830.56379858886,
+      "y": 1211.695373458624,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "centerCount": 35,
+        "theme": "green",
+        "height": 64,
+        "zIndex": 0,
+        "behavior": "solid"
+      }
+    },
+    {
+      "id": "PajaroBlanco-mtemcmwt",
+      "type": "PajaroBlanco",
+      "x": 17602.432947583387,
+      "y": 981.8547994421726,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 8,
+        "behavior": "damage",
+        "patrolDistance": 240,
+        "speed": 120,
+        "startDirection": "east",
+        "bobAmplitude": 8,
+        "bobFrequency": 1.6
+      }
+    },
+    {
+      "id": "CervezaEstrella-mtemhw9x",
+      "type": "CervezaEstrella",
+      "x": 19965.105173128737,
+      "y": 1158.9340978010202,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "sensor"
+      }
+    },
+    {
+      "id": "Respawn-mtemn9dh",
+      "type": "Respawn",
+      "x": 18775.630587701384,
+      "y": 1118.2295364833242,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 5,
+        "behavior": "sensor"
+      }
+    },
+    {
+      "id": "PajaroBlanco-mtemod85",
+      "type": "PajaroBlanco",
+      "x": 18515.83526208305,
+      "y": 946.9049802633134,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 8,
+        "behavior": "damage",
+        "patrolDistance": 240,
+        "speed": 90,
+        "startDirection": "east",
+        "bobAmplitude": 8,
+        "bobFrequency": 1.6
+      }
+    },
+    {
+      "id": "CorazonCristalNaranja-mtemoynp",
+      "type": "CorazonCristalNaranja",
+      "x": 19773.077752804576,
+      "y": 1163.0651025099687,
+      "params": {
+        "scale": 0.5,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 11,
+        "behavior": "sensor"
+      }
+    },
+    {
+      "id": "CorazonCristalNaranja-mtietbuc",
+      "type": "CorazonCristalNaranja",
+      "x": 20181.673378498686,
+      "y": 1163.0651025099687,
+      "params": {
+        "scale": 0.5,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": 11,
+        "behavior": "sensor"
+      }
+    },
+    {
+      "id": "Puente-mtiephqt",
+      "type": "Puente",
+      "x": 19847.523641935055,
+      "y": 1091.9695135741551,
+      "params": {
+        "scale": 6.1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "zIndex": -4,
+        "behavior": "background"
+      }
+    },
+    {
+      "id": "ColorBlock-mtieug7h",
+      "type": "ColorBlock",
+      "x": 20392.335920634356,
+      "y": 1342.268284659461,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "width": 45,
+        "height": 99,
+        "color": "#4a3728",
+        "zIndex": 0,
+        "behavior": "solid",
+        "hidden": true
+      }
+    },
+    {
+      "id": "ColorBlock-mtievg9s",
+      "type": "ColorBlock",
+      "x": 19281.252644884713,
+      "y": 1006,
+      "params": {
+        "scale": 1,
+        "rotation": 0,
+        "flipX": false,
+        "flipY": false,
+        "carry": false,
+        "width": 1330,
+        "height": 18,
+        "color": "#4a3728",
+        "zIndex": 0,
+        "behavior": "semisolid",
+        "hidden": true
       }
     }
   ],
@@ -1967,23 +2682,23 @@ export const LEVEL_03_TEXT = `{
             "flipX": false,
             "flipY": false,
             "carry": false,
-            "zIndex": 5,
+            "zIndex": 12,
             "behavior": "background"
           }
         },
         {
           "id": "ColorBlock-mt2pb2i9",
           "type": "ColorBlock",
-          "x": 0,
-          "y": 37.79584096528038,
+          "x": -8.168822328114345,
+          "y": 44.33092972127821,
           "params": {
             "scale": 1,
             "rotation": 0,
             "flipX": false,
             "flipY": false,
             "carry": false,
-            "width": 281,
-            "height": 77,
+            "width": 289,
+            "height": 71,
             "color": "#4a3728",
             "zIndex": 8,
             "behavior": "solid",
@@ -1993,16 +2708,16 @@ export const LEVEL_03_TEXT = `{
         {
           "id": "ColorBlock-mt2pbuwd",
           "type": "ColorBlock",
-          "x": 89.02175342099054,
-          "y": 0,
+          "x": 98.00745798191639,
+          "y": -2.450658283499166,
           "params": {
             "scale": 1,
             "rotation": 0,
             "flipX": false,
             "flipY": false,
             "carry": false,
-            "width": 227,
-            "height": 126,
+            "width": 219,
+            "height": 127,
             "color": "#4a3728",
             "zIndex": 6,
             "behavior": "solid",
@@ -2159,10 +2874,10 @@ export const LEVEL_03_TEXT = `{
         {
           "id": "MatorralConEspinas-mt0025v5",
           "type": "MatorralConEspinas",
-          "x": 47.66207176480566,
-          "y": 39.11273533243252,
+          "x": 55.83089409292006,
+          "y": 42.38027971043141,
           "params": {
-            "scale": 1,
+            "scale": 0.9,
             "rotation": 0,
             "flipX": false,
             "flipY": false,
@@ -2173,16 +2888,16 @@ export const LEVEL_03_TEXT = `{
         {
           "id": "ColorBlock-mt2prt8j",
           "type": "ColorBlock",
-          "x": 0,
-          "y": 29.28577802859263,
+          "x": 6.53505786249147,
+          "y": 26.018233650593714,
           "params": {
             "scale": 1,
             "rotation": 0,
             "flipX": false,
             "flipY": false,
             "carry": false,
-            "width": 100,
-            "height": 77,
+            "width": 97,
+            "height": 72,
             "color": "#4a3728",
             "zIndex": 7,
             "behavior": "damage",
@@ -2192,37 +2907,18 @@ export const LEVEL_03_TEXT = `{
         {
           "id": "ColorBlock-mt2ps8n4",
           "type": "ColorBlock",
-          "x": 12.85843985208794,
-          "y": 0,
+          "x": 26.74543780988236,
+          "y": 5.718202661498111,
           "params": {
             "scale": 1,
             "rotation": 0,
             "flipX": false,
             "flipY": false,
             "carry": false,
-            "width": 46,
-            "height": 47,
+            "width": 42,
+            "height": 42,
             "color": "#4a3728",
             "zIndex": 7,
-            "behavior": "damage",
-            "hidden": true
-          }
-        },
-        {
-          "id": "ColorBlock-mt2pshzd",
-          "type": "ColorBlock",
-          "x": 46.27125835691095,
-          "y": 14.11098716662491,
-          "params": {
-            "scale": 1,
-            "rotation": 0,
-            "flipX": false,
-            "flipY": false,
-            "carry": false,
-            "width": 50,
-            "height": 44,
-            "color": "#4a3728",
-            "zIndex": 8,
             "behavior": "damage",
             "hidden": true
           }
@@ -2306,8 +3002,8 @@ export const LEVEL_03_TEXT = `{
     {
       "id": "group-mt2ptc6z-inst-mt2ptc6z",
       "groupId": "group-mt2ptc6z",
-      "x": 5231.038326234301,
-      "y": 1080.1884147756557
+      "x": 5231.945973159647,
+      "y": 1087.449624504542
     },
     {
       "id": "group-mt2ptc6z-inst-mt2ptjil",
@@ -2378,20 +3074,20 @@ export const LEVEL_03_TEXT = `{
     {
       "id": "group-mt2ptc6z-inst-mt4ltdt6",
       "groupId": "group-mt2ptc6z",
-      "x": 9469.005543129437,
-      "y": 1083.4915363550103
+      "x": 9474.451424681512,
+      "y": 1088.0297924355643
     },
     {
       "id": "group-mt2ptc6z-inst-mt4lue57",
       "groupId": "group-mt2ptc6z",
-      "x": 10446.998152290189,
-      "y": 1083.4990595950012
+      "x": 10436.106389186036,
+      "y": 1087.1296644594445
     },
     {
       "id": "group-mt2ptc6z-inst-mt4luhya",
       "groupId": "group-mt2ptc6z",
-      "x": 10651.946416415443,
-      "y": 1083.4858939250175
+      "x": 10660.115238743558,
+      "y": 1086.2088475733499
     },
     {
       "id": "group-mt2nq33d-inst-mt4lwq43",
@@ -2408,7 +3104,7 @@ export const LEVEL_03_TEXT = `{
     {
       "id": "group-mt2ptc6z-inst-mt4m3lbm",
       "groupId": "group-mt2ptc6z",
-      "x": 11881.415248468345,
+      "x": 11880.507601542999,
       "y": 1084.324556220011
     },
     {
@@ -2420,14 +3116,14 @@ export const LEVEL_03_TEXT = `{
     {
       "id": "group-mt2ptc6z-inst-mt4m70oq",
       "groupId": "group-mt2ptc6z",
-      "x": 11746.519400953031,
-      "y": 1078.4764898750293
+      "x": 11744.70410710234,
+      "y": 1083.9223971716942
     },
     {
       "id": "group-mt2pe7g1-inst-mt4m8vle",
       "groupId": "group-mt2pe7g1",
-      "x": 12302.77681610425,
-      "y": 1056.4915363550106
+      "x": 12437.562384518136,
+      "y": 1060.575966827509
     },
     {
       "id": "group-mt2oh7rv-inst-mt4m938j",
@@ -2438,26 +3134,182 @@ export const LEVEL_03_TEXT = `{
     {
       "id": "group-mt2oesl3-inst-mt4mg98y",
       "groupId": "group-mt2oesl3",
-      "x": 12733.524846834582,
-      "y": 1050.9013165669985
+      "x": 12879.88291354663,
+      "y": 1048.8591013307491
     },
     {
       "id": "group-mt2ploh9-inst-mt4mvdwz",
       "groupId": "group-mt2ploh9",
-      "x": 13277.65311679471,
-      "y": 1091.3189137900179
+      "x": 13999.232422444813,
+      "y": 1100
     },
     {
       "id": "group-mt2ppr1u-inst-mt4mvhp6",
       "groupId": "group-mt2ppr1u",
-      "x": 13492.333949236605,
-      "y": 1079.322675410013
+      "x": 13889.88330253817,
+      "y": 1083
     },
     {
       "id": "group-mt2pixb8-inst-mt4mvotm",
       "groupId": "group-mt2pixb8",
-      "x": 13037.321015267918,
-      "y": 1102.9924767600094
+      "x": 13524.727414178742,
+      "y": 1101.630999935843
+    },
+    {
+      "id": "group-msa5xm8x-inst-mtejtcig",
+      "groupId": "group-msa5xm8x",
+      "x": 7148.850011345587,
+      "y": 1095.461743919446
+    },
+    {
+      "id": "group-mt2ptc6z-inst-mtekynpq",
+      "groupId": "group-mt2ptc6z",
+      "x": 12177.594281824371,
+      "y": 1085.7335429125203
+    },
+    {
+      "id": "group-mt2ptc6z-inst-mtekys5i",
+      "groupId": "group-mt2ptc6z",
+      "x": 12308.100748808713,
+      "y": 1086.4407544850733
+    },
+    {
+      "id": "group-mt2pixb8-inst-mtel5spq",
+      "groupId": "group-mt2pixb8",
+      "x": 13688.095302927162,
+      "y": 1102
+    },
+    {
+      "id": "group-mt2ploh9-inst-mtel74yu",
+      "groupId": "group-mt2ploh9",
+      "x": 14218.968232357613,
+      "y": 1100
+    },
+    {
+      "id": "group-mt2ptc6z-inst-mtel7c2e",
+      "groupId": "group-mt2ptc6z",
+      "x": 14104.324710687542,
+      "y": 1083.878648923346
+    },
+    {
+      "id": "group-mt2ppr1u-inst-mtel8f0t",
+      "groupId": "group-mt2ppr1u",
+      "x": 14329.96119809394,
+      "y": 1083
+    },
+    {
+      "id": "group-mt2ppr1u-inst-mtel8jou",
+      "groupId": "group-mt2ppr1u",
+      "x": 14444.151803948263,
+      "y": 1083
+    },
+    {
+      "id": "group-mt2ploh9-inst-mtel8z8w",
+      "groupId": "group-mt2ploh9",
+      "x": 14554.815293850692,
+      "y": 1100
+    },
+    {
+      "id": "group-mt2ppr1u-inst-mtelcbcu",
+      "groupId": "group-mt2ppr1u",
+      "x": 14875.491490810075,
+      "y": 1083
+    },
+    {
+      "id": "group-mt2ppr1u-inst-mteliqau",
+      "groupId": "group-mt2ppr1u",
+      "x": 15023.744724302247,
+      "y": 1083
+    },
+    {
+      "id": "group-msa5xm8x-inst-mtelkkja",
+      "groupId": "group-msa5xm8x",
+      "x": 15724.665863748234,
+      "y": 1094.3852317583378
+    },
+    {
+      "id": "group-mt4kp9o4-inst-mtem1pjq",
+      "groupId": "group-mt4kp9o4",
+      "x": 18131.420694349898,
+      "y": 1273.9123076559436
+    },
+    {
+      "id": "group-mt2pixb8-inst-mtem4jbh",
+      "groupId": "group-mt2pixb8",
+      "x": 16396.540503744043,
+      "y": 1104.8596449760087
+    },
+    {
+      "id": "group-mt2pixb8-inst-mtem5d0t",
+      "groupId": "group-mt2pixb8",
+      "x": 16561.78942591332,
+      "y": 1104.2928829744487
+    },
+    {
+      "id": "group-mt2pixb8-inst-mtem5sl2",
+      "groupId": "group-mt2pixb8",
+      "x": 16875.05763557976,
+      "y": 1103.6120972888648
+    },
+    {
+      "id": "group-mt2ploh9-inst-mtem772t",
+      "groupId": "group-mt2ploh9",
+      "x": 17045.172906739277,
+      "y": 1100.0633464911243
+    },
+    {
+      "id": "group-mt2ppr1u-inst-mtem7e4t",
+      "groupId": "group-mt2ppr1u",
+      "x": 16751.35647832993,
+      "y": 1085.2163708133405
+    },
+    {
+      "id": "group-mt2ppr1u-inst-mtem8e25",
+      "groupId": "group-mt2ppr1u",
+      "x": 17157.757658270933,
+      "y": 1083.878648923346
+    },
+    {
+      "id": "group-mt2pixb8-inst-mtem8jw6",
+      "groupId": "group-mt2pixb8",
+      "x": 17276.024733378716,
+      "y": 1105.0316732455624
+    },
+    {
+      "id": "group-mt4kp9o4-inst-mtemayed",
+      "groupId": "group-mt4kp9o4",
+      "x": 18580.311776718856,
+      "y": 1273.9123076559436
+    },
+    {
+      "id": "group-mt2pixb8-inst-mtemc3xh",
+      "groupId": "group-mt2pixb8",
+      "x": 17619.095302927162,
+      "y": 1108.878648923346
+    },
+    {
+      "id": "group-mt2pixb8-inst-mtemc8lh",
+      "groupId": "group-mt2pixb8",
+      "x": 17777.158838211937,
+      "y": 1108.7704635166758
+    },
+    {
+      "id": "group-mt2pixb8-inst-mtemcd3h",
+      "groupId": "group-mt2pixb8",
+      "x": 17707.974132062627,
+      "y": 1026.9683267544378
+    },
+    {
+      "id": "group-mt4kp9o4-inst-mtemgd2c",
+      "groupId": "group-mt4kp9o4",
+      "x": 19365.967097798955,
+      "y": 1279.0633464911245
+    },
+    {
+      "id": "group-mt2pixb8-inst-mtiey4lj",
+      "groupId": "group-mt2pixb8",
+      "x": 20566.176429310115,
+      "y": 1103.3414644175673
     }
   ]
 }`;

@@ -291,6 +291,7 @@ export class GameScene extends Phaser.Scene {
 
   private onLevelEvent(eventKey: string): void {
     if (eventKey.endsWith(':collected')) this.session.collect();
+    if (eventKey.endsWith(':extra-life')) this.tryRestoreLife(eventKey.slice(0, -':extra-life'.length));
     if (eventKey.endsWith(':hazard')) this.handleLifeLoss();
     if (eventKey.endsWith(':respawn')) this.activateRespawn(eventKey.slice(0, -':respawn'.length));
 
@@ -302,6 +303,14 @@ export class GameScene extends Phaser.Scene {
     if (!this.completed && this.session.total > 0 && this.session.collected >= this.session.total) {
       this.onLevelComplete();
     }
+  }
+
+  /** Extra-life pickup (GECorazonCristalNaranja): restores one lost life and consumes the
+   *  crystal — but only when the player wasn't already at full lives, in which case
+   *  restoreLife() returns false and the crystal is left in place to grab later. */
+  private tryRestoreLife(id: string): void {
+    if (!this.session.restoreLife()) return;
+    this.elements.find((el) => el.id === id)?.destroy();
   }
 
   /** Makes the Respawn element with this id the level's active checkpoint: moves where the

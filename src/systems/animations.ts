@@ -159,3 +159,33 @@ export function registerEsporaDienteLeonAnimations(scene: Phaser.Scene): void {
     repeat: -1,
   });
 }
+
+export const CORAZON_CRISTAL_NARANJA_TEXTURE_KEYS = [0, 1, 2, 3, 4, 5, 6].map(
+  (i) => `corazon-cristal-naranja-${i}`,
+);
+export const CORAZON_CRISTAL_NARANJA_ANIM_KEY = 'corazon-cristal-naranja-pulse';
+
+/** Registers the looping "gentle pulse" glow animation for the extra-life crystal heart,
+ *  called once from PreloadScene.create(). */
+export function registerCorazonCristalNaranjaAnimations(scene: Phaser.Scene): void {
+  scene.anims.create({
+    key: CORAZON_CRISTAL_NARANJA_ANIM_KEY,
+    frames: CORAZON_CRISTAL_NARANJA_TEXTURE_KEYS.map((key) => ({ key })),
+    frameRate: 8,
+    repeat: -1,
+  });
+}
+
+export const AVISPA_TEXTURE_KEYS = [0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => `avispa-fly-${i}`);
+export const AVISPA_ANIM_KEY = 'avispa-fly';
+
+/** Registers the looping wing-flap animation. Source art is west-facing only — GEAvispa
+ *  mirrors it with setFlipX when the wasp is heading east. Called once from PreloadScene.create(). */
+export function registerAvispaAnimations(scene: Phaser.Scene): void {
+  scene.anims.create({
+    key: AVISPA_ANIM_KEY,
+    frames: AVISPA_TEXTURE_KEYS.map((key) => ({ key })),
+    frameRate: 20,
+    repeat: -1,
+  });
+}

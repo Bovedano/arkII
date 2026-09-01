@@ -47,6 +47,14 @@ export class GameSession {
     return this.lives <= 0;
   }
 
+  /** Restores one lost life (extra-life pickup). Returns false — restoring nothing — when
+   *  already at maxLives, so the caller can leave the pickup in place for later. */
+  restoreLife(): boolean {
+    if (this.lives >= this.maxLives) return false;
+    this.lives++;
+    return true;
+  }
+
   snapshot(): HudSnapshot {
     return {
       lives: this.lives,
