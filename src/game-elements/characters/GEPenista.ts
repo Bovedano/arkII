@@ -143,7 +143,18 @@ export class GEPenista extends PhysicsBody(Renderable(EventCapable(GameElement<P
     (this.sprite.body as Phaser.Physics.Arcade.Body).setVelocityY(value);
   }
 
+  /** Forces the animation to (re)start from frame 0. Used only at the instant of a jump,
+   *  so a second jump right after landing still replays the jump cycle from the beginning. */
   play(animKey: string): void {
+    this.sprite.play(animKey);
+  }
+
+  /** Per-frame facing/state sync: switches animation only when the key actually changes.
+   *  A finished non-looping animation (the jump) keeps its key as `currentAnim`, so this
+   *  leaves it resting on its last frame instead of restarting it from frame 0 every tick
+   *  (which looked like flickering while holding a direction in mid-air). */
+  syncAnim(animKey: string): void {
+    if (this.sprite.anims.currentAnim?.key === animKey) return;
     this.sprite.play(animKey, true);
   }
 

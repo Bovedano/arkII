@@ -18,10 +18,10 @@ export class RunAbility extends Ability {
       character.setVelocityX(0);
     }
 
-    // Keep the sprite's facing in sync every frame, grounded or airborne — GEPenista.play()
-    // is a no-op if that exact animation is already playing, so this doesn't restart
-    // anything, it just corrects the texture the instant the player reverses direction
-    // (including mid-jump, which used to only update `facing` without re-playing).
+    // Keep the sprite's facing in sync every frame, grounded or airborne. syncAnim() only
+    // switches when the key actually changes, so it corrects the texture the instant the
+    // player reverses direction (including mid-jump) without restarting the already-finished
+    // jump animation from frame 0 every tick — that restart looked like flickering.
     const grounded = character.isGrounded();
     if (cursors.left.isDown || cursors.right.isDown) {
       const key =
@@ -32,7 +32,7 @@ export class RunAbility extends Ability {
           : grounded
             ? PENISTA_ANIM_KEYS.runWest
             : PENISTA_ANIM_KEYS.jumpWest;
-      character.play(key);
+      character.syncAnim(key);
     } else if (grounded) {
       // No direction held and standing on solid ground: stop the run loop and hold a
       // static pose instead of letting the last animation (repeat: -1) keep looping.

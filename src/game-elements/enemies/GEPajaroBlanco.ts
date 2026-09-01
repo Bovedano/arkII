@@ -59,7 +59,14 @@ export class GEPajaroBlanco extends PhysicsBody(Renderable(GameElement<PajaroBla
       PAJARO_BLANCO_BODY_BOX.offsetX,
       PAJARO_BLANCO_BODY_BOX.offsetY,
     );
-    (this.body as Phaser.Physics.Arcade.Body).setAllowGravity(false);
+    const body = this.body as Phaser.Physics.Arcade.Body;
+    body.setAllowGravity(false);
+    // This enemy's transform is driven by hand every frame (setPosition + updateFromGameObject).
+    // With body.moves left true, Arcade's postUpdate re-integrates (position - prevFrame) back onto
+    // the sprite on physics-step frames — and since the fixed 60Hz step only fires on *some* frames
+    // of a high-refresh display, that shoves the sprite a frame ahead then back: continuous flicker.
+    // moves = false keeps the body tracking the sprite for overlap checks without writing back to it.
+    body.moves = false;
     this.playFacingAnim();
   }
 
